@@ -4,6 +4,7 @@ import valueParser from "postcss-value-parser";
 import {
   BASELINE_HIGH,
   BASELINE_LOW,
+  atRules,
   properties,
   propertyValues,
   types,
@@ -24,6 +25,8 @@ const messages = ruleMessages(ruleName, {
     `Value "${value}" of property "${property}" is not a ${availability} available baseline feature.`,
   notBaselineType: (type, availability) =>
     `Type "${type}" is not a ${availability} available baseline feature.`,
+  notBaselineAtRule: (atRule, availability) =>
+    `At-rule "${atRule}" is not a ${availability} available baseline feature.`,
 });
 
 const ruleFunction = (primary, secondaryOptions) => {
@@ -49,6 +52,28 @@ const ruleFunction = (primary, secondaryOptions) => {
           checkPropertyValueFunction(decl, node.value);
         }
       });
+    });
+
+    root.walkAtRules((atRule) => {
+      const { name } = atRule;
+
+      // If the atRule name is not in the baseline data, skip
+      if (!atRules.has(name)) {
+        return;
+      }
+
+      const atRuleLevel = atRules.get(name);
+
+      if (atRuleLevel < baselineLevel) {
+        report({
+          message: messages.notBaselineAtRule,
+          messageArgs: [name, availability],
+          result,
+          node: atRule,
+          index: 0,
+          endIndex: name.length + 1,
+        });
+      }
     });
 
     /**

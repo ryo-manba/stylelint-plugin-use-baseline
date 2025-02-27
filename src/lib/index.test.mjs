@@ -1,3 +1,4 @@
+import { stripIndent } from "common-tags";
 import { testRule } from "stylelint-test-rule-node";
 
 import plugin from "./index.mjs";
@@ -63,6 +64,35 @@ testRule({
       column: 12,
       endLine: 1,
       endColumn: 15,
+    },
+    {
+      code: stripIndent`
+        @property --foo {
+          syntax: "*";
+          inherits: false;
+        }
+      `,
+      message: messages.notBaselineAtRule("property", "widely"),
+      line: 1,
+      column: 1,
+      endLine: 1,
+      endColumn: 10,
+    },
+    {
+      code: "@container (min-width: 800px) { a { color: red; } }",
+      message: messages.notBaselineAtRule("container", "widely"),
+      line: 1,
+      column: 1,
+      endLine: 1,
+      endColumn: 11,
+    },
+    {
+      code: "@view-transition { from-view: a; to-view: b; }",
+      message: messages.notBaselineAtRule("view-transition", "widely"),
+      line: 1,
+      column: 1,
+      endLine: 1,
+      endColumn: 17,
     },
   ],
 });
