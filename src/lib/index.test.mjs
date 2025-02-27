@@ -56,6 +56,14 @@ testRule({
       endLine: 1,
       endColumn: 26,
     },
+    {
+      code: "a { color: abs(20% - 10px); }",
+      message: messages.notBaselineType("abs", "widely"),
+      line: 1,
+      column: 12,
+      endLine: 1,
+      endColumn: 15,
+    },
   ],
 });
 

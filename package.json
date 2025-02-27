@@ -25,6 +25,7 @@
     "eslint": "^9.20.1",
     "eslint-config-stylelint": "^23.0.0",
     "eslint-plugin-import": "^2.31.0",
+    "postcss-value-parser": "^4.2.0",
     "prettier": "^3.5.2",
     "stylelint": "^16.14.1",
     "stylelint-test-rule-node": "^0.4.0",

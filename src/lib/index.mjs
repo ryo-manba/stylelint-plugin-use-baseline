@@ -1,10 +1,12 @@
 import stylelint from "stylelint";
+import valueParser from "postcss-value-parser";
 
 import {
   BASELINE_HIGH,
   BASELINE_LOW,
   properties,
   propertyValues,
+  types,
 } from "../data/baseline-data.js";
 import { namedColors } from "../data/colors.js";
 
@@ -20,6 +22,8 @@ const messages = ruleMessages(ruleName, {
     `Property "${property}" is not a ${availability} available baseline feature.`,
   notBaselinePropertyValue: (property, value, availability) =>
     `Value "${value}" of property "${property}" is not a ${availability} available baseline feature.`,
+  notBaselineType: (type, availability) =>
+    `Type "${type}" is not a ${availability} available baseline feature.`,
 });
 
 const ruleFunction = (primary, secondaryOptions) => {
@@ -35,7 +39,16 @@ const ruleFunction = (primary, secondaryOptions) => {
       const { prop, value } = decl;
 
       checkBaselineProperty(decl, prop);
-      checkPropertyValueIdentifier(decl, prop, value);
+
+      const parsed = valueParser(value);
+
+      parsed.walk((node) => {
+        if (node.type === "word") {
+          checkPropertyValueIdentifier(decl, prop, value);
+        } else if (node.type === "function") {
+          checkPropertyValueFunction(decl, node.value);
+        }
+      });
     });
 
     /**
@@ -96,6 +109,29 @@ const ruleFunction = (primary, secondaryOptions) => {
           result,
           node: decl,
           word: value,
+        });
+      }
+    }
+
+    /**
+     * Checks a property value function to see if it's a baseline feature.
+     * @param {import('postcss').Declaration} decl
+     * @param {string} funcName
+     */
+    function checkPropertyValueFunction(decl, funcName) {
+      if (!types.has(funcName)) {
+        return;
+      }
+
+      const propertyValueLevel = types.get(funcName);
+
+      if (propertyValueLevel < baselineLevel) {
+        report({
+          message: messages.notBaselineType,
+          messageArgs: [funcName, availability],
+          result,
+          node: decl,
+          word: funcName,
         });
       }
     }
