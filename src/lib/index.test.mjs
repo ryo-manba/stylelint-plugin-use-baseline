@@ -44,6 +44,18 @@ testRule({
         },
       ],
     },
+    {
+      code: "a { clip-path: stroke-box; }",
+      message: messages.notBaselinePropertyValue(
+        "clip-path",
+        "stroke-box",
+        "widely"
+      ),
+      line: 1,
+      column: 16,
+      endLine: 1,
+      endColumn: 26,
+    },
   ],
 });
 
