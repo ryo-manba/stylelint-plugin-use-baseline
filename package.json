@@ -8,6 +8,10 @@
     "stylelint-plugin",
     "baseline"
   ],
+  "scripts": {
+    "test": "node --test",
+    "build:baseline": "node tools/generate-baseline.js"
+  },
   "dependencies": {
     "css-tree": "^3.1.0",
     "postcss": "^8.5.3"
@@ -17,17 +21,16 @@
   },
   "devDependencies": {
     "@stylelint/prettier-config": "^3.0.0",
+    "common-tags": "^1.8.2",
     "eslint": "^9.20.1",
     "eslint-config-stylelint": "^23.0.0",
     "eslint-plugin-import": "^2.31.0",
-    "prettier": "^3.5.1",
+    "prettier": "^3.5.2",
     "stylelint": "^16.14.1",
-    "stylelint-test-rule-node": "^0.4.0"
+    "stylelint-test-rule-node": "^0.4.0",
+    "web-features": "^2.25.0"
   },
   "type": "module",
-  "scripts": {
-    "test": "node --test"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ryo-manba/stylelint-no-baseline-unsupported"
