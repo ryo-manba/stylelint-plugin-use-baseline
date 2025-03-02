@@ -1,3 +1,4 @@
+import { parse, walk } from "css-tree";
 import stylelint from "stylelint";
 import valueParser from "postcss-value-parser";
 
@@ -5,6 +6,7 @@ import {
   BASELINE_HIGH,
   BASELINE_LOW,
   atRules,
+  mediaConditions,
   properties,
   propertyValues,
   types,
@@ -27,6 +29,9 @@ const messages = ruleMessages(ruleName, {
     `Type "${type}" is not a ${availability} available baseline feature.`,
   notBaselineAtRule: (atRule, availability) =>
     `At-rule "${atRule}" is not a ${availability} available baseline feature.`,
+  notBaselineMediaCondition: (condition, availability) =>
+    `Media condition "${condition}" is not a ${availability} available baseline feature.`,
+  // TODO: add selector message
 });
 
 const ruleFunction = (primary, secondaryOptions) => {
@@ -38,6 +43,7 @@ const ruleFunction = (primary, secondaryOptions) => {
     const baselineLevel =
       availability === "widely" ? BASELINE_HIGH : BASELINE_LOW;
 
+    // Check declarations: property, property value, etc.
     root.walkDecls((decl) => {
       const { prop, value } = decl;
 
@@ -54,6 +60,7 @@ const ruleFunction = (primary, secondaryOptions) => {
       });
     });
 
+    // Check at-rules (e.g. @container, @property)
     root.walkAtRules((atRule) => {
       const { name } = atRule;
 
@@ -73,6 +80,53 @@ const ruleFunction = (primary, secondaryOptions) => {
           index: 0,
           endIndex: name.length + 1,
         });
+      }
+    });
+
+    // Check media conditions
+    root.walkAtRules(/^media$/i, (atRule) => {
+      if (atRule.name !== "media") return;
+
+      const rawParams = atRule.params;
+
+      try {
+        const ast = parse(rawParams, {
+          context: "atrulePrelude",
+          atrule: "media",
+          parseAtrulePrelude: true,
+          positions: true,
+        });
+
+        walk(ast, (node) => {
+          if (node.type === "Feature") {
+            const featureName = node.name;
+
+            if (mediaConditions.has(featureName)) {
+              const featureLevel = mediaConditions.get(featureName);
+
+              if (featureLevel < baselineLevel) {
+                const atRuleIndex = atRuleParamIndex(atRule);
+
+                const startIndex = node.loc.start.column;
+                const endIndex = startIndex + featureName.length;
+
+                report({
+                  ruleName,
+                  result,
+                  message: messages.notBaselineMediaCondition(
+                    featureName,
+                    availability
+                  ),
+                  node: atRule,
+                  index: atRuleIndex + startIndex,
+                  endIndex: atRuleIndex + endIndex,
+                });
+              }
+            }
+          }
+        });
+      } catch {
+        // Ignore invalid media queries
       }
     });
 
@@ -162,6 +216,16 @@ const ruleFunction = (primary, secondaryOptions) => {
     }
   };
 };
+
+/**
+ * @param {AtRule} atRule
+ * @returns {number}
+ */
+function atRuleParamIndex(atRule) {
+  const index = 1 + atRule.name.length;
+
+  return index + (atRule.raws.afterName?.length ?? 0);
+}
 
 ruleFunction.ruleName = ruleName;
 ruleFunction.messages = messages;

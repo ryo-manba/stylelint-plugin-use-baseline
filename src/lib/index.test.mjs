@@ -11,6 +11,7 @@ testRule({
   plugins: [plugin],
   ruleName,
   config: true,
+
   accept: [
     { code: "a { color: red; }" },
     { code: "a { color: red; background-color: blue; }" },
@@ -94,6 +95,45 @@ testRule({
       endLine: 1,
       endColumn: 17,
     },
+    {
+      code: "@media (color-gamut: srgb) { a { color: red; } }",
+      message: messages.notBaselineMediaCondition("color-gamut", "widely"),
+      line: 1,
+      column: 9,
+      endLine: 1,
+      endColumn: 20,
+    },
+
+    {
+      code: "@media (height: 600px) and (color-gamut: srgb) and (device-posture: folded) { a { color: red; } }",
+      warnings: [
+        {
+          message: messages.notBaselineMediaCondition("color-gamut", "widely"),
+          line: 1,
+          column: 29,
+          endLine: 1,
+          endColumn: 40,
+        },
+        {
+          message: messages.notBaselineMediaCondition(
+            "device-posture",
+            "widely"
+          ),
+          line: 1,
+          column: 53,
+          endLine: 1,
+          endColumn: 67,
+        },
+      ],
+    },
+    {
+      code: "@media (foo) and (color-gamut: srgb) { a { color: red; } }",
+      message: messages.notBaselineMediaCondition("color-gamut", "widely"),
+      line: 1,
+      column: 19,
+      endLine: 1,
+      endColumn: 30,
+    },
   ],
 });
 
@@ -101,20 +141,35 @@ testRule({
   plugins: [plugin],
   ruleName,
   config: [true, { available: "newly" }],
-  accept: [],
+
+  accept: [
+    { code: "a { backdrop-filter: auto }" },
+    {
+      code: stripIndent`
+        @property --foo {
+          syntax: "*";
+          inherits: false;
+        }
+      `,
+    },
+  ],
 
   reject: [
     {
       code: "a { accent-color: bar; backdrop-filter: auto }",
-      warnings: [
-        {
-          message: messages.notBaselineProperty("accent-color", "newly"),
-          line: 1,
-          column: 5,
-          endLine: 1,
-          endColumn: 17,
-        },
-      ],
+      message: messages.notBaselineProperty("accent-color", "newly"),
+      line: 1,
+      column: 5,
+      endLine: 1,
+      endColumn: 17,
+    },
+    {
+      code: "@media (device-posture: folded) { a { color: red; } }",
+      message: messages.notBaselineMediaCondition("device-posture", "newly"),
+      line: 1,
+      column: 9,
+      endLine: 1,
+      endColumn: 23,
     },
   ],
 });

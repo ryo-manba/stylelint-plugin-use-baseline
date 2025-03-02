@@ -1,6 +1,6 @@
 {
   "name": "stylelint-no-baseline-unsupported",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "A Stylelint plugin to disallow CSS features not supported by Baseline",
   "main": "index.js",
   "keywords": [
