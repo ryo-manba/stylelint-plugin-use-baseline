@@ -134,6 +134,22 @@ testRule({
       endLine: 1,
       endColumn: 30,
     },
+    {
+      code: "h1:has(+ h2) { margin: 0 0 0.25rem 0; }",
+      message: messages.notBaselineSelector("has", "widely"),
+      line: 1,
+      column: 3,
+      endLine: 1,
+      endColumn: 7,
+    },
+    {
+      code: "details::details-content { background-color: #a29bfe; }",
+      message: messages.notBaselineSelector("details-content", "widely"),
+      line: 1,
+      column: 8,
+      endLine: 1,
+      endColumn: 25,
+    },
   ],
 });
 

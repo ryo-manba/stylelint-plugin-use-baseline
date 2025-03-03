@@ -9,6 +9,7 @@ import {
   mediaConditions,
   properties,
   propertyValues,
+  selectors,
   types,
 } from "../data/baseline-data.js";
 import { namedColors } from "../data/colors.js";
@@ -31,7 +32,8 @@ const messages = ruleMessages(ruleName, {
     `At-rule "${atRule}" is not a ${availability} available baseline feature.`,
   notBaselineMediaCondition: (condition, availability) =>
     `Media condition "${condition}" is not a ${availability} available baseline feature.`,
-  // TODO: add selector message
+  notBaselineSelector: (selectorName, availability) =>
+    `Selector "${selectorName}" is not a ${availability} available baseline feature.`,
 });
 
 const ruleFunction = (primary, secondaryOptions) => {
@@ -101,32 +103,83 @@ const ruleFunction = (primary, secondaryOptions) => {
           if (node.type === "Feature") {
             const featureName = node.name;
 
-            if (mediaConditions.has(featureName)) {
-              const featureLevel = mediaConditions.get(featureName);
+            // If the feature is not in the baseline data, skip
+            if (!mediaConditions.has(featureName)) {
+              return;
+            }
 
-              if (featureLevel < baselineLevel) {
-                const atRuleIndex = atRuleParamIndex(atRule);
+            const featureLevel = mediaConditions.get(featureName);
 
-                const startIndex = node.loc.start.column;
-                const endIndex = startIndex + featureName.length;
+            if (featureLevel < baselineLevel) {
+              const atRuleIndex = atRuleParamIndex(atRule);
 
-                report({
-                  ruleName,
-                  result,
-                  message: messages.notBaselineMediaCondition(
-                    featureName,
-                    availability
-                  ),
-                  node: atRule,
-                  index: atRuleIndex + startIndex,
-                  endIndex: atRuleIndex + endIndex,
-                });
-              }
+              const index = node.loc.start.column;
+              const endIndex = index + featureName.length;
+
+              report({
+                ruleName,
+                result,
+                message: messages.notBaselineMediaCondition(
+                  featureName,
+                  availability
+                ),
+                node: atRule,
+                index: atRuleIndex + index,
+                endIndex: atRuleIndex + endIndex,
+              });
             }
           }
         });
       } catch {
         // Ignore invalid media queries
+      }
+    });
+
+    // Check selectors
+    root.walkRules((ruleNode) => {
+      const { selector } = ruleNode;
+
+      try {
+        const ast = parse(selector, {
+          context: "selectorList",
+          positions: true,
+        });
+
+        walk(ast, (node) => {
+          const selectorName = node.name;
+
+          // If the selector is not in the baseline data, skip
+          if (!selectors.has(selectorName)) {
+            return;
+          }
+
+          const selectorLevel = selectors.get(selectorName);
+
+          if (selectorLevel < baselineLevel) {
+            // some selectors are prefixed with the : or :: symbols
+            let prefixSymbolLength = 0;
+
+            if (node.type === "PseudoClassSelector") {
+              prefixSymbolLength = 1;
+            } else if (node.type === "PseudoElementSelector") {
+              prefixSymbolLength = 2;
+            }
+
+            const index = node.loc.start.offset;
+            const endIndex = index + selectorName.length + prefixSymbolLength;
+
+            report({
+              ruleName,
+              result,
+              message: messages.notBaselineSelector(selectorName, availability),
+              node: ruleNode,
+              index,
+              endIndex,
+            });
+          }
+        });
+      } catch {
+        // Ignore invalid selectors
       }
     });
 
