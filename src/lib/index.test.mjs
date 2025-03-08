@@ -24,6 +24,57 @@ testRule({
     { code: "@media (min-width: 800px) { a { color: red; } }" },
     { code: "@media (foo) { a { color: red; } }" },
     { code: "@media (prefers-color-scheme: dark) { a { color: red; } }" },
+    { code: "@supports (accent-color: auto) { a { accent-color: auto; } }" },
+    { code: "@supports (accent-color: red) { a { accent-color: red; } }" },
+    { code: "@supports (accent-color: auto) { a { accent-color: red; } }" },
+    { code: "@supports (clip-path: fill-box) { a { clip-path: fill-box; } }" },
+    {
+      code: "@supports not (not (accent-color: auto)) { a { accent-color: auto; } }",
+    },
+    {
+      code: stripIndent`
+        @supports (accent-color: auto) and (backdrop-filter: auto) {
+          a { accent-color: auto; background-filter: auto }
+        }
+      `,
+    },
+    {
+      code: stripIndent`
+        @supports (accent-color: auto) {
+          @supports (backdrop-filter: auto) {
+            a { accent-color: auto; background-filter: auto }
+          }
+        }
+      `,
+    },
+    {
+      code: stripIndent`
+        @supports (accent-color: auto) {
+          @supports (accent-color: auto) {
+            a { accent-color: auto; }
+          }
+          a { accent-color: auto; }
+        }
+      `,
+    },
+    {
+      code: stripIndent`
+        @supports (width: abs(20% - 100px)) {
+          a { width: abs(20% - 100px); }
+        }
+      `,
+    },
+    {
+      code: stripIndent`
+        @supports selector(:has()) {
+          h1:has(+ h2) { color: red; }
+        }
+      `,
+    },
+    {
+      code: "div { cursor: pointer; }",
+      description: "See: https://github.com/eslint/css/pull/52",
+    },
   ],
 
   reject: [
@@ -103,7 +154,6 @@ testRule({
       endLine: 1,
       endColumn: 20,
     },
-
     {
       code: "@media (height: 600px) and (color-gamut: srgb) and (device-posture: folded) { a { color: red; } }",
       warnings: [
@@ -149,6 +199,66 @@ testRule({
       column: 8,
       endLine: 1,
       endColumn: 25,
+    },
+    {
+      code: stripIndent`
+        @supports (accent-color: auto) {
+          @supports (backdrop-filter: auto) {
+            a { accent-color: red; }
+          }
+
+          a { backdrop-filter: auto; }
+        }
+      `,
+      message: messages.notBaselineProperty("backdrop-filter", "widely"),
+      line: 6,
+      column: 7,
+      endLine: 6,
+      endColumn: 22,
+    },
+    {
+      code: "@supports (clip-path: fill-box) { a { clip-path: stroke-box; } }",
+      message: messages.notBaselinePropertyValue(
+        "clip-path",
+        "stroke-box",
+        "widely"
+      ),
+      line: 1,
+      column: 50,
+      endLine: 1,
+      endColumn: 60,
+    },
+    {
+      code: "@supports (accent-color: auto) { a { accent-color: abs(20% - 10px); } }",
+      message: messages.notBaselineType("abs", "widely"),
+      line: 1,
+      column: 52,
+      endLine: 1,
+      endColumn: 55,
+    },
+    {
+      code: "@supports not (accent-color: auto) { a { accent-color: auto } }",
+      message: messages.notBaselineProperty("accent-color", "widely"),
+      line: 1,
+      column: 42,
+      endLine: 1,
+      endColumn: 54,
+    },
+    {
+      code: stripIndent`
+        @supports selector(:has()) {}
+
+        @supports (color: red) {
+          h1:has(+ h2) {
+            color: red;
+          }
+        }
+      `,
+      message: messages.notBaselineSelector("has", "widely"),
+      line: 4,
+      column: 5,
+      endLine: 4,
+      endColumn: 9,
     },
   ],
 });
