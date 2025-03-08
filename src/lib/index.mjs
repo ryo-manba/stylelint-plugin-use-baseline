@@ -45,31 +45,37 @@ const ruleFunction = (primary, secondaryOptions) => {
     const baselineLevel =
       availability === "widely" ? BASELINE_HIGH : BASELINE_LOW;
 
-    // Check declarations: property, property value, etc.
-    root.walkDecls((decl) => {
-      const { prop, value } = decl;
-
-      checkBaselineProperty(decl, prop);
-
-      const parsed = valueParser(value);
-
-      parsed.walk((node) => {
-        if (node.type === "word") {
-          checkPropertyValueIdentifier(decl, prop, value);
-        } else if (node.type === "function") {
-          checkPropertyValueFunction(decl, node.value);
+    root.walk((node) => {
+      switch (node.type) {
+        case "atrule": {
+          handleAtRule(node);
+          break;
         }
-      });
+        case "rule": {
+          handleRule(node);
+          break;
+        }
+        case "decl": {
+          handleDeclaration(node);
+          break;
+        }
+      }
     });
 
-    // Check at-rules (e.g. @container, @property)
-    root.walkAtRules((atRule) => {
-      const { name } = atRule;
+    /**
+     * @param {import('postcss').Rule} node
+     * @returns {void}
+     */
+    function handleAtRule(node) {
+      const { name } = node;
 
-      // If the atRule name is not in the baseline data, skip
-      if (!atRules.has(name)) {
+      if (name === "media") {
+        checkMediaConditions(node);
+
         return;
       }
+
+      if (!atRules.has(name)) return;
 
       const atRuleLevel = atRules.get(name);
 
@@ -78,65 +84,38 @@ const ruleFunction = (primary, secondaryOptions) => {
           message: messages.notBaselineAtRule,
           messageArgs: [name, availability],
           result,
-          node: atRule,
+          node,
           index: 0,
           endIndex: name.length + 1,
         });
       }
-    });
+    }
 
-    // Check media conditions
-    root.walkAtRules(/^media$/i, (atRule) => {
-      if (atRule.name !== "media") return;
+    /**
+     * @param {import('postcss').Declaration} decl
+     * @returns {void}
+     */
+    function handleDeclaration(decl) {
+      const { prop, value } = decl;
 
-      const rawParams = atRule.params;
+      checkBaselineProperty(decl, prop);
 
-      try {
-        const ast = parse(rawParams, {
-          context: "atrulePrelude",
-          atrule: "media",
-          parseAtrulePrelude: true,
-          positions: true,
-        });
+      const parsed = valueParser(value);
 
-        walk(ast, (node) => {
-          if (node.type === "Feature") {
-            const featureName = node.name;
+      parsed.walk((node) => {
+        if (node.type === "word") {
+          checkPropertyValueIdentifier(decl, prop, node.value);
+        } else if (node.type === "function") {
+          checkPropertyValueFunction(decl, node.value);
+        }
+      });
+    }
 
-            // If the feature is not in the baseline data, skip
-            if (!mediaConditions.has(featureName)) {
-              return;
-            }
-
-            const featureLevel = mediaConditions.get(featureName);
-
-            if (featureLevel < baselineLevel) {
-              const atRuleIndex = atRuleParamIndex(atRule);
-
-              const index = node.loc.start.column;
-              const endIndex = index + featureName.length;
-
-              report({
-                ruleName,
-                result,
-                message: messages.notBaselineMediaCondition(
-                  featureName,
-                  availability
-                ),
-                node: atRule,
-                index: atRuleIndex + index,
-                endIndex: atRuleIndex + endIndex,
-              });
-            }
-          }
-        });
-      } catch {
-        // Ignore invalid media queries
-      }
-    });
-
-    // Check selectors
-    root.walkRules((ruleNode) => {
+    /**
+     * @param {import('postcss').Rule} ruleNode
+     * @returns {void}
+     */
+    function handleRule(ruleNode) {
       const { selector } = ruleNode;
 
       try {
@@ -148,10 +127,7 @@ const ruleFunction = (primary, secondaryOptions) => {
         walk(ast, (node) => {
           const selectorName = node.name;
 
-          // If the selector is not in the baseline data, skip
-          if (!selectors.has(selectorName)) {
-            return;
-          }
+          if (!selectors.has(selectorName)) return;
 
           const selectorLevel = selectors.get(selectorName);
 
@@ -181,12 +157,12 @@ const ruleFunction = (primary, secondaryOptions) => {
       } catch {
         // Ignore invalid selectors
       }
-    });
+    }
 
     /**
-     * Checks if a property is listed in Baseline data and meets the required level.
-     * @param {import('postcss').Declaration} decl - PostCSS declaration node.
-     * @param {string} property - The property name.
+     * Checks a property against baseline compatibility
+     * @param {import('postcss').Declaration} decl
+     * @param {string} property
      * @returns {void}
      */
     function checkBaselineProperty(decl, property) {
@@ -209,30 +185,23 @@ const ruleFunction = (primary, secondaryOptions) => {
     }
 
     /**
-     * Checks a property value identifier to see if it's a baseline feature.
-     * @param {import('postcss').Declaration} decl - PostCSS declaration node.
-     * @param {string} property - The property name.
-     * @param {string} value - The property value.
+     * Checks a property value against baseline compatibility data.
+     * @param {import('postcss').Declaration} decl
+     * @param {string} property
+     * @param {string} value
      * @returns {void}
      */
     function checkPropertyValueIdentifier(decl, property, value) {
       // named colors are always valid
-      if (namedColors.has(value)) {
-        return;
-      }
+      if (namedColors.has(value)) return;
+
+      if (!propertyValues.has(property)) return;
 
       const possiblePropertyValues = propertyValues.get(property);
 
-      if (!possiblePropertyValues) {
-        return;
-      }
+      if (!possiblePropertyValues.has(value)) return;
 
       const propertyValueLevel = possiblePropertyValues.get(value);
-
-      // Skip if unknown in the data
-      if (propertyValueLevel === undefined) {
-        return;
-      }
 
       if (propertyValueLevel < baselineLevel) {
         report({
@@ -246,14 +215,12 @@ const ruleFunction = (primary, secondaryOptions) => {
     }
 
     /**
-     * Checks a property value function to see if it's a baseline feature.
+     * Checks a function type against baseline compatibility data.
      * @param {import('postcss').Declaration} decl
      * @param {string} funcName
      */
     function checkPropertyValueFunction(decl, funcName) {
-      if (!types.has(funcName)) {
-        return;
-      }
+      if (!types.has(funcName)) return;
 
       const propertyValueLevel = types.get(funcName);
 
@@ -265,6 +232,54 @@ const ruleFunction = (primary, secondaryOptions) => {
           node: decl,
           word: funcName,
         });
+      }
+    }
+
+    /**
+     * Checks media conditions against baseline compatibility data.
+     * @param {import('postcss').AtRule} atRule
+     */
+    function checkMediaConditions(atRule) {
+      const rawParams = atRule.params;
+
+      try {
+        const ast = parse(rawParams, {
+          context: "atrulePrelude",
+          atrule: "media",
+          parseAtrulePrelude: true,
+          positions: true,
+        });
+
+        walk(ast, (node) => {
+          if (node.type === "Feature") {
+            const featureName = node.name;
+
+            if (!mediaConditions.has(featureName)) return;
+
+            const featureLevel = mediaConditions.get(featureName);
+
+            if (featureLevel < baselineLevel) {
+              const atRuleIndex = atRuleParamIndex(atRule);
+
+              const index = node.loc.start.column;
+              const endIndex = index + featureName.length;
+
+              report({
+                ruleName,
+                result,
+                message: messages.notBaselineMediaCondition(
+                  featureName,
+                  availability
+                ),
+                node: atRule,
+                index: atRuleIndex + index,
+                endIndex: atRuleIndex + endIndex,
+              });
+            }
+          }
+        });
+      } catch {
+        // Ignore invalid media queries
       }
     }
   };
