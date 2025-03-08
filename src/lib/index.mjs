@@ -313,7 +313,7 @@ class SupportsRules {
    */
   hasPropertyIdentifier(property, identifier) {
     return this.#rules.some((rule) =>
-      rule.hasPropertyIdentifier(property, identifier)
+      rule.hasPropertyIdentifier(property, identifier),
     );
   }
 
@@ -703,7 +703,7 @@ const ruleFunction = (primary, secondaryOptions) => {
                 result,
                 message: messages.notBaselineMediaCondition(
                   featureName,
-                  availability
+                  availability,
                 ),
                 node: atRule,
                 index: atRuleIndex + index,
