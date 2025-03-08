@@ -1,1 +1,1 @@
-# stylelint-require-baseline
+# stylelint-plugin-require-baseline

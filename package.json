@@ -1,8 +1,8 @@
 {
-  "name": "stylelint-require-baseline",
+  "name": "stylelint-plugin-require-baseline",
   "version": "0.0.0",
-  "description": "A Stylelint plugin to disallow CSS features not supported by Baseline",
-  "main": "index.js",
+  "description": "A Stylelint plugin that enforces CSS feature availability based on Baseline.",
+  "main": "index.mjs",
   "keywords": [
     "stylelint",
     "stylelint-plugin",
@@ -34,10 +34,10 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ryo-manba/stylelint-require-baseline"
+    "url": "https://github.com/ryo-manba/stylelint-plugin-require-baseline"
   },
   "files": [
-    "lib/index.js"
+    "src/lib/index.mjs"
   ],
   "author": "ryo-manba",
   "license": "MIT"
