@@ -11,3 +11,6 @@ To generate baseline data, run:
 ```shell
 npm run build:baseline
 ```
+
+This implementation is based on the following source from @eslint/css:
+[eslint/css/src/data/README.md](https://github.com/eslint/css/blob/css-v0.4.0/src/data/README.md)

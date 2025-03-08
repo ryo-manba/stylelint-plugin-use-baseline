@@ -1,0 +1,7 @@
+stylelint-require-baseline
+===========================
+The following is a sources from which code was used/modified in this codebase.
+  * SOURCE:
+    * https://github.com/eslint/css
+  * LICENSE:
+    * https://github.com/eslint/css/blob/css-v0.4.0/LICENSE
