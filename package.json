@@ -1,5 +1,5 @@
 {
-  "name": "stylelint-no-baseline-unsupported",
+  "name": "stylelint-require-baseline",
   "version": "0.0.0",
   "description": "A Stylelint plugin to disallow CSS features not supported by Baseline",
   "main": "index.js",
@@ -34,7 +34,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ryo-manba/stylelint-no-baseline-unsupported"
+    "url": "https://github.com/ryo-manba/stylelint-require-baseline"
   },
   "files": [
     "lib/index.js"

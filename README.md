@@ -1,1 +1,1 @@
-# stylelint-no-baseline-unsupported
+# stylelint-require-baseline
