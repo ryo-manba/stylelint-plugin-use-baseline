@@ -45,7 +45,7 @@ function flattenCompatFeatures(entry) {
   }
 
   return Object.fromEntries(
-    entry.compat_features.map((feature) => [feature, entry.status.baseline])
+    entry.compat_features.map((feature) => [feature, entry.status.baseline]),
   );
 }
 
@@ -154,12 +154,12 @@ function extractCSSFeatures(features) {
 // create one object with all features then filter just on the css ones
 const allFeatures = Object.values(webFeatures).reduce(
   (acc, entry) => Object.assign(acc, flattenCompatFeatures(entry)),
-  {}
+  {},
 );
 const cssFeatures = extractCSSFeatures(
   Object.fromEntries(
-    Object.entries(allFeatures).filter(([key]) => key.startsWith("css."))
-  )
+    Object.entries(allFeatures).filter(([key]) => key.startsWith("css.")),
+  ),
 );
 const featuresPath = "./src/data/baseline-data.js";
 
@@ -181,10 +181,10 @@ export const mediaConditions = new Map(${JSON.stringify(Object.entries(cssFeatur
 export const types = new Map(${JSON.stringify(Object.entries(cssFeatures.types), null, "\t")});
 export const selectors = new Map(${JSON.stringify(Object.entries(cssFeatures.selectors), null, "\t")});
 export const propertyValues = new Map([${Object.entries(
-  cssFeatures.propertyValues
+  cssFeatures.propertyValues,
 ).map(
   ([key, value]) =>
-    `["${key}", new Map(${JSON.stringify(Object.entries(value), null, "\t")})]`
+    `["${key}", new Map(${JSON.stringify(Object.entries(value), null, "\t")})]`,
 )}]);
 `;
 
@@ -193,5 +193,5 @@ const prettierConfig = await prettier.resolveConfig(featuresPath);
 
 fs.writeFileSync(
   featuresPath,
-  await prettier.format(code, { filepath: featuresPath, ...prettierConfig })
+  await prettier.format(code, { filepath: featuresPath, ...prettierConfig }),
 );

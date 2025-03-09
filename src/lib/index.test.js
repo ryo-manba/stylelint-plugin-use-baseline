@@ -1,7 +1,7 @@
 import { stripIndent } from "common-tags";
 import { testRule } from "stylelint-test-rule-node";
 
-import plugin from "./index.mjs";
+import plugin from "./index.js";
 
 const {
   rule: { messages, ruleName },
@@ -102,7 +102,7 @@ testRule({
       message: messages.notBaselinePropertyValue(
         "clip-path",
         "stroke-box",
-        "widely"
+        "widely",
       ),
       line: 1,
       column: 16,
@@ -167,7 +167,7 @@ testRule({
         {
           message: messages.notBaselineMediaCondition(
             "device-posture",
-            "widely"
+            "widely",
           ),
           line: 1,
           column: 53,
@@ -221,7 +221,7 @@ testRule({
       message: messages.notBaselinePropertyValue(
         "clip-path",
         "stroke-box",
-        "widely"
+        "widely",
       ),
       line: 1,
       column: 50,

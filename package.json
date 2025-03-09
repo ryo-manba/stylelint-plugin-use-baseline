@@ -2,43 +2,61 @@
   "name": "stylelint-plugin-require-baseline",
   "version": "0.0.0",
   "description": "A Stylelint plugin that enforces CSS feature availability based on Baseline.",
-  "main": "index.mjs",
   "keywords": [
+    "baseline",
+    "css",
+    "lint",
     "stylelint",
-    "stylelint-plugin",
-    "baseline"
+    "stylelint-plugin"
+  ],
+  "author": "ryo-manba",
+  "license": "MIT",
+  "homepage": "https://github.com/ryo-manba/stylelint-plugin-require-baseline#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ryo-manba/stylelint-plugin-require-baseline"
+  },
+  "bugs": {
+    "url": "https://github.com/ryo-manba/stylelint-plugin-require-baseline/issues"
+  },
+  "main": "dist/index.js",
+  "type": "module",
+  "files": [
+    "/dist",
+    "LICENSE",
+    "README.md",
+    "package.json"
   ],
   "scripts": {
     "test": "node --test",
+    "build": "rollup -c",
+    "lint": "eslint . --ext .js,.mjs",
+    "format": "prettier --write .",
+    "watch": "rollup --config --watch",
+    "validate": "npm run lint && npm run test",
     "build:baseline": "node tools/generate-baseline.js"
   },
   "dependencies": {
     "css-tree": "^3.1.0",
-    "postcss": "^8.5.3"
+    "postcss": "^8.5.3",
+    "postcss-value-parser": "^4.2.0"
   },
   "peerDependencies": {
     "stylelint": "^16.0.2"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-terser": "^0.4.4",
     "@stylelint/prettier-config": "^3.0.0",
     "common-tags": "^1.8.2",
     "eslint": "^9.20.1",
     "eslint-config-stylelint": "^23.0.0",
     "eslint-plugin-import": "^2.31.0",
-    "postcss-value-parser": "^4.2.0",
     "prettier": "^3.5.2",
+    "rollup": "^4.35.0",
     "stylelint": "^16.14.1",
     "stylelint-test-rule-node": "^0.4.0",
     "web-features": "^2.25.0"
-  },
-  "type": "module",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ryo-manba/stylelint-plugin-require-baseline"
-  },
-  "files": [
-    "src/lib/index.mjs"
-  ],
-  "author": "ryo-manba",
-  "license": "MIT"
+  }
 }
