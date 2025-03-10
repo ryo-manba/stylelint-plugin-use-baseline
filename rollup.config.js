@@ -9,6 +9,6 @@ export default {
     format: "esm",
     sourcemap: true,
   },
-  external: ["stylelint"],
+  external: ["stylelint", "css-tree", "postcss", "postcss-value-parser"],
   plugins: [resolve(), commonjs(), terser()],
 };
