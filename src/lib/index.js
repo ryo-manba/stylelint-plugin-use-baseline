@@ -25,7 +25,7 @@ const {
   utils: { report, ruleMessages, validateOptions },
 } = stylelint;
 
-const ruleName = "plugin/no-baseline-unsupported";
+const ruleName = "plugin/require-baseline";
 
 const messages = ruleMessages(ruleName, {
   notBaselineProperty: (property, availability) =>
@@ -550,7 +550,7 @@ const ruleFunction = (primary, secondaryOptions) => {
       if (atRuleLevel < baselineLevel) {
         report({
           message: messages.notBaselineAtRule,
-          messageArgs: [name, availability],
+          messageArgs: [`@${name}`, availability],
           result,
           node: atRule,
           index: 0,
