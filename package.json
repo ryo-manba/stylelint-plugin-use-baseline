@@ -30,7 +30,7 @@
   "scripts": {
     "test": "node --test",
     "build": "rollup -c",
-    "lint": "eslint . --ext .js,.mjs",
+    "lint": "eslint .",
     "format": "prettier --write .",
     "watch": "rollup --config --watch",
     "validate": "npm run lint && npm run test",
