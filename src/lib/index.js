@@ -504,6 +504,8 @@ const ruleFunction = (primary, secondaryOptions) => {
             break;
         }
 
+        if (typeof node.walk !== "function") return;
+
         // Process nested nodes within the child node
         node.walk((child) => {
           switch (child.type) {

@@ -124,7 +124,7 @@ testRule({
           inherits: false;
         }
       `,
-      message: messages.notBaselineAtRule("property", "widely"),
+      message: messages.notBaselineAtRule("@property", "widely"),
       line: 1,
       column: 1,
       endLine: 1,
@@ -132,7 +132,7 @@ testRule({
     },
     {
       code: "@container (min-width: 800px) { a { color: red; } }",
-      message: messages.notBaselineAtRule("container", "widely"),
+      message: messages.notBaselineAtRule("@container", "widely"),
       line: 1,
       column: 1,
       endLine: 1,
@@ -140,7 +140,7 @@ testRule({
     },
     {
       code: "@view-transition { from-view: a; to-view: b; }",
-      message: messages.notBaselineAtRule("view-transition", "widely"),
+      message: messages.notBaselineAtRule("@view-transition", "widely"),
       line: 1,
       column: 1,
       endLine: 1,
@@ -259,6 +259,21 @@ testRule({
       column: 5,
       endLine: 4,
       endColumn: 9,
+    },
+    {
+      code: stripIndent`
+        @supports (color: red) {
+          /* a comment */
+          a {
+            accent-color: auto;
+          }
+        }
+      `,
+      message: messages.notBaselineProperty("accent-color", "widely"),
+      line: 4,
+      column: 5,
+      endLine: 4,
+      endColumn: 17,
     },
   ],
 });
