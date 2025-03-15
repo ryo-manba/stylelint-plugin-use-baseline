@@ -8,7 +8,7 @@ Disallow CSS features not in [Baseline](https://web.dev/baseline).
 ## Installation
 
 ```shell
-npm install stylelint-plugin-require-baseline stylelint --save-dev
+npm install stylelint-plugin-require-baseline --save-dev
 ```
 
 > Note: stylelint is a peer dependency, so you need to install it as well.
@@ -22,15 +22,15 @@ npm install stylelint-plugin-require-baseline stylelint --save-dev
 A minimal `.stylelintrc.js` might look like this:
 
 ```js
-/** @type {import('stylelint').Config} */
+/** @type {import("stylelint").Config} */
 export default {
-  plugins: ['stylelint-plugin-require-baseline'],
+  plugins: ["stylelint-plugin-require-baseline"],
   rules: {
-    'plugin/require-baseline': [
+    "plugin/require-baseline": [
       true,
       {
         // "available" can be "widely" (default) or "newly"
-        available: 'widely',
+        available: "widely",
       },
     ],
   },
@@ -48,7 +48,7 @@ This rule reports the following cases:
 - Media conditions inside `@media` that aren't widely available.  
 - CSS property values that aren't widely available or aren't enclosed in a `@supports` block (currently limited to identifiers only).  
 - CSS functions that aren't widely available.  
-- CSS pseudo-elements and pseudo-classes** that aren't widely available.  
+- CSS pseudo-elements and pseudo-classes that aren't widely available.  
 
 The data is sourced from [`web-features`](https://npmjs.com/package/web-features).  
 
@@ -58,11 +58,11 @@ Although `cursor` is not yet labeled as Baseline, it has broad support. By defau
 
 ## Options
 
-### `available`: `'widely' | 'newly'`  
-_Default_: `'widely'`
+### `available`: `"widely" | "newly"`  
+_Default_: `"widely"`
 
-- **`'widely'`** (default) – Allows features supported in all Baseline browsers for at least 30 months.  
-- **`'newly'`** – Allows features supported in all Baseline browsers for less than 30 months. Limited availability features still trigger warnings.
+- `"widely"` (default) – Allows features supported in all Baseline browsers for at least 30 months.  
+- `"newly"` – Allows features supported in all Baseline browsers for less than 30 months. Limited availability features still trigger warnings.
 
 ## Examples
 
