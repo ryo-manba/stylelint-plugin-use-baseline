@@ -75,6 +75,26 @@ testRule({
       code: "div { cursor: pointer; }",
       description: "See: https://github.com/eslint/css/pull/52",
     },
+    {
+      code: "dialog[open] { color: red; }",
+      description: "attribute selectors are widely supported",
+    },
+    {
+      code: ".foo { color: blue; }",
+      description: "class selectors are widely supported",
+    },
+    {
+      code: "#foo { color: red; }",
+      description: "id selectors are widely supported",
+    },
+    {
+      code: "* { color: red; }",
+      description: "universal selectors are widely supported",
+    },
+    {
+      code: "div.foo#bar[attr] * { margin: 0; }",
+      description: "combination of basic selectors are widely supported",
+    },
   ],
 
   reject: [

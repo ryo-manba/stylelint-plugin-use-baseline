@@ -736,6 +736,10 @@ const ruleFunction = (primary, secondaryOptions) => {
         walk(ast, (node) => {
           const selectorName = node.name;
 
+          const selectorType = node.type;
+ 
+          if (selectorType !== "PseudoClassSelector" && selectorType !== "PseudoElementSelector") return;
+
           if (supportsRules.hasSelector(selectorName)) return;
 
           if (!selectors.has(selectorName)) return;
