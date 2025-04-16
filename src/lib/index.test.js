@@ -349,7 +349,7 @@ testRule({
       endLine: 1,
       endColumn: 18,
     },
-  ],
+  ]
 });
 
 testRule({
@@ -366,7 +366,7 @@ testRule({
       endLine: 1,
       endColumn: 23,
     },
-  ],
+  ]
 });
 
 testRule({
@@ -374,7 +374,9 @@ testRule({
   ruleName,
   config: [true, { available: 2022 }],
 
-  accept: [{ code: ".messages { overscroll-behavior: contain; }" }],
+  accept: [
+    { code: ".messages { overscroll-behavior: contain; }" },
+  ]
 });
 
 testRule({
@@ -382,5 +384,7 @@ testRule({
   ruleName,
   config: [true, { available: 2024 }],
 
-  accept: [{ code: ".box { backdrop-filter: blur(10px); }" }],
+  accept: [
+    { code: ".box { backdrop-filter: blur(10px); }" },
+  ]
 });

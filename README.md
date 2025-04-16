@@ -58,7 +58,6 @@ Although `cursor` is not yet labeled as Baseline, it has broad support. By defau
 ## Options
 
 ### `available`: `"widely" | "newly"` | `YYYY`
-
 _Default_: `"widely"`
 
 - `"widely"` (default) – Allows features supported in all Baseline browsers for at least 30 months.
