@@ -334,3 +334,57 @@ testRule({
     },
   ],
 });
+
+testRule({
+  plugins: [plugin],
+  ruleName,
+  config: [true, { available: 2015 }],
+
+  reject: [
+    {
+      code: ".p { font-stretch: condensed; }",
+      message: messages.notBaselineProperty("font-stretch", 2015),
+      line: 1,
+      column: 6,
+      endLine: 1,
+      endColumn: 18,
+    },
+  ]
+});
+
+testRule({
+  plugins: [plugin],
+  ruleName,
+  config: [true, { available: 2021 }],
+
+  reject: [
+    {
+      code: ".box { backdrop-filter: blur(10px); }",
+      message: messages.notBaselineProperty("backdrop-filter", 2021),
+      line: 1,
+      column: 8,
+      endLine: 1,
+      endColumn: 23,
+    },
+  ]
+});
+
+testRule({
+  plugins: [plugin],
+  ruleName,
+  config: [true, { available: 2022 }],
+
+  accept: [
+    { code: ".messages { overscroll-behavior: contain; }" },
+  ]
+});
+
+testRule({
+  plugins: [plugin],
+  ruleName,
+  config: [true, { available: 2024 }],
+
+  accept: [
+    { code: ".box { backdrop-filter: blur(10px); }" },
+  ]
+});

@@ -58,11 +58,12 @@ Although `cursor` is not yet labeled as Baseline, it has broad support. By defau
 
 ## Options
 
-### `available`: `"widely" | "newly"`  
+### `available`: `"widely" | "newly"` | `YYYY`
 _Default_: `"widely"`
 
 - `"widely"` (default) – Allows features supported in all Baseline browsers for at least 30 months.  
 - `"newly"` – Allows features supported in all Baseline browsers for less than 30 months. Limited availability features still trigger warnings.
+- `YYYY` – Allows features that became Baseline newly available that year, or earlier. For example, `2023`.
 
 ## Examples
 
