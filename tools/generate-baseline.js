@@ -40,7 +40,7 @@ const baselineIds = new Map([
  * @returns {string} The encoded baseline status and year.
  */
 function encodeBaselineStatus(status, year) {
-	return `${status}:${year || ""}`;
+  return `${status}:${year || ""}`;
 }
 
 /**
@@ -49,11 +49,11 @@ function encodeBaselineStatus(status, year) {
  * @returns {Object} An object containing the baseline status and year.
  */
 function mapFeatureStatus(status) {
-	return encodeBaselineStatus(
-		baselineIds.get(status.baseline),
-		// extract the year part YYYY from the date formatted YYYY-MM-DD
-		Number(status.baseline_low_date?.slice(0, 4)),
-	);
+  return encodeBaselineStatus(
+    baselineIds.get(status.baseline),
+    // extract the year part YYYY from the date formatted YYYY-MM-DD
+    Number(status.baseline_low_date?.slice(0, 4)),
+  );
 }
 
 /**
@@ -131,7 +131,7 @@ function extractCSSFeatures(features) {
       }
 
       propertyValues[match.groups.property][match.groups.value] =
-      mapFeatureStatus(status);
+        mapFeatureStatus(status);
       continue;
     }
 
