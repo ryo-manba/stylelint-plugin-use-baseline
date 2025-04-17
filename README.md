@@ -4,7 +4,6 @@ Disallow CSS features not in [Baseline](https://web.dev/baseline).
 
 ![Example output](https://github.com/user-attachments/assets/8c66b5ce-ec20-4641-bec3-41b784244277)
 
-
 ## Installation
 
 ```shell
@@ -37,20 +36,20 @@ export default {
 };
 ```
 
-Run Stylelint in your project (e.g., `npx stylelint "src/**/*.css"`). 
+Run Stylelint in your project (e.g., `npx stylelint "src/**/*.css"`).
 
 ## Rule Details
 
 This rule reports the following cases:
 
-- CSS properties not in Baseline, unless enclosed in a `@supports` block.  
-- At-rules that aren't widely available.  
-- Media conditions inside `@media` that aren't widely available.  
-- CSS property values that aren't widely available or aren't enclosed in a `@supports` block (currently limited to identifiers only).  
-- CSS functions that aren't widely available.  
-- CSS pseudo-elements and pseudo-classes that aren't widely available.  
+- CSS properties not in Baseline, unless enclosed in a `@supports` block.
+- At-rules that aren't widely available.
+- Media conditions inside `@media` that aren't widely available.
+- CSS property values that aren't widely available or aren't enclosed in a `@supports` block (currently limited to identifiers only).
+- CSS functions that aren't widely available.
+- CSS pseudo-elements and pseudo-classes that aren't widely available.
 
-The data is sourced from [`web-features`](https://npmjs.com/package/web-features).  
+The data is sourced from [`web-features`](https://npmjs.com/package/web-features).
 
 ### Note
 
@@ -58,11 +57,13 @@ Although `cursor` is not yet labeled as Baseline, it has broad support. By defau
 
 ## Options
 
-### `available`: `"widely" | "newly"`  
+### `available`: `"widely" | "newly"` | `YYYY`
+
 _Default_: `"widely"`
 
-- `"widely"` (default) – Allows features supported in all Baseline browsers for at least 30 months.  
+- `"widely"` (default) – Allows features supported in all Baseline browsers for at least 30 months.
 - `"newly"` – Allows features supported in all Baseline browsers for less than 30 months. Limited availability features still trigger warnings.
+- `YYYY` – Allows features that became Baseline newly available that year, or earlier. For example, `2023`.
 
 ## Examples
 
@@ -118,5 +119,3 @@ h1:has(+ h2) {
 ## License
 
 [MIT](LICENSE)
-
-
