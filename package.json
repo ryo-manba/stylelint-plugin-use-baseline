@@ -1,5 +1,5 @@
 {
-  "name": "stylelint-plugin-require-baseline",
+  "name": "stylelint-plugin-use-baseline",
   "version": "0.2.0",
   "description": "A Stylelint plugin that enforces CSS feature availability based on Baseline.",
   "keywords": [
@@ -11,13 +11,13 @@
   ],
   "author": "ryo-manba",
   "license": "MIT",
-  "homepage": "https://github.com/ryo-manba/stylelint-plugin-require-baseline#readme",
+  "homepage": "https://github.com/ryo-manba/stylelint-plugin-use-baseline#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ryo-manba/stylelint-plugin-require-baseline"
+    "url": "https://github.com/ryo-manba/stylelint-plugin-use-baseline"
   },
   "bugs": {
-    "url": "https://github.com/ryo-manba/stylelint-plugin-require-baseline/issues"
+    "url": "https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues"
   },
   "main": "dist/index.js",
   "type": "module",

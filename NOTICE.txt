@@ -1,4 +1,4 @@
-stylelint-plugin-require-baseline
+stylelint-plugin-use-baseline
 ===========================
 The following is a sources from which code was used/modified in this codebase.
   * SOURCE:
