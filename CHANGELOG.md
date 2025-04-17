@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0 (2025-04-18)
+
+- Changed: Renamed package from `stylelint-plugin-require-baseline` to `stylelint-plugin-use-baseline` (#6)
+
+---
+
 ## 0.2.0 (2025-04-18)
 
 - Added: support for Baseline years (#3)
