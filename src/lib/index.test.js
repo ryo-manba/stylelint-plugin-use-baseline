@@ -379,10 +379,10 @@ testRule({
   reject: [
     {
       code: stripIndent`label {
-				& input {
-					border: blue 2px dashed;
-				}
-			}`,
+        & input {
+          border: blue 2px dashed;
+        }
+      }`,
       message: messages.notBaselineSelector("nesting", 2022),
       line: 2,
       column: 5,
