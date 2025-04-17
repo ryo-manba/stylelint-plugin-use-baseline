@@ -25,7 +25,7 @@ const {
   utils: { report, ruleMessages, validateOptions },
 } = stylelint;
 
-const ruleName = "plugin/require-baseline";
+const ruleName = "plugin/use-baseline";
 
 const messages = ruleMessages(ruleName, {
   notBaselineProperty: (property, availability) =>

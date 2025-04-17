@@ -1,4 +1,4 @@
-# stylelint-plugin-require-baseline
+# stylelint-plugin-use-baseline
 
 Disallow CSS features not in [Baseline](https://web.dev/baseline).
 
@@ -7,7 +7,7 @@ Disallow CSS features not in [Baseline](https://web.dev/baseline).
 ## Installation
 
 ```shell
-npm install stylelint-plugin-require-baseline --save-dev
+npm install stylelint-plugin-use-baseline --save-dev
 ```
 
 > Note: stylelint is a peer dependency, so you need to install it as well.
@@ -15,17 +15,17 @@ npm install stylelint-plugin-require-baseline --save-dev
 ## Usage
 
 1. Create or update your Stylelint configuration file, for example `.stylelintrc.js`.
-2. Add `"stylelint-plugin-require-baseline"` to the `plugins` array.
-3. Enable the rule by adding `"plugin/require-baseline"` to your `rules`.
+2. Add `"stylelint-plugin-use-baseline"` to the `plugins` array.
+3. Enable the rule by adding `"plugin/use-baseline"` to your `rules`.
 
 A minimal `.stylelintrc.js` might look like this:
 
 ```js
 /** @type {import("stylelint").Config} */
 export default {
-  plugins: ["stylelint-plugin-require-baseline"],
+  plugins: ["stylelint-plugin-use-baseline"],
   rules: {
-    "plugin/require-baseline": [
+    "plugin/use-baseline": [
       true,
       {
         // "available" can be "widely" (default) or "newly"
@@ -114,7 +114,7 @@ h1:has(+ h2) {
 
 ## Prior art
 
-[eslint/css require-baseline](https://github.com/eslint/css/blob/main/docs/rules/require-baseline.md)
+[eslint/css use-baseline](https://github.com/eslint/css/blob/main/docs/rules/use-baseline.md)
 
 ## License
 
