@@ -811,7 +811,11 @@ const ruleFunction = (primary, secondaryOptions) => {
             }
 
             const index = node.loc.start.offset;
-            const endIndex = index + selectorName.length + prefixSymbolLength;
+            let endIndex = index;
+            
+            if (selectorName !== "nesting") {
+              endIndex += selectorName.length + prefixSymbolLength;
+            }
 
             report({
               ruleName,

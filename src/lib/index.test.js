@@ -387,7 +387,7 @@ testRule({
       line: 2,
       column: 9,
       endLine: 2,
-      endColumn: 16,
+      endColumn: 10,
     },
   ],
 });
