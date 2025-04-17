@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0 (2025-04-18)
+
+- Added: support for Baseline years (#3)
+
 ## 0.1.1 (2025-03-30)
 
 - Fixed: false positive for attribute selectors (#4)
