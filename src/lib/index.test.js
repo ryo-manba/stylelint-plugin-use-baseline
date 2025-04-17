@@ -385,9 +385,9 @@ testRule({
       }`,
       message: messages.notBaselineSelector("nesting", 2022),
       line: 2,
-      column: 5,
+      column: 9,
       endLine: 2,
-      endColumn: 12,
+      endColumn: 16,
     },
   ],
 });
