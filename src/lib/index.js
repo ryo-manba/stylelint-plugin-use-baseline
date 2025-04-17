@@ -407,7 +407,9 @@ const ruleFunction = (primary, secondaryOptions) => {
   return (root, result) => {
     if (!validateOptions(result, ruleName, { actual: primary })) return;
 
-    const baselineAvailability = new BaselineAvailability(secondaryOptions?.available);
+    const baselineAvailability = new BaselineAvailability(
+      secondaryOptions?.available,
+    );
 
     const supportsRules = new SupportsRules();
 
@@ -811,7 +813,10 @@ const ruleFunction = (primary, secondaryOptions) => {
             report({
               ruleName,
               result,
-              message: messages.notBaselineSelector(selectorName, baselineAvailability.availability),
+              message: messages.notBaselineSelector(
+                selectorName,
+                baselineAvailability.availability,
+              ),
               node: ruleNode,
               index,
               endIndex,
