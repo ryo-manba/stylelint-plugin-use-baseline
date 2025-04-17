@@ -781,15 +781,18 @@ const ruleFunction = (primary, secondaryOptions) => {
         });
 
         walk(ast, (node) => {
-          const selectorName = node.name;
+          let selectorName = node.name;
 
           const selectorType = node.type;
 
-          if (
+          if (selectorType === "NestingSelector") {
+            selectorName = "nesting";
+          } else if (
             selectorType !== "PseudoClassSelector" &&
             selectorType !== "PseudoElementSelector"
-          )
+          ) {
             return;
+          }
 
           if (supportsRules.hasSelector(selectorName)) return;
 
