@@ -375,6 +375,21 @@ testRule({
   config: [true, { available: 2022 }],
 
   accept: [{ code: ".messages { overscroll-behavior: contain; }" }],
+
+  reject: [
+    {
+      code: stripIndent`label {
+        & input {
+          border: blue 2px dashed;
+        }
+      }`,
+      message: messages.notBaselineSelector("nesting", 2022),
+      line: 2,
+      column: 9,
+      endLine: 2,
+      endColumn: 10,
+    },
+  ],
 });
 
 testRule({
