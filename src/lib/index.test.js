@@ -76,6 +76,10 @@ testRule({
       description: "See: https://github.com/eslint/css/pull/52",
     },
     {
+      code: "pre { overflow: auto; }",
+      description: "See https://github.com/eslint/css/issues/79"
+    },
+    {
       code: "dialog[open] { color: red; }",
       description: "attribute selectors are widely supported",
     },

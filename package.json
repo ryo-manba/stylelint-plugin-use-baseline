@@ -50,6 +50,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@stylelint/prettier-config": "^3.0.0",
     "common-tags": "^1.8.2",
+    "compute-baseline": "^0.3.1",
     "eslint": "^9.20.1",
     "eslint-config-stylelint": "^23.0.0",
     "eslint-plugin-import": "^2.31.0",
@@ -57,6 +58,6 @@
     "rollup": "^4.35.0",
     "stylelint": "^16.14.1",
     "stylelint-test-rule-node": "^0.4.0",
-    "web-features": "^2.25.0"
+    "web-features": "^2.34.0"
   }
 }
