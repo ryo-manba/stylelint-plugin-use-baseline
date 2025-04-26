@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1 (2025-04-26)
+
+- Fixed: Published package contained stale build artifacts
+
 ## 0.4.0 (2025-04-26)
 
 - Added: support for CSS nesting (#8)
