@@ -167,6 +167,14 @@ testRule({
       endColumn: 17,
     },
     {
+      code: "a { color: color-mix(in hsl, hsl(200 50 80), coral 80%); }",
+      message: messages.notBaselineType("color-mix", "widely"),
+      line: 1,
+      column: 12,
+      endLine: 1,
+      endColumn: 56,
+    },
+    {
       code: "@media (color-gamut: srgb) { a { color: red; } }",
       message: messages.notBaselineMediaCondition("color-gamut", "widely"),
       line: 1,
