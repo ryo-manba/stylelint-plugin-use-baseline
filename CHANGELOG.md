@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0 (2025-04-26)
+
+- Added: support for CSS nesting (#8)
+
 ## 0.3.0 (2025-04-18)
 
 - Changed: Renamed package from `stylelint-plugin-require-baseline` to `stylelint-plugin-use-baseline` (#6)
