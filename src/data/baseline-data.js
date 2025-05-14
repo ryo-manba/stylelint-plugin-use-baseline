@@ -10,7 +10,7 @@ export const BASELINE_LOW = 5;
 export const BASELINE_FALSE = 0;
 
 export const properties = new Map([
-  ["accent-color", "0:"],
+  ["accent-color", "10:2022"],
   ["alignment-baseline", "0:"],
   ["all", "10:2020"],
   ["anchor-name", "0:"],
@@ -342,6 +342,7 @@ export const properties = new Map([
   ["quotes", "10:2015"],
   ["reading-flow", "0:"],
   ["resize", "0:"],
+  ["line-height-step", "0:"],
   ["ruby-align", "5:2024"],
   ["ruby-overhang", "0:"],
   ["ruby-position", "5:2024"],
@@ -744,7 +745,7 @@ export const propertyValues = new Map([
       ["sticky", "10:2019"],
     ]),
   ],
-  ["accent-color", new Map([["auto", "0:"]])],
+  ["accent-color", new Map([["auto", "10:2022"]])],
   [
     "alignment-baseline",
     new Map([
@@ -1780,7 +1781,7 @@ export const propertyValues = new Map([
       ["minmax", "10:2017"],
       ["none", "10:2020"],
       ["repeat", "10:2020"],
-      ["animation", "10:2022"],
+      ["animation", "5:2022"],
       ["masonry", "0:"],
       ["subgrid", "5:2023"],
     ]),
@@ -1795,7 +1796,7 @@ export const propertyValues = new Map([
       ["minmax", "10:2017"],
       ["none", "10:2020"],
       ["repeat", "10:2020"],
-      ["animation", "10:2022"],
+      ["animation", "5:2022"],
       ["masonry", "0:"],
       ["subgrid", "5:2023"],
     ]),
@@ -2661,11 +2662,11 @@ export const propertyValues = new Map([
   [
     "transform-origin",
     new Map([
-      ["bottom", "10:2015"],
-      ["center", "10:2015"],
-      ["left", "10:2015"],
-      ["right", "10:2015"],
-      ["top", "10:2015"],
+      ["bottom", "10:2020"],
+      ["center", "10:2020"],
+      ["left", "10:2020"],
+      ["right", "10:2020"],
+      ["top", "10:2020"],
     ]),
   ],
   [
