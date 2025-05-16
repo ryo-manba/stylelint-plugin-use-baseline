@@ -176,7 +176,7 @@ testRule({
       line: 1,
       column: 12,
       endLine: 1,
-      endColumn: 56,
+      endColumn: 21,
     },
     {
       code: "@media (color-gamut: srgb) { a { color: red; } }",
