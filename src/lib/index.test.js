@@ -76,6 +76,10 @@ testRule({
       description: "See: https://github.com/eslint/css/pull/52",
     },
     {
+      code: "pre { overflow: auto; }",
+      description: "See https://github.com/eslint/css/issues/79"
+    },
+    {
       code: "dialog[open] { color: red; }",
       description: "attribute selectors are widely supported",
     },
@@ -383,6 +387,21 @@ testRule({
   config: [true, { available: 2022 }],
 
   accept: [{ code: ".messages { overscroll-behavior: contain; }" }],
+
+  reject: [
+    {
+      code: stripIndent`label {
+        & input {
+          border: blue 2px dashed;
+        }
+      }`,
+      message: messages.notBaselineSelector("nesting", 2022),
+      line: 2,
+      column: 9,
+      endLine: 2,
+      endColumn: 10,
+    },
+  ],
 });
 
 testRule({

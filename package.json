@@ -1,6 +1,6 @@
 {
   "name": "stylelint-plugin-use-baseline",
-  "version": "0.3.0",
+  "version": "0.4.1",
   "description": "A Stylelint plugin that enforces CSS feature availability based on Baseline.",
   "keywords": [
     "baseline",
@@ -22,7 +22,7 @@
   "main": "dist/index.js",
   "type": "module",
   "files": [
-    "/dist",
+    "dist",
     "LICENSE",
     "README.md",
     "package.json"
@@ -34,7 +34,9 @@
     "format": "prettier --write .",
     "watch": "rollup --config --watch",
     "validate": "npm run lint && npm run test",
-    "build:baseline": "node tools/generate-baseline.js"
+    "build:baseline": "node tools/generate-baseline.js",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run lint && npm test"
   },
   "dependencies": {
     "css-tree": "^3.1.0",
@@ -50,6 +52,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@stylelint/prettier-config": "^3.0.0",
     "common-tags": "^1.8.2",
+    "compute-baseline": "^0.3.1",
     "eslint": "^9.20.1",
     "eslint-config-stylelint": "^23.0.0",
     "eslint-plugin-import": "^2.31.0",
@@ -58,6 +61,6 @@
     "rollup": "^4.35.0",
     "stylelint": "^16.14.1",
     "stylelint-test-rule-node": "^0.4.0",
-    "web-features": "^2.25.0"
+    "web-features": "^2.35.1"
   }
 }

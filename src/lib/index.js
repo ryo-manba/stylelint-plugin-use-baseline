@@ -781,15 +781,18 @@ const ruleFunction = (primary, secondaryOptions) => {
         });
 
         walk(ast, (node) => {
-          const selectorName = node.name;
+          let selectorName = node.name;
 
           const selectorType = node.type;
 
-          if (
+          if (selectorType === "NestingSelector") {
+            selectorName = "nesting";
+          } else if (
             selectorType !== "PseudoClassSelector" &&
             selectorType !== "PseudoElementSelector"
-          )
+          ) {
             return;
+          }
 
           if (supportsRules.hasSelector(selectorName)) return;
 
@@ -808,7 +811,11 @@ const ruleFunction = (primary, secondaryOptions) => {
             }
 
             const index = node.loc.start.offset;
-            const endIndex = index + selectorName.length + prefixSymbolLength;
+            let endIndex = index;
+            
+            if (selectorName !== "nesting") {
+              endIndex += selectorName.length + prefixSymbolLength;
+            }
 
             report({
               ruleName,
