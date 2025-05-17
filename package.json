@@ -56,6 +56,7 @@
     "eslint": "^9.20.1",
     "eslint-config-stylelint": "^23.0.0",
     "eslint-plugin-import": "^2.31.0",
+    "mdn-data": "^2.21.0",
     "prettier": "^3.5.2",
     "rollup": "^4.35.0",
     "stylelint": "^16.14.1",

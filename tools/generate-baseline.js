@@ -11,6 +11,7 @@
 
 import fs from "node:fs";
 import { getStatus as getBaselineStatus } from "compute-baseline";
+import mdnData from "mdn-data";
 import prettier from "prettier";
 import { features as webFeatures } from "web-features";
 
@@ -50,16 +51,16 @@ function encodeBaselineStatus(status, year) {
  * @returns {Object} An object containing the baseline status and year.
  */
 function mapFeatureStatus(status) {
-	let baselineYear;
+  let baselineYear;
 
-	// extract the year part YYYY from the date formatted YYYY-MM-DD
-	if (status.baseline_low_date?.startsWith("≤")) {
-		baselineYear = Number(status.baseline_low_date.slice(1, 5));
-	} else {
-		baselineYear = Number(status.baseline_low_date?.slice(0, 4));
-	}
+  // extract the year part YYYY from the date formatted YYYY-MM-DD
+  if (status.baseline_low_date?.startsWith("≤")) {
+    baselineYear = Number(status.baseline_low_date.slice(1, 5));
+  } else {
+    baselineYear = Number(status.baseline_low_date?.slice(0, 4));
+  }
 
-	return encodeBaselineStatus(baselineIds.get(status.baseline), baselineYear);
+  return encodeBaselineStatus(baselineIds.get(status.baseline), baselineYear);
 }
 
 /**
@@ -103,7 +104,7 @@ function extractCSSFeatures(features) {
   const cssAtRulePattern = /^css\.at-rules\.(?<atRule>[a-zA-Z$\d-]+)$/u;
   const cssMediaConditionPattern =
     /^css\.at-rules\.media\.(?<condition>[a-zA-Z$\d-]+)$/u;
-  const cssTypePattern = /^css\.types\.(?<type>[a-zA-Z$\d-]+)$/u;
+  const cssTypePattern = /^css\.types\.(?:.*?\.)?(?<type>[a-zA-Z\d-]+)$/u;
   const cssSelectorPattern = /^css\.selectors\.(?<selector>[a-zA-Z$\d-]+)$/u;
 
   const properties = {};
@@ -114,7 +115,7 @@ function extractCSSFeatures(features) {
   const selectors = {};
 
   for (const [key, featureId] of Object.entries(features)) {
-		const status = getBaselineStatus(featureId, key);
+    const status = getBaselineStatus(featureId, key);
     let match;
 
     // property names
@@ -156,7 +157,13 @@ function extractCSSFeatures(features) {
 
     // types
     if ((match = cssTypePattern.exec(key)) !== null) {
-      types[match.groups.type] = mapFeatureStatus(status);
+      const type = match.groups.type;
+
+      if (!(`${type}()` in mdnData.css.functions)) {
+        continue;
+      }
+      
+      types[type] = mapFeatureStatus(status);
       continue;
     }
 
