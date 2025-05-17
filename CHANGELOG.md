@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.0 (2025-05-17)
+
+- Added: support for more functions (#15)
+- Fixed: use compute-baseline (#14)
+
 ## 0.4.1 (2025-04-26)
 
 - Fixed: Published package contained stale build artifacts
