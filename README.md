@@ -28,7 +28,7 @@ export default {
     "plugin/use-baseline": [
       true,
       {
-        // "available" can be "widely" (default) or "newly"
+        // "widely" (default), "newly", or a year (e.g. 2023)
         available: "widely",
       },
     ],
