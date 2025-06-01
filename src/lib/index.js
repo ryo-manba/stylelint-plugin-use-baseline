@@ -551,6 +551,7 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       if (atRuleLevel < baselineLevel) {
         report({
+          ruleName,
           message: messages.notBaselineAtRule,
           messageArgs: [`@${name}`, availability],
           result,
@@ -603,6 +604,7 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       if (propLevel < baselineLevel) {
         report({
+          ruleName,
           message: messages.notBaselineProperty,
           messageArgs: [property, availability],
           result,
@@ -639,6 +641,7 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       if (propertyValueLevel < baselineLevel) {
         report({
+          ruleName,
           message: messages.notBaselinePropertyValue,
           messageArgs: [property, value, availability],
           result,
@@ -662,6 +665,7 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       if (propertyValueLevel < baselineLevel) {
         report({
+          ruleName,
           message: messages.notBaselineType,
           messageArgs: [funcName, availability],
           result,
@@ -737,7 +741,7 @@ const ruleFunction = (primary, secondaryOptions) => {
           const selectorName = node.name;
 
           const selectorType = node.type;
- 
+
           if (selectorType !== "PseudoClassSelector" && selectorType !== "PseudoElementSelector") return;
 
           if (supportsRules.hasSelector(selectorName)) return;
