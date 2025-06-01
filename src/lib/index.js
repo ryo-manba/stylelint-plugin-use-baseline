@@ -13,6 +13,7 @@ import {
   types,
 } from "../data/baseline-data.js";
 import { namedColors } from "../data/colors.js";
+import { optionsMatches } from "./utils.js";
 
 /** @typedef {import("css-tree").Identifier} Identifier */
 /** @typedef {import("css-tree").FunctionNodePlain} FunctionNodePlain */
@@ -410,9 +411,6 @@ const ruleFunction = (primary, secondaryOptions) => {
     const baselineAvailability = new BaselineAvailability(
       secondaryOptions?.available,
     );
-    const ignoreSelectors = new Set(secondaryOptions?.ignoreSelectors || []);
-    const ignoreProperties = new Set(secondaryOptions?.ignoreProperties || []);
-    const ignoreAtRules = new Set(secondaryOptions?.ignoreAtRules || []);
 
     const supportsRules = new SupportsRules();
 
@@ -595,7 +593,7 @@ const ruleFunction = (primary, secondaryOptions) => {
         return;
       }
 
-      if (ignoreAtRules.has(name)) return;
+      if (optionsMatches(secondaryOptions, "ignoreAtRules", name)) return;
 
       if (!atRules.has(name)) return;
 
@@ -648,7 +646,8 @@ const ruleFunction = (primary, secondaryOptions) => {
     function checkProperty(decl, property) {
       if (supportsRules.hasProperty(property)) return;
 
-      if (ignoreProperties.has(property)) return;
+      if (optionsMatches(secondaryOptions, "ignoreProperties", property))
+        return;
 
       // If the property is not in the Baseline data, skip
       if (!properties.has(property)) return;
@@ -803,7 +802,8 @@ const ruleFunction = (primary, secondaryOptions) => {
 
           if (supportsRules.hasSelector(selectorName)) return;
 
-          if (ignoreSelectors.has(selectorName)) return;
+          if (optionsMatches(secondaryOptions, "ignoreSelectors", selectorName))
+            return;
 
           if (!selectors.has(selectorName)) return;
 

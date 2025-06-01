@@ -418,31 +418,34 @@ testRule({
   config: [
     true,
     {
-      ignoreSelectors: ["has", "details-content"],
+      ignoreSelectors: ["nesting", "/^has/"],
     },
   ],
 
   accept: [
-    {
-      code: "h1:has(+ h2) { margin: 0 0 0.25rem 0; }",
-    },
-    {
-      code: "details::details-content { background-color: #a29bfe; }",
-    },
-  ],
-
-  reject: [
     {
       code: stripIndent`label {
         & input {
           border: blue 2px dashed;
         }
       }`,
-      message: messages.notBaselineSelector("nesting", "widely"),
-      line: 2,
-      column: 9,
-      endLine: 2,
-      endColumn: 10,
+    },
+    {
+      code: "h1:has(+ h2) { margin: 0 0 0.25rem 0; }",
+    },
+    {
+      code: "h1:has-slotted { color: green; }",
+    },
+  ],
+
+  reject: [
+    {
+      code: "details::details-content { background-color: #a29bfe; }",
+      message: messages.notBaselineSelector("details-content", "widely"),
+      line: 1,
+      column: 8,
+      endLine: 1,
+      endColumn: 25,
     },
   ],
 });
@@ -453,13 +456,16 @@ testRule({
   config: [
     true,
     {
-      ignoreProperties: ["accent-color", "backdrop-filter"],
+      ignoreProperties: ["accent-color", "/^animation-/"],
     },
   ],
 
   accept: [
     {
-      code: "a { accent-color: bar; backdrop-filter: auto }",
+      code: "a { accent-color: bar; }",
+    },
+    {
+      code: "a { animation-composition: add; animation-range: 20%; }",
     },
   ],
 
@@ -485,13 +491,32 @@ testRule({
   config: [
     true,
     {
-      ignoreAtRules: ["container"],
+      ignoreAtRules: ["container", "/^font-/"],
     },
   ],
 
   accept: [
     {
       code: "@container (min-width: 800px) { a { color: red; } }",
+    },
+    {
+      code: stripIndent`
+        @font-feature-values Font One {
+          @styleset {
+            nice-style: 12;
+          }
+        }
+      `,
+    },
+    {
+      code: stripIndent`
+        @font-palette-values --Alternate {
+          font-family: "Bungee Spice";
+          override-colors:
+            0 #00ffbb,
+            1 #007744;
+        }
+      `,
     },
   ],
 

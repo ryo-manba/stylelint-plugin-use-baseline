@@ -65,6 +65,33 @@ _Default_: `"widely"`
 - `"newly"` – Allows features supported in all Baseline browsers for less than 30 months. Limited availability features still trigger warnings.
 - `YYYY` – Allows features that became Baseline newly available that year, or earlier. For example, `2023`.
 
+### `ignoreSelectors`: `Array<string | RegExp>`
+
+_Default_: `[]`
+
+An array of selectors to ignore. Each item can be:
+
+- A string for exact matches
+- A regular expression (e.g., `/^has/`)
+
+### `ignoreProperties`: `Array<string | RegExp>`
+
+_Default_: `[]`
+
+An array of properties to ignore. Each item can be:
+
+- A string for exact matches
+- A regular expression (e.g., `/^animation-/`)
+
+### `ignoreAtRules`: `Array<string | RegExp>`
+
+_Default_: `[]`
+
+An array of at-rules to ignore. Each item can be:
+
+- A string for exact matches
+- A regular expression (e.g., `/^font-/`)
+
 ## Examples
 
 ```css
