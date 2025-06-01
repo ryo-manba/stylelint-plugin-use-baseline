@@ -598,6 +598,7 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       if (!baselineAvailability.isSupported(featureStatus)) {
         report({
+          ruleName,
           message: messages.notBaselineAtRule,
           messageArgs: [`@${name}`, baselineAvailability.availability],
           result,
@@ -650,6 +651,7 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       if (!baselineAvailability.isSupported(featureStatus)) {
         report({
+          ruleName,
           message: messages.notBaselineProperty,
           messageArgs: [property, baselineAvailability.availability],
           result,
@@ -686,6 +688,7 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       if (!baselineAvailability.isSupported(featureStatus)) {
         report({
+          ruleName,
           message: messages.notBaselinePropertyValue,
           messageArgs: [property, value, baselineAvailability.availability],
           result,
@@ -709,6 +712,7 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       if (!baselineAvailability.isSupported(featureStatus)) {
         report({
+          ruleName,
           message: messages.notBaselineType,
           messageArgs: [funcName, baselineAvailability.availability],
           result,
@@ -812,7 +816,7 @@ const ruleFunction = (primary, secondaryOptions) => {
 
             const index = node.loc.start.offset;
             let endIndex = index;
-            
+
             if (selectorName !== "nesting") {
               endIndex += selectorName.length + prefixSymbolLength;
             }
