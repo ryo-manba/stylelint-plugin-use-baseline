@@ -1,14 +1,13 @@
-# stylelint-plugin-require-baseline
+# stylelint-plugin-use-baseline
 
 Disallow CSS features not in [Baseline](https://web.dev/baseline).
 
 ![Example output](https://github.com/user-attachments/assets/8c66b5ce-ec20-4641-bec3-41b784244277)
 
-
 ## Installation
 
 ```shell
-npm install stylelint-plugin-require-baseline --save-dev
+npm install stylelint-plugin-use-baseline --save-dev
 ```
 
 > Note: stylelint is a peer dependency, so you need to install it as well.
@@ -16,20 +15,20 @@ npm install stylelint-plugin-require-baseline --save-dev
 ## Usage
 
 1. Create or update your Stylelint configuration file, for example `.stylelintrc.js`.
-2. Add `"stylelint-plugin-require-baseline"` to the `plugins` array.
-3. Enable the rule by adding `"plugin/require-baseline"` to your `rules`.
+2. Add `"stylelint-plugin-use-baseline"` to the `plugins` array.
+3. Enable the rule by adding `"plugin/use-baseline"` to your `rules`.
 
 A minimal `.stylelintrc.js` might look like this:
 
 ```js
 /** @type {import("stylelint").Config} */
 export default {
-  plugins: ["stylelint-plugin-require-baseline"],
+  plugins: ["stylelint-plugin-use-baseline"],
   rules: {
-    "plugin/require-baseline": [
+    "plugin/use-baseline": [
       true,
       {
-        // "available" can be "widely" (default) or "newly"
+        // "widely" (default), "newly", or a year (e.g. 2023)
         available: "widely",
       },
     ],
@@ -37,20 +36,20 @@ export default {
 };
 ```
 
-Run Stylelint in your project (e.g., `npx stylelint "src/**/*.css"`). 
+Run Stylelint in your project (e.g., `npx stylelint "src/**/*.css"`).
 
 ## Rule Details
 
 This rule reports the following cases:
 
-- CSS properties not in Baseline, unless enclosed in a `@supports` block.  
-- At-rules that aren't widely available.  
-- Media conditions inside `@media` that aren't widely available.  
-- CSS property values that aren't widely available or aren't enclosed in a `@supports` block (currently limited to identifiers only).  
-- CSS functions that aren't widely available.  
-- CSS pseudo-elements and pseudo-classes that aren't widely available.  
+- CSS properties not in Baseline, unless enclosed in a `@supports` block.
+- At-rules that aren't widely available.
+- Media conditions inside `@media` that aren't widely available.
+- CSS property values that aren't widely available or aren't enclosed in a `@supports` block (currently limited to identifiers only).
+- CSS functions that aren't widely available.
+- CSS pseudo-elements and pseudo-classes that aren't widely available.
 
-The data is sourced from [`web-features`](https://npmjs.com/package/web-features).  
+The data is sourced from [`web-features`](https://npmjs.com/package/web-features).
 
 ### Note
 
@@ -58,11 +57,13 @@ Although `cursor` is not yet labeled as Baseline, it has broad support. By defau
 
 ## Options
 
-### `available`: `"widely" | "newly"`  
+### `available`: `"widely" | "newly"` | `YYYY`
+
 _Default_: `"widely"`
 
-- `"widely"` (default) – Allows features supported in all Baseline browsers for at least 30 months.  
+- `"widely"` (default) – Allows features supported in all Baseline browsers for at least 30 months.
 - `"newly"` – Allows features supported in all Baseline browsers for less than 30 months. Limited availability features still trigger warnings.
+- `YYYY` – Allows features that became Baseline newly available that year, or earlier. For example, `2023`.
 
 ## Examples
 
@@ -113,10 +114,8 @@ h1:has(+ h2) {
 
 ## Prior art
 
-[eslint/css require-baseline](https://github.com/eslint/css/blob/main/docs/rules/require-baseline.md)
+[eslint/css use-baseline](https://github.com/eslint/css/blob/main/docs/rules/use-baseline.md)
 
 ## License
 
 [MIT](LICENSE)
-
-

@@ -25,7 +25,7 @@ const {
   utils: { report, ruleMessages, validateOptions },
 } = stylelint;
 
-const ruleName = "plugin/require-baseline";
+const ruleName = "plugin/use-baseline";
 
 const messages = ruleMessages(ruleName, {
   notBaselineProperty: (property, availability) =>
@@ -355,14 +355,61 @@ class SupportsRules {
   }
 }
 
+/**
+ * Represents the required availability of a feature.
+ */
+class BaselineAvailability {
+  /**
+   * The preferred Baseline year.
+   * @type {number}
+   */
+  #baselineYear = undefined;
+
+  /**
+   * The preferred Baseline status.
+   * @type {number}
+   */
+  #baselineStatus = undefined;
+
+  /**
+   * @param {string | number} availability The required level of feature availability.
+   */
+  constructor(availability = "widely") {
+    this.availability = availability;
+
+    if (typeof availability === "number") {
+      this.#baselineYear = availability;
+    } else {
+      this.#baselineStatus =
+        availability === "widely" ? BASELINE_HIGH : BASELINE_LOW;
+    }
+  }
+
+  /**
+   * Determines whether a feature meets the required availability.
+   * @param {Object} encodedStatus A feature's encoded baseline status and year.
+   * @returns {boolean} `true` if the feature is supported, `false` if not.
+   */
+  isSupported(encodedStatus) {
+    const parts = encodedStatus.split(":");
+    const status = Number(parts[0]);
+    const year = Number(parts[1] || NaN);
+
+    if (this.#baselineYear) {
+      return year <= this.#baselineYear;
+    }
+
+    return status >= this.#baselineStatus;
+  }
+}
+
 const ruleFunction = (primary, secondaryOptions) => {
   return (root, result) => {
     if (!validateOptions(result, ruleName, { actual: primary })) return;
 
-    const availability =
-      secondaryOptions?.available === "newly" ? "newly" : "widely";
-    const baselineLevel =
-      availability === "widely" ? BASELINE_HIGH : BASELINE_LOW;
+    const baselineAvailability = new BaselineAvailability(
+      secondaryOptions?.available,
+    );
 
     const supportsRules = new SupportsRules();
 
@@ -547,13 +594,13 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       if (!atRules.has(name)) return;
 
-      const atRuleLevel = atRules.get(name);
+      const featureStatus = atRules.get(name);
 
-      if (atRuleLevel < baselineLevel) {
+      if (!baselineAvailability.isSupported(featureStatus)) {
         report({
           ruleName,
           message: messages.notBaselineAtRule,
-          messageArgs: [`@${name}`, availability],
+          messageArgs: [`@${name}`, baselineAvailability.availability],
           result,
           node: atRule,
           index: 0,
@@ -600,13 +647,13 @@ const ruleFunction = (primary, secondaryOptions) => {
       // If the property is not in the Baseline data, skip
       if (!properties.has(property)) return;
 
-      const propLevel = properties.get(property);
+      const featureStatus = properties.get(property);
 
-      if (propLevel < baselineLevel) {
+      if (!baselineAvailability.isSupported(featureStatus)) {
         report({
           ruleName,
           message: messages.notBaselineProperty,
-          messageArgs: [property, availability],
+          messageArgs: [property, baselineAvailability.availability],
           result,
           node: decl,
           word: property,
@@ -637,13 +684,13 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       if (!possiblePropertyValues.has(value)) return;
 
-      const propertyValueLevel = possiblePropertyValues.get(value);
+      const featureStatus = possiblePropertyValues.get(value);
 
-      if (propertyValueLevel < baselineLevel) {
+      if (!baselineAvailability.isSupported(featureStatus)) {
         report({
           ruleName,
           message: messages.notBaselinePropertyValue,
-          messageArgs: [property, value, availability],
+          messageArgs: [property, value, baselineAvailability.availability],
           result,
           node: decl,
           word: value,
@@ -661,13 +708,13 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       if (!types.has(funcName)) return;
 
-      const propertyValueLevel = types.get(funcName);
+      const featureStatus = types.get(funcName);
 
-      if (propertyValueLevel < baselineLevel) {
+      if (!baselineAvailability.isSupported(featureStatus)) {
         report({
           ruleName,
           message: messages.notBaselineType,
-          messageArgs: [funcName, availability],
+          messageArgs: [funcName, baselineAvailability.availability],
           result,
           node: decl,
           word: funcName,
@@ -696,9 +743,9 @@ const ruleFunction = (primary, secondaryOptions) => {
 
             if (!mediaConditions.has(featureName)) return;
 
-            const featureLevel = mediaConditions.get(featureName);
+            const featureStatus = mediaConditions.get(featureName);
 
-            if (featureLevel < baselineLevel) {
+            if (!baselineAvailability.isSupported(featureStatus)) {
               const atRuleIndex = atRuleParamIndex(atRule);
 
               const index = node.loc.start.column;
@@ -709,7 +756,7 @@ const ruleFunction = (primary, secondaryOptions) => {
                 result,
                 message: messages.notBaselineMediaCondition(
                   featureName,
-                  availability,
+                  baselineAvailability.availability,
                 ),
                 node: atRule,
                 index: atRuleIndex + index,
@@ -738,19 +785,26 @@ const ruleFunction = (primary, secondaryOptions) => {
         });
 
         walk(ast, (node) => {
-          const selectorName = node.name;
+          let selectorName = node.name;
 
           const selectorType = node.type;
 
-          if (selectorType !== "PseudoClassSelector" && selectorType !== "PseudoElementSelector") return;
+          if (selectorType === "NestingSelector") {
+            selectorName = "nesting";
+          } else if (
+            selectorType !== "PseudoClassSelector" &&
+            selectorType !== "PseudoElementSelector"
+          ) {
+            return;
+          }
 
           if (supportsRules.hasSelector(selectorName)) return;
 
           if (!selectors.has(selectorName)) return;
 
-          const selectorLevel = selectors.get(selectorName);
+          const featureStatus = selectors.get(selectorName);
 
-          if (selectorLevel < baselineLevel) {
+          if (!baselineAvailability.isSupported(featureStatus)) {
             // some selectors are prefixed with the : or :: symbols
             let prefixSymbolLength = 0;
 
@@ -761,12 +815,19 @@ const ruleFunction = (primary, secondaryOptions) => {
             }
 
             const index = node.loc.start.offset;
-            const endIndex = index + selectorName.length + prefixSymbolLength;
+            let endIndex = index;
+
+            if (selectorName !== "nesting") {
+              endIndex += selectorName.length + prefixSymbolLength;
+            }
 
             report({
               ruleName,
               result,
-              message: messages.notBaselineSelector(selectorName, availability),
+              message: messages.notBaselineSelector(
+                selectorName,
+                baselineAvailability.availability,
+              ),
               node: ruleNode,
               index,
               endIndex,

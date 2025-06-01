@@ -76,6 +76,10 @@ testRule({
       description: "See: https://github.com/eslint/css/pull/52",
     },
     {
+      code: "pre { overflow: auto; }",
+      description: "See https://github.com/eslint/css/issues/79"
+    },
+    {
       code: "dialog[open] { color: red; }",
       description: "attribute selectors are widely supported",
     },
@@ -165,6 +169,14 @@ testRule({
       column: 1,
       endLine: 1,
       endColumn: 17,
+    },
+    {
+      code: "a { color: color-mix(in hsl, hsl(200 50 80), coral 80%); }",
+      message: messages.notBaselineType("color-mix", "widely"),
+      line: 1,
+      column: 12,
+      endLine: 1,
+      endColumn: 21,
     },
     {
       code: "@media (color-gamut: srgb) { a { color: red; } }",
@@ -333,4 +345,69 @@ testRule({
       endColumn: 23,
     },
   ],
+});
+
+testRule({
+  plugins: [plugin],
+  ruleName,
+  config: [true, { available: 2015 }],
+
+  reject: [
+    {
+      code: ".p { font-stretch: condensed; }",
+      message: messages.notBaselineProperty("font-stretch", 2015),
+      line: 1,
+      column: 6,
+      endLine: 1,
+      endColumn: 18,
+    },
+  ],
+});
+
+testRule({
+  plugins: [plugin],
+  ruleName,
+  config: [true, { available: 2021 }],
+
+  reject: [
+    {
+      code: ".box { backdrop-filter: blur(10px); }",
+      message: messages.notBaselineProperty("backdrop-filter", 2021),
+      line: 1,
+      column: 8,
+      endLine: 1,
+      endColumn: 23,
+    },
+  ],
+});
+
+testRule({
+  plugins: [plugin],
+  ruleName,
+  config: [true, { available: 2022 }],
+
+  accept: [{ code: ".messages { overscroll-behavior: contain; }" }],
+
+  reject: [
+    {
+      code: stripIndent`label {
+        & input {
+          border: blue 2px dashed;
+        }
+      }`,
+      message: messages.notBaselineSelector("nesting", 2022),
+      line: 2,
+      column: 9,
+      endLine: 2,
+      endColumn: 10,
+    },
+  ],
+});
+
+testRule({
+  plugins: [plugin],
+  ruleName,
+  config: [true, { available: 2024 }],
+
+  accept: [{ code: ".box { backdrop-filter: blur(10px); }" }],
 });
