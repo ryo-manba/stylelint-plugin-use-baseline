@@ -57,85 +57,238 @@ Although `cursor` is not yet labeled as Baseline, it has broad support. By defau
 
 ## Options
 
-### `available`: `"widely" | "newly"` | `YYYY`
+`true`
 
-_Default_: `"widely"`
+```json
+{
+  "plugin/use-baseline": true
+}
+```
 
-- `"widely"` (default) – Allows features supported in all Baseline browsers for at least 30 months.
-- `"newly"` – Allows features supported in all Baseline browsers for less than 30 months. Limited availability features still trigger warnings.
-- `YYYY` – Allows features that became Baseline newly available that year, or earlier. For example, `2023`.
-
-### `ignoreSelectors`: `Array<string | RegExp>`
-
-_Default_: `[]`
-
-An array of selectors to ignore. Each item can be:
-
-- A string for exact matches
-- A regular expression (e.g., `/^has/`)
-
-### `ignoreProperties`: `Array<string | RegExp>`
-
-_Default_: `[]`
-
-An array of properties to ignore. Each item can be:
-
-- A string for exact matches
-- A regular expression (e.g., `/^animation-/`)
-
-### `ignoreAtRules`: `Array<string | RegExp>`
-
-_Default_: `[]`
-
-An array of at-rules to ignore. Each item can be:
-
-- A string for exact matches
-- A regular expression (e.g., `/^font-/`)
-
-## Examples
+The following pattern is considered a problem:
 
 ```css
-/* invalid - accent-color is not widely available */
+/* accent-color is not widely available */
 a {
   accent-color: red;
 }
 
-/* valid - using @supports for accent-color */
-@supports (accent-color: auto) {
-  a {
-    accent-color: auto;
-  }
-}
-
-/* invalid - abs() is not widely available */
+/* abs() is not widely available */
 .box {
   width: abs(20% - 100px);
 }
 
-/* invalid - :has() is not widely available */
+/* :has() is not widely available */
 h1:has(+ h2) {
   margin: 0;
 }
 
-/* valid - @supports indicates limited availability */
-@supports selector(:has()) {
-  h1:has(+ h2) {
-    margin: 0;
-  }
-}
-
-/* invalid - property value doesn't match @supports indicator */
+/* property value doesn't match @supports indicator */
 @supports (accent-color: auto) {
   a {
     accent-color: abs(20% - 10px); /* mismatch */
   }
 }
 
-/* invalid - device-posture is not widely available */
+/* device-posture is not widely available */
 @media (device-posture: folded) {
   .foldable {
     padding: 1rem;
   }
+}
+```
+
+The following patterns are _not_ considered problems:
+
+```css
+/* using @supports for accent-color */
+@supports (accent-color: auto) {
+  a {
+    accent-color: auto;
+  }
+}
+
+/* @supports indicates limited availability */
+@supports selector(:has()) {
+  h1:has(+ h2) {
+    margin: 0;
+  }
+}
+```
+
+## Optional secondary options
+
+### `available`
+
+```json
+{ "available": `"widely" | "newly"` | `YYYY` }
+```
+
+#### `"widely"` (default)
+
+Allows features supported in all Baseline browsers for at least 30 months.
+
+Given:
+
+```json
+{
+  "plugin/use-baseline": [true, { "available": "widely" }]
+}
+```
+
+#### `"newly"`
+
+Allows features supported in all Baseline browsers for less than 30 months. Limited availability features still trigger warnings.
+
+Given:
+
+```json
+{
+  "plugin/use-baseline": [true, { "available": "newly" }]
+}
+```
+
+The following patterns are _not_ considered problems:
+
+```css
+h1:has(+ h2) {
+  margin: 0;
+}
+```
+
+#### `YYYY`
+
+Allows features that became Baseline newly available that year, or earlier. For example, `2023`.
+
+Given:
+
+```json
+{
+  "plugin/use-baseline": [true, { "available": 2023 }]
+}
+```
+
+The following patterns are _not_ considered problems:
+
+```css
+div {
+  @starting-style {
+    opacity: 0;
+  }
+}
+```
+
+### `ignoreSelectors`
+
+```json
+{ "ignoreSelectors": ["array", "of", "selectors", "/regex/"] }
+```
+
+Given:
+
+```json
+{
+  "plugin/use-baseline": [true, { "ignoreSelectors": ["nesting", "/^has/"] }]
+}
+```
+
+The following patterns are _not_ considered problems:
+
+```css
+a {
+  img {
+    width: 100%;
+  }
+}
+```
+
+```css
+h1:has(+ h2) {
+  margin: 0;
+}
+```
+
+```css
+h1:has-slotted {
+  color: green;
+}
+```
+
+### `ignoreProperties`
+
+```json
+{ "ignoreProperties": ["array", "of", "properties", "/regex/"] }
+```
+
+Given:
+
+```json
+{
+  "plugin/use-baseline": [
+    true,
+    { "ignoreProperties": ["accent-color", "/^animation-/"] }
+  ]
+}
+```
+
+The following patterns are _not_ considered problems:
+
+```css
+a {
+  accent-color: red;
+}
+```
+
+```css
+div {
+  animation-composition: add;
+}
+```
+
+```css
+div {
+  animation-range: 20%;
+}
+```
+
+### `ignoreAtRules`
+
+```json
+{ "ignoreAtRules": ["array", "of", "at-rules", "/regex/"] }
+```
+
+Given:
+
+```json
+{
+  "plugin/use-baseline": [true, { "ignoreAtRules": ["container", "/^font-/"] }]
+}
+```
+
+The following patterns are _not_ considered problems:
+
+```css
+@container (min-width: 800px) {
+  a {
+    color: red;
+  }
+}
+```
+
+```css
+@font-feature-values Font One {
+  @styleset {
+    nice-style: 12;
+  }
+}
+```
+
+```css
+@font-palette-values --Alternate {
+  font-family: "Bungee Spice";
+  override-colors:
+    0 #00ffbb,
+    1 #007744;
 }
 ```
 
