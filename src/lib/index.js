@@ -13,6 +13,7 @@ import {
   types,
 } from "../data/baseline-data.js";
 import { namedColors } from "../data/colors.js";
+import { optionsMatches } from "./utils.js";
 
 /** @typedef {import("css-tree").Identifier} Identifier */
 /** @typedef {import("css-tree").FunctionNodePlain} FunctionNodePlain */
@@ -592,6 +593,8 @@ const ruleFunction = (primary, secondaryOptions) => {
         return;
       }
 
+      if (optionsMatches(secondaryOptions, "ignoreAtRules", name)) return;
+
       if (!atRules.has(name)) return;
 
       const featureStatus = atRules.get(name);
@@ -643,6 +646,9 @@ const ruleFunction = (primary, secondaryOptions) => {
      */
     function checkProperty(decl, property) {
       if (supportsRules.hasProperty(property)) return;
+
+      if (optionsMatches(secondaryOptions, "ignoreProperties", property))
+        return;
 
       // If the property is not in the Baseline data, skip
       if (!properties.has(property)) return;
@@ -799,6 +805,9 @@ const ruleFunction = (primary, secondaryOptions) => {
           }
 
           if (supportsRules.hasSelector(selectorName)) return;
+
+          if (optionsMatches(secondaryOptions, "ignoreSelectors", selectorName))
+            return;
 
           if (!selectors.has(selectorName)) return;
 
