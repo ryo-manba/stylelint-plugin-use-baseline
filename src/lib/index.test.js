@@ -19,7 +19,7 @@ testRule({
     { code: "body { --custom-property: red; }" },
     { code: "body { padding: 0; }" },
     { code: "::before { content: attr(foo); }" },
-    { code: "a { color: red; -moz-transition: bar }" },
+    { code: "a { color: red; -moz-transition: none }" },
     { code: "@font-face { font-weight: 100 400 }" },
     { code: "@media (min-width: 800px) { a { color: red; } }" },
     { code: "@media (foo) { a { color: red; } }" },
@@ -34,7 +34,7 @@ testRule({
     {
       code: stripIndent`
         @supports (accent-color: auto) and (backdrop-filter: auto) {
-          a { accent-color: auto; background-filter: auto }
+          a { accent-color: auto; backdrop-filter: auto }
         }
       `,
     },
@@ -42,7 +42,7 @@ testRule({
       code: stripIndent`
         @supports (accent-color: auto) {
           @supports (backdrop-filter: auto) {
-            a { accent-color: auto; background-filter: auto }
+            a { accent-color: auto; backdrop-filter: auto }
           }
         }
       `,
@@ -84,7 +84,7 @@ testRule({
       description: "attribute selectors are widely supported",
     },
     {
-      code: ".foo { color: blue; }",
+      code: ".foo { color: red; }",
       description: "class selectors are widely supported",
     },
     {
@@ -103,7 +103,7 @@ testRule({
 
   reject: [
     {
-      code: "a { accent-color: bar; backdrop-filter: auto }",
+      code: "a { accent-color: red; backdrop-filter: auto }",
       warnings: [
         {
           message: messages.notBaselineProperty("accent-color", "widely"),
@@ -217,7 +217,7 @@ testRule({
       endColumn: 30,
     },
     {
-      code: "h1:has(+ h2) { margin: 0 0 0.25rem 0; }",
+      code: "h1:has(+ h2) { margin: 0; }",
       message: messages.notBaselineSelector("has", "widely"),
       line: 1,
       column: 3,
@@ -225,7 +225,7 @@ testRule({
       endColumn: 7,
     },
     {
-      code: "details::details-content { background-color: #a29bfe; }",
+      code: "details::details-content { color: red; }",
       message: messages.notBaselineSelector("details-content", "widely"),
       line: 1,
       column: 8,
@@ -329,7 +329,7 @@ testRule({
 
   reject: [
     {
-      code: "a { accent-color: bar; backdrop-filter: auto }",
+      code: "a { accent-color: red; backdrop-filter: auto }",
       message: messages.notBaselineProperty("accent-color", "newly"),
       line: 1,
       column: 5,
@@ -354,12 +354,12 @@ testRule({
 
   reject: [
     {
-      code: ".p { font-stretch: condensed; }",
+      code: "a { font-stretch: condensed; }",
       message: messages.notBaselineProperty("font-stretch", 2015),
       line: 1,
-      column: 6,
+      column: 5,
       endLine: 1,
-      endColumn: 18,
+      endColumn: 17,
     },
   ],
 });
@@ -371,7 +371,7 @@ testRule({
 
   reject: [
     {
-      code: ".box { backdrop-filter: blur(10px); }",
+      code: ".foo { backdrop-filter: blur(10px); }",
       message: messages.notBaselineProperty("backdrop-filter", 2021),
       line: 1,
       column: 8,
@@ -386,13 +386,13 @@ testRule({
   ruleName,
   config: [true, { available: 2022 }],
 
-  accept: [{ code: ".messages { overscroll-behavior: contain; }" }],
+  accept: [{ code: ".foo { overscroll-behavior: contain; }" }],
 
   reject: [
     {
       code: stripIndent`label {
         & input {
-          border: blue 2px dashed;
+          border: red 2px dashed;
         }
       }`,
       message: messages.notBaselineSelector("nesting", 2022),
@@ -409,7 +409,7 @@ testRule({
   ruleName,
   config: [true, { available: 2024 }],
 
-  accept: [{ code: ".box { backdrop-filter: blur(10px); }" }],
+  accept: [{ code: ".foo { backdrop-filter: blur(10px); }" }],
 });
 
 testRule({
@@ -426,21 +426,21 @@ testRule({
     {
       code: stripIndent`label {
         & input {
-          border: blue 2px dashed;
+          border: red 2px dashed;
         }
       }`,
     },
     {
-      code: "h1:has(+ h2) { margin: 0 0 0.25rem 0; }",
+      code: "h1:has(+ h2) { margin: 0; }",
     },
     {
-      code: "h1:has-slotted { color: green; }",
+      code: "h1:has-slotted { color: red; }",
     },
   ],
 
   reject: [
     {
-      code: "details::details-content { background-color: #a29bfe; }",
+      code: "details::details-content { color: red; }",
       message: messages.notBaselineSelector("details-content", "widely"),
       line: 1,
       column: 8,
@@ -462,7 +462,7 @@ testRule({
 
   accept: [
     {
-      code: "a { accent-color: bar; }",
+      code: "a { accent-color: red; }",
     },
     {
       code: "a { animation-composition: add; animation-range: 20%; }",
@@ -501,7 +501,7 @@ testRule({
     },
     {
       code: stripIndent`
-        @font-feature-values Font One {
+        @font-feature-values Bungee {
           @styleset {
             nice-style: 12;
           }
@@ -510,11 +510,11 @@ testRule({
     },
     {
       code: stripIndent`
-        @font-palette-values --Alternate {
-          font-family: "Bungee Spice";
+        @font-palette-values --foo {
+          font-family: "Bungee";
           override-colors:
-            0 #00ffbb,
-            1 #007744;
+            0 red,
+            1 blue;
         }
       `,
     },
