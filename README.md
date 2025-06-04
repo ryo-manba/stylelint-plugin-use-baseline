@@ -28,7 +28,7 @@ export default {
     "plugin/use-baseline": [
       true,
       {
-        // "widely" (default), "newly", or a year (e.g. 2023)
+        // "widely" (default), "newly", or YYYY (e.g. 2023)
         available: "widely",
       },
     ],
@@ -51,13 +51,12 @@ This rule reports the following cases:
 
 The data is sourced from [`web-features`](https://npmjs.com/package/web-features).
 
-### Note
+**Note:** Although `cursor` is not yet labeled as Baseline, it has broad support. By default, **this plugin does not flag `cursor`** because it is [expected to be added to Baseline soon](https://github.com/web-platform-dx/web-features/issues/1038).
 
-Although `cursor` is not yet labeled as Baseline, it has broad support. By default, **this plugin does not flag `cursor`** because it is [expected to be added to Baseline soon](https://github.com/web-platform-dx/web-features/issues/1038).
 
 ## Options
 
-`true`
+### `true`
 
 ```json
 {
@@ -65,35 +64,43 @@ Although `cursor` is not yet labeled as Baseline, it has broad support. By defau
 }
 ```
 
-The following pattern is considered a problem:
+The following patterns are considered problems:
 
 ```css
 /* accent-color is not widely available */
 a {
   accent-color: red;
 }
+```
 
+```css
 /* abs() is not widely available */
 .box {
   width: abs(20% - 100px);
 }
+```
 
+```css
 /* :has() is not widely available */
 h1:has(+ h2) {
   margin: 0;
 }
+```
 
+```css
 /* property value doesn't match @supports indicator */
 @supports (accent-color: auto) {
   a {
-    accent-color: abs(20% - 10px); /* mismatch */
+    accent-color: abs(20% - 10px);
   }
 }
+```
 
+```css
 /* device-posture is not widely available */
 @media (device-posture: folded) {
-  .foldable {
-    padding: 1rem;
+  a {
+    color: red;
   }
 }
 ```
@@ -107,7 +114,9 @@ The following patterns are _not_ considered problems:
     accent-color: auto;
   }
 }
+```
 
+```css
 /* @supports indicates limited availability */
 @supports selector(:has()) {
   h1:has(+ h2) {
@@ -116,13 +125,24 @@ The following patterns are _not_ considered problems:
 }
 ```
 
+```css
+/* widely supported properties */
+a {
+  color: red;
+  background-color: blue;
+  transition: none;
+}
+```
+
 ## Optional secondary options
 
 ### `available`
 
 ```json
-{ "available": `"widely" | "newly"` | `YYYY` }
+{ "available": "widely" | "newly" | YYYY }
 ```
+
+Specify which level of Baseline availability to enforce.
 
 #### `"widely"` (default)
 
@@ -210,7 +230,7 @@ h1:has(+ h2) {
 
 ```css
 h1:has-slotted {
-  color: green;
+  color: red;
 }
 ```
 
@@ -284,11 +304,11 @@ The following patterns are _not_ considered problems:
 ```
 
 ```css
-@font-palette-values --Alternate {
-  font-family: "Bungee Spice";
+@font-palette-values --foo {
+  font-family: Bixa;
   override-colors:
-    0 #00ffbb,
-    1 #007744;
+    0 red,
+    1 blue;
 }
 ```
 
