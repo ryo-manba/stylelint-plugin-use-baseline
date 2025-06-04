@@ -53,7 +53,6 @@ The data is sourced from [`web-features`](https://npmjs.com/package/web-features
 
 **Note:** Although `cursor` is not yet labeled as Baseline, it has broad support. By default, **this plugin does not flag `cursor`** because it is [expected to be added to Baseline soon](https://github.com/web-platform-dx/web-features/issues/1038).
 
-
 ## Options
 
 ### `true`
@@ -138,11 +137,11 @@ a {
 
 ### `available`
 
-```json
-{ "available": "widely" | "newly" | YYYY }
-```
-
 Specify which level of Baseline availability to enforce.
+
+- `"widely"` (default) – Allows features supported in all Baseline browsers for at least 30 months.
+- `"newly"` – Allows features supported in all Baseline browsers for less than 30 months. Limited availability features still trigger warnings.
+- `YYYY` – Allows features that became Baseline newly available that year, or earlier. For example, `2023`.
 
 #### `"widely"` (default)
 
