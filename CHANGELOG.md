@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.0 (2025-06-05)
+
+- Fixed: added missing ruleName parameter to `report()` calls (#23)
+- Added: support for `ignoreSelectors`, `ignoreProperties`, and `ignoreAtRules` options (#22)
+
 ## 0.5.0 (2025-05-17)
 
 - Added: support for more functions (#15)
