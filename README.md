@@ -1,5 +1,7 @@
 # stylelint-plugin-use-baseline
 
+[![npm version][npm-version-img]][npm] [![npm downloads last month][npm-downloads-img]][npm]
+
 Disallow CSS features not in [Baseline](https://web.dev/baseline).
 
 ![Example output](https://github.com/user-attachments/assets/8c66b5ce-ec20-4641-bec3-41b784244277)
@@ -318,3 +320,8 @@ The following patterns are _not_ considered problems:
 ## License
 
 [MIT](LICENSE)
+
+
+[npm]: https://www.npmjs.com/package/stylelint-plugin-use-baseline
+[npm-version-img]: https://img.shields.io/npm/v/stylelint-plugin-use-baseline.svg
+[npm-downloads-img]: https://img.shields.io/npm/dm/stylelint-plugin-use-baseline.svg
