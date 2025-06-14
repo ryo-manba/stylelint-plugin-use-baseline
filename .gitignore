@@ -1,5 +1,4 @@
 node_modules
 .eslintcache
-.vscode/settings.json
 .idea
 dist
