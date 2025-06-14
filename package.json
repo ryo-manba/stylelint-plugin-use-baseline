@@ -28,11 +28,11 @@
     "package.json"
   ],
   "scripts": {
-    "test": "node --test",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "watch": "npm test --ignore-scripts -- --watch",
     "build": "rollup -c",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "watch": "rollup --config --watch",
     "validate": "npm run lint && npm run test",
     "build:baseline": "node tools/generate-baseline.js",
     "prepare": "npm run build",
@@ -56,11 +56,12 @@
     "eslint": "^9.20.1",
     "eslint-config-stylelint": "^23.0.0",
     "eslint-plugin-import": "^2.31.0",
+    "jest": "^29.7.0",
+    "jest-preset-stylelint": "^7.3.0",
     "mdn-data": "^2.21.0",
     "prettier": "^3.5.2",
     "rollup": "^4.35.0",
     "stylelint": "^16.14.1",
-    "stylelint-test-rule-node": "^0.4.0",
     "web-features": "^2.35.1"
   }
 }

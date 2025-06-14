@@ -1,11 +1,13 @@
+import { getTestRule } from "jest-preset-stylelint";
 import { stripIndent } from "common-tags";
-import { testRule } from "stylelint-test-rule-node";
 
 import plugin from "./index.js";
 
 const {
   rule: { messages, ruleName },
 } = plugin;
+
+const testRule = getTestRule();
 
 testRule({
   plugins: [plugin],
