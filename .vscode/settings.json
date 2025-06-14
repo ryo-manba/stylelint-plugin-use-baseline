@@ -7,5 +7,6 @@
   "jest.nodeEnv": {
     "NODE_OPTIONS": "--experimental-vm-modules"
   },
-  "jest.jestCommandLine": "NODE_OPTIONS=--experimental-vm-modules npx jest"
+  "jest.jestCommandLine": "NODE_OPTIONS=--experimental-vm-modules npx jest",
+  "cSpell.words": ["conventionalcommits"]
 }

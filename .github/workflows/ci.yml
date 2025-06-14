@@ -26,6 +26,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check PR title format
+        if: github.event_name == 'pull_request'
+        run: |
+          title="${{ github.event.pull_request.title }}"
+          if [[ ! "$title" =~ ^(feat|fix|docs|style|refactor|test|chore|ci|build|perf|revert)(\(.+\))?!?:\ .+ ]]; then
+            echo "❌ PR title must follow Conventional Commits format"
+            echo "Format: type(scope): description"
+            echo "Types: feat, fix, docs, style, refactor, test, chore, ci, build, perf, revert"
+            exit 1
+          fi
+          echo "✅ PR title format is valid"
+
       - name: Run ESLint
         run: npm run lint
 
