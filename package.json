@@ -36,7 +36,8 @@
     "validate": "npm run lint && npm run test",
     "build:baseline": "node tools/generate-baseline.js",
     "prepare": "npm run build",
-    "prepublishOnly": "npm run lint && npm test"
+    "prepublishOnly": "npm run lint && npm test",
+    "release": "semantic-release"
   },
   "dependencies": {
     "css-tree": "^3.1.0",
@@ -50,6 +51,12 @@
     "@rollup/plugin-commonjs": "^28.0.3",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.0",
+    "@semantic-release/npm": "^12.0.1",
+    "@semantic-release/release-notes-generator": "^14.0.1",
     "@stylelint/prettier-config": "^3.0.0",
     "common-tags": "^1.8.2",
     "compute-baseline": "^0.3.1",
@@ -62,6 +69,7 @@
     "mdn-data": "^2.21.0",
     "prettier": "^3.5.3",
     "rollup": "^4.43.0",
+    "semantic-release": "^24.3.0",
     "stylelint": "^16.20.0",
     "web-features": "^2.38.0"
   }
