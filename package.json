@@ -66,11 +66,11 @@
     "eslint-plugin-jest": "^28.13.5",
     "jest": "^29.7.0",
     "jest-preset-stylelint": "^7.3.0",
-    "mdn-data": "^2.21.0",
+    "mdn-data": "^2.22.1",
     "prettier": "^3.5.3",
     "rollup": "^4.43.0",
     "semantic-release": "^24.2.5",
     "stylelint": "^16.20.0",
-    "web-features": "^2.38.0"
+    "web-features": "^2.41.1"
   }
 }
