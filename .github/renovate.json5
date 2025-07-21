@@ -2,12 +2,8 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: ["config:recommended"],
   dependencyDashboard: true,
-  schedule: [
-    {
-      description: "Every Saturday at 9:00 AM JST",
-      cron: "0 9 * * 6",
-    },
-  ],
+  description: "Every Saturday at 9:00 AM JST",
+  schedule: ["* 9 * * 6"],
   timezone: "Asia/Tokyo",
   prConcurrentLimit: 5,
 
