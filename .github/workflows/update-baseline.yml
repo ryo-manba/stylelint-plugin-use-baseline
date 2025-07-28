@@ -30,10 +30,11 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Update baseline packages
-        run: npm install -D compute-baseline@latest mdn-data@latest web-features@latest
+        run: |
+          npm install -D compute-baseline@latest mdn-data@latest web-features@latest
 
       - name: Generate baseline data
         run: npm run build:baseline
