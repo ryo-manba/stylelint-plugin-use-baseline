@@ -2,3 +2,9 @@ node_modules
 .eslintcache
 .idea
 dist
+
+# Lockfiles
+package-lock.json
+yarn.lock
+bun.lock
+pnpm-lock.yaml
