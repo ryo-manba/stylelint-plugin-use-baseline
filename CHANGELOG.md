@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.6.3 (2025-07-28)
+
+- Fixed: update baseline data (#38)
+
+## 0.6.2 (2025-07-21)
+
+- Fixed: update baseline data (#34)
+
+## 0.6.1 (2025-06-14)
+
+- Fixed: update dependencies to latest versions (#28)
+
 ## 0.6.0 (2025-06-05)
 
 - Fixed: added missing ruleName parameter to `report()` calls (#23)
