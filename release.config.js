@@ -9,7 +9,6 @@ export default {
       "@semantic-release/release-notes-generator",
       { preset: "conventionalcommits" },
     ],
-
     "@semantic-release/changelog",
     "@semantic-release/npm",
     "@semantic-release/github",
