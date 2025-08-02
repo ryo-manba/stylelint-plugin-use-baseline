@@ -9,7 +9,13 @@ export default {
       "@semantic-release/release-notes-generator",
       { preset: "conventionalcommits" },
     ],
-    "@semantic-release/changelog",
+    [
+      "@semantic-release/changelog",
+      {
+        changelogFile: "CHANGELOG.md",
+        changelogTitle: "# Changelog",
+      },
+    ],
     "@semantic-release/npm",
     "@semantic-release/github",
     [
