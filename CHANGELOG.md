@@ -1,3 +1,9 @@
+## [0.8.0](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v0.7.1...v0.8.0) (2025-08-02)
+
+### Features
+
+* add support `ignoreFunctions: []` ([#48](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/48)) ([3945fa2](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/3945fa2d571bd5079f0c26b1faaf66fd842d5497))
+
 # Changelog
 
 ## 0.7.0 (2025-08-02)

@@ -1,6 +1,6 @@
 {
   "name": "stylelint-plugin-use-baseline",
-  "version": "0.6.0",
+  "version": "0.8.0",
   "description": "A Stylelint plugin that enforces CSS feature availability based on Baseline.",
   "keywords": [
     "baseline",
