@@ -313,6 +313,34 @@ The following patterns are _not_ considered problems:
 }
 ```
 
+### `ignoreFunctions`
+
+```json
+{ "ignoreFunctions": ["array", "of", "functions", "/regex/"] }
+```
+
+Given:
+
+```json
+{
+  "plugin/use-baseline": [true, { "ignoreFunctions": ["oklch", "/^light-/"] }]
+}
+```
+
+The following patterns are _not_ considered problems:
+
+```css
+a {
+  color: oklch(0.5 0.2 120);
+}
+```
+
+```css
+a {
+  color: light-dark(black, white);
+}
+```
+
 ## Prior art
 
 [eslint/css use-baseline](https://github.com/eslint/css/blob/main/docs/rules/use-baseline.md)
