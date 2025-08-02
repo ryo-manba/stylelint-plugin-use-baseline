@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.0 (2025-08-02)
+
+- Added: runtime validation for rule configuration (#45)
+
 ## 0.6.3 (2025-07-28)
 
 - Fixed: update baseline data (#38)
