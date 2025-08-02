@@ -63,7 +63,7 @@
     "eslint": "^9.29.0",
     "eslint-config-stylelint": "^24.0.0",
     "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-jest": "^28.13.5",
+    "eslint-plugin-jest": "^29.0.0",
     "jest": "^30.0.2",
     "jest-preset-stylelint": "^8.0.0",
     "mdn-data": "^2.23.0",
