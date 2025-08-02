@@ -61,7 +61,7 @@
     "common-tags": "^1.8.2",
     "compute-baseline": "^0.3.1",
     "eslint": "^9.29.0",
-    "eslint-config-stylelint": "^24.0.0",
+    "eslint-config-stylelint": "^25.0.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jest": "^29.0.0",
     "jest": "^30.0.2",
