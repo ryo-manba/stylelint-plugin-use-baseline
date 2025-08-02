@@ -321,7 +321,6 @@ The following patterns are _not_ considered problems:
 
 [MIT](LICENSE)
 
-
 [npm]: https://www.npmjs.com/package/stylelint-plugin-use-baseline
 [npm-version-img]: https://img.shields.io/npm/v/stylelint-plugin-use-baseline.svg
 [npm-downloads-img]: https://img.shields.io/npm/dm/stylelint-plugin-use-baseline.svg

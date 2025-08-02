@@ -12,6 +12,7 @@ import {
   selectors,
   types,
 } from "../data/baseline-data.js";
+import { isNumber, isRegExp, isString } from "./validateTypes.js";
 import { namedColors } from "../data/colors.js";
 import { optionsMatches } from "./utils.js";
 
@@ -406,7 +407,26 @@ class BaselineAvailability {
 
 const ruleFunction = (primary, secondaryOptions) => {
   return (root, result) => {
-    if (!validateOptions(result, ruleName, { actual: primary })) return;
+    const validOptions = validateOptions(
+      result,
+      ruleName,
+      {
+        actual: primary,
+        possible: [true],
+      },
+      {
+        actual: secondaryOptions,
+        possible: {
+          available: ["widely", "newly", isNumber],
+          ignoreAtRules: [isString, isRegExp],
+          ignoreProperties: [isString, isRegExp],
+          ignoreSelectors: [isString, isRegExp],
+        },
+        optional: true,
+      },
+    );
+
+    if (!validOptions) return;
 
     const baselineAvailability = new BaselineAvailability(
       secondaryOptions?.available,
@@ -451,7 +471,7 @@ const ruleFunction = (primary, secondaryOptions) => {
 
     /**
      * Recursively processes an @supports rule and its nested contents.
-     * @param {AtRule} atRule
+     * @param {import('postcss').AtRule} atRule
      */
     function checkSupports(atRule) {
       const supportsRule = new SupportsRule();
@@ -575,7 +595,7 @@ const ruleFunction = (primary, secondaryOptions) => {
     }
 
     /**
-     * @param {Rule} node
+     * @param {import('postcss').AtRule} atRule
      * @returns {void}
      */
     function handleAtRule(atRule) {
@@ -730,7 +750,7 @@ const ruleFunction = (primary, secondaryOptions) => {
 
     /**
      * Checks media conditions against baseline compatibility data.
-     * @param {AtRule} atRule
+     * @param {import('postcss').AtRule} atRule
      */
     function checkMediaConditions(atRule) {
       const rawParams = atRule.params;
@@ -870,7 +890,7 @@ function isInsideSupports(node) {
 }
 
 /**
- * @param {AtRule} atRule
+ * @param {import('postcss').AtRule} atRule
  * @returns {number}
  */
 function atRuleParamIndex(atRule) {
