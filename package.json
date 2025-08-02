@@ -60,6 +60,7 @@
     "@stylelint/prettier-config": "^3.0.0",
     "common-tags": "^1.8.2",
     "compute-baseline": "^0.3.1",
+    "conventional-changelog-conventionalcommits": "^9.1.0",
     "eslint": "^9.29.0",
     "eslint-config-stylelint": "^25.0.0",
     "eslint-plugin-import": "^2.31.0",
