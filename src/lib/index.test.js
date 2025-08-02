@@ -538,3 +538,34 @@ testRule({
     },
   ],
 });
+
+testRule({
+  plugins: [plugin],
+  ruleName,
+  config: [
+    true,
+    {
+      ignoreFunctions: ["oklch", "/^light-/"],
+    },
+  ],
+
+  accept: [
+    {
+      code: "a { color: oklch(0.5 0.2 120); }",
+    },
+    {
+      code: "a { color: light-dark(black, white); }",
+    },
+  ],
+
+  reject: [
+    {
+      code: "a { width: abs(20% - 10px); }",
+      message: messages.notBaselineType("abs", "widely"),
+      line: 1,
+      column: 12,
+      endLine: 1,
+      endColumn: 15,
+    },
+  ],
+});

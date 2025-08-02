@@ -421,6 +421,7 @@ const ruleFunction = (primary, secondaryOptions) => {
           ignoreAtRules: [isString, isRegExp],
           ignoreProperties: [isString, isRegExp],
           ignoreSelectors: [isString, isRegExp],
+          ignoreFunctions: [isString, isRegExp],
         },
         optional: true,
       },
@@ -730,6 +731,8 @@ const ruleFunction = (primary, secondaryOptions) => {
      * @param {string} funcName
      */
     function checkPropertyValueFunction(decl, funcName) {
+      if (optionsMatches(secondaryOptions, "ignoreFunctions", funcName)) return;
+
       if (supportsRules.hasPropertyFunction(decl.prop, funcName)) return;
 
       if (!types.has(funcName)) return;
@@ -824,10 +827,10 @@ const ruleFunction = (primary, secondaryOptions) => {
             return;
           }
 
-          if (supportsRules.hasSelector(selectorName)) return;
-
           if (optionsMatches(secondaryOptions, "ignoreSelectors", selectorName))
             return;
+
+          if (supportsRules.hasSelector(selectorName)) return;
 
           if (!selectors.has(selectorName)) return;
 
