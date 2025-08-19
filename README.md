@@ -282,17 +282,18 @@ Given:
 
 ```json
 {
-  "plugin/use-baseline": [true, { "ignoreAtRules": ["container", "/^font-/"] }]
+  "plugin/use-baseline": [
+    true,
+    { "ignoreAtRules": ["view-transition", "/^font-/"] }
+  ]
 }
 ```
 
 The following patterns are _not_ considered problems:
 
 ```css
-@container (min-width: 800px) {
-  a {
-    color: red;
-  }
+@view-transition {
+  navigation: auto;
 }
 ```
 
