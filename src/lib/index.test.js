@@ -157,14 +157,6 @@ testRule({
       endColumn: 10,
     },
     {
-      code: "@container (min-width: 800px) { a { color: red; } }",
-      message: messages.notBaselineAtRule("@container", "widely"),
-      line: 1,
-      column: 1,
-      endLine: 1,
-      endColumn: 11,
-    },
-    {
       code: "@view-transition { from-view: a; to-view: b; }",
       message: messages.notBaselineAtRule("@view-transition", "widely"),
       line: 1,
@@ -181,22 +173,25 @@ testRule({
       endColumn: 21,
     },
     {
-      code: "@media (color-gamut: srgb) { a { color: red; } }",
-      message: messages.notBaselineMediaCondition("color-gamut", "widely"),
+      code: "@media (inverted-colors: inverted) { a { color: red; } }",
+      message: messages.notBaselineMediaCondition("inverted-colors", "widely"),
       line: 1,
       column: 9,
       endLine: 1,
-      endColumn: 20,
+      endColumn: 24,
     },
     {
-      code: "@media (height: 600px) and (color-gamut: srgb) and (device-posture: folded) { a { color: red; } }",
+      code: "@media (height: 600px) and (inverted-colors: inverted) and (device-posture: folded) { a { color: red; } }",
       warnings: [
         {
-          message: messages.notBaselineMediaCondition("color-gamut", "widely"),
+          message: messages.notBaselineMediaCondition(
+            "inverted-colors",
+            "widely",
+          ),
           line: 1,
           column: 29,
           endLine: 1,
-          endColumn: 40,
+          endColumn: 44,
         },
         {
           message: messages.notBaselineMediaCondition(
@@ -204,19 +199,19 @@ testRule({
             "widely",
           ),
           line: 1,
-          column: 53,
+          column: 61,
           endLine: 1,
-          endColumn: 67,
+          endColumn: 75,
         },
       ],
     },
     {
-      code: "@media (foo) and (color-gamut: srgb) { a { color: red; } }",
-      message: messages.notBaselineMediaCondition("color-gamut", "widely"),
+      code: "@media (foo) and (inverted-colors: inverted) { a { color: red; } }",
+      message: messages.notBaselineMediaCondition("inverted-colors", "widely"),
       line: 1,
       column: 19,
       endLine: 1,
-      endColumn: 30,
+      endColumn: 34,
     },
     {
       code: "h1:has(+ h2) { margin: 0; }",
