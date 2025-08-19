@@ -157,7 +157,7 @@ testRule({
       endColumn: 10,
     },
     {
-      code: "@view-transition { from-view: a; to-view: b; }",
+      code: "@view-transition { navigation: auto; }",
       message: messages.notBaselineAtRule("@view-transition", "widely"),
       line: 1,
       column: 1,
@@ -488,13 +488,13 @@ testRule({
   config: [
     true,
     {
-      ignoreAtRules: ["container", "/^font-/"],
+      ignoreAtRules: ["view-transition", "/^font-/"],
     },
   ],
 
   accept: [
     {
-      code: "@container (min-width: 800px) { a { color: red; } }",
+      code: "@view-transition { navigation: auto; }",
     },
     {
       code: stripIndent`
