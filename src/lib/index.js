@@ -481,7 +481,7 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       supportsRules.push(supportsRule);
 
-      const unnecessaryGuards = [];
+      const redundantSupports = [];
 
       try {
         const ast = parse(atRule.params, {
@@ -531,7 +531,7 @@ const ruleFunction = (primary, secondaryOptions) => {
 
               const nodeStart = node.loc?.start?.offset || 0;
               const nodeEnd = node.loc?.end?.offset || 0;
-              const guardText = atRule.params.substring(nodeStart, nodeEnd);
+              const conditionText = atRule.params.substring(nodeStart, nodeEnd);
 
               // If the property is baseline, the @supports is unnecessary
               let isSupportsNecessary = !isPropertyBaselineCompliant;
@@ -575,8 +575,8 @@ const ruleFunction = (primary, secondaryOptions) => {
 
               // If all parts are baseline, the @supports is unnecessary
               if (!isSupportsNecessary) {
-                unnecessaryGuards.push({
-                  guardText,
+                redundantSupports.push({
+                  conditionText,
                   startIndex: nodeStart,
                   endIndex: nodeEnd,
                 });
@@ -589,7 +589,7 @@ const ruleFunction = (primary, secondaryOptions) => {
             ) {
               const nodeStart = node.loc?.start?.offset || 0;
               const nodeEnd = node.loc?.end?.offset || 0;
-              const guardText = atRule.params.substring(nodeStart, nodeEnd);
+              const conditionText = atRule.params.substring(nodeStart, nodeEnd);
 
               let isSupportsNecessary = false;
 
@@ -610,8 +610,8 @@ const ruleFunction = (primary, secondaryOptions) => {
               }
 
               if (!isSupportsNecessary) {
-                unnecessaryGuards.push({
-                  guardText,
+                redundantSupports.push({
+                  conditionText,
                   startIndex: nodeStart,
                   endIndex: nodeEnd,
                 });
@@ -630,18 +630,18 @@ const ruleFunction = (primary, secondaryOptions) => {
           },
         });
 
-        if (unnecessaryGuards.length > 0) {
+        if (redundantSupports.length > 0) {
           const atRuleParamOffset = atRuleParamIndex(atRule);
 
-          unnecessaryGuards.forEach((guard) => {
+          redundantSupports.forEach((condition) => {
             report({
               ruleName,
               message: messages.unnecessarySupports,
-              messageArgs: [guard.guardText, baselineAvailability.availability],
+              messageArgs: [condition.conditionText, baselineAvailability.availability],
               result,
               node: atRule,
-              index: atRuleParamOffset + guard.startIndex,
-              endIndex: atRuleParamOffset + guard.endIndex,
+              index: atRuleParamOffset + condition.startIndex,
+              endIndex: atRuleParamOffset + condition.endIndex,
             });
           });
         }
