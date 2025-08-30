@@ -42,14 +42,8 @@ const messages = ruleMessages(ruleName, {
     `Media condition "${condition}" is not a ${availability} available baseline feature.`,
   notBaselineSelector: (selectorName, availability) =>
     `Selector "${selectorName}" is not a ${availability} available baseline feature.`,
-  unnecessarySupportsProperty: (property, availability) =>
-    `Property "${property}" in @supports is unnecessary as it meets the ${availability} availability requirement.`,
-  unnecessarySupportsPropertyValue: (property, value, availability) =>
-    `Value "${value}" of property "${property}" in @supports is unnecessary as it meets the ${availability} availability requirement.`,
-  unnecessarySupportsType: (type, availability) =>
-    `Type "${type}" in @supports is unnecessary as it meets the ${availability} availability requirement.`,
-  unnecessarySupportsSelector: (selectorName, availability) =>
-    `Selector "${selectorName}" in @supports is unnecessary as it meets the ${availability} availability requirement.`,
+  unnecessarySupports: (condition, availability) =>
+    `@supports ${condition} is unnecessary as the feature meets the ${availability} availability requirement.`,
 });
 
 /**
@@ -526,94 +520,66 @@ const ruleFunction = (primary, secondaryOptions) => {
               const supportedProperty = supportsRule.addProperty(property);
 
               // Check if the property is already baseline-available
-              let propertyIsBaseline = false;
+              let isPropertyBaselineCompliant = false;
 
               if (properties.has(property)) {
                 const featureStatus = properties.get(property);
 
-                propertyIsBaseline =
+                isPropertyBaselineCompliant =
                   baselineAvailability.isSupported(featureStatus);
               }
 
-              // Check for specific values or functions
-              let hasSpecificValueGuard = false;
-              let hasNonBaselineValue = false;
+              const nodeStart = node.loc?.start?.offset || 0;
+              const nodeEnd = node.loc?.end?.offset || 0;
+              const guardText = atRule.params.substring(nodeStart, nodeEnd);
 
+              // If the property is baseline, the @supports is unnecessary
+              let isSupportsNecessary = !isPropertyBaselineCompliant;
+
+              // Store supported properties and values for this @supports rule
               declaration.value.children.forEach((child) => {
                 if (child.type === "Identifier") {
                   supportedProperty.addIdentifier(child.name);
 
-                  // Check if this value is specifically tracked in propertyValues
+                  if (isSupportsNecessary) return;
+
+                  // Check if this value requires @supports
                   if (propertyValues.has(property)) {
                     const possiblePropertyValues = propertyValues.get(property);
+                    const value = child.name;
 
-                    if (possiblePropertyValues.has(child.name)) {
-                      hasSpecificValueGuard = true;
-                      const featureStatus = possiblePropertyValues.get(
-                        child.name,
-                      );
-
-                      if (baselineAvailability.isSupported(featureStatus)) {
-                        // If property is baseline and value is baseline, it's unnecessary
-                        if (propertyIsBaseline) {
-                          unnecessaryGuards.push({
-                            type: "propertyValue",
-                            property,
-                            value: child.name,
-                          });
-                        }
-                      } else {
-                        hasNonBaselineValue = true;
-                      }
+                    // Check if value is not tracked or not baseline
+                    if (
+                      !possiblePropertyValues.has(value) ||
+                      !baselineAvailability.isSupported(
+                        possiblePropertyValues.get(value),
+                      )
+                    ) {
+                      isSupportsNecessary = true;
                     }
                   }
-
-                  return;
-                }
-
-                if (child.type === "Function") {
+                } else if (child.type === "Function") {
                   supportedProperty.addFunction(child.name);
 
-                  // Check if the function type is already baseline-available
-                  if (types.has(child.name)) {
-                    hasSpecificValueGuard = true;
-                    const featureStatus = types.get(child.name);
+                  if (isSupportsNecessary) return;
 
-                    if (baselineAvailability.isSupported(featureStatus)) {
-                      // If property is baseline and function is baseline, it's unnecessary
-                      if (propertyIsBaseline) {
-                        unnecessaryGuards.push({
-                          type: "type",
-                          name: child.name,
-                        });
-                      }
-                    } else {
-                      hasNonBaselineValue = true;
-                    }
+                  // Check if @supports is necessary for this function
+                  if (
+                    !types.has(child.name) ||
+                    !baselineAvailability.isSupported(types.get(child.name))
+                  ) {
+                    isSupportsNecessary = true;
                   }
                 }
               });
 
-              // If testing just the property and it's baseline, it's unnecessary
-              // OR if property is baseline and we're testing with a non-tracked value (like "red")
-              if (propertyIsBaseline) {
-                if (declaration.value.children.length === 0) {
-                  // Testing just the property: @supports (color)
-                  unnecessaryGuards.push({
-                    type: "property",
-                    name: property,
-                  });
-                } else if (!hasSpecificValueGuard) {
-                  // Testing with a value that's not specifically tracked: @supports (color: red)
-                  // If the property itself is baseline, any basic value would work
-                  unnecessaryGuards.push({
-                    type: "property",
-                    name: property,
-                  });
-                } else if (!hasNonBaselineValue && hasSpecificValueGuard) {
-                  // All specifically tracked values/functions are baseline
-                  // Already added to unnecessaryGuards above
-                }
+              // If all parts are baseline, the @supports is unnecessary
+              if (!isSupportsNecessary) {
+                unnecessaryGuards.push({
+                  guardText,
+                  startIndex: nodeStart,
+                  endIndex: nodeEnd,
+                });
               }
             }
 
@@ -621,20 +587,34 @@ const ruleFunction = (primary, secondaryOptions) => {
               node.type === "FeatureFunction" &&
               node.feature === "selector"
             ) {
+              const nodeStart = node.loc?.start?.offset || 0;
+              const nodeEnd = node.loc?.end?.offset || 0;
+              const guardText = atRule.params.substring(nodeStart, nodeEnd);
+
+              let isSupportsNecessary = false;
+
               for (const selectorChild of node.value.children) {
                 supportsRule.addSelector(selectorChild.name);
 
-                // Check if the selector is already baseline-available
-                if (selectors.has(selectorChild.name)) {
-                  const featureStatus = selectors.get(selectorChild.name);
+                if (isSupportsNecessary) continue;
 
-                  if (baselineAvailability.isSupported(featureStatus)) {
-                    unnecessaryGuards.push({
-                      type: "selector",
-                      name: selectorChild.name,
-                    });
-                  }
+                // Check if selector is not tracked or not baseline
+                if (
+                  !selectors.has(selectorChild.name) ||
+                  !baselineAvailability.isSupported(
+                    selectors.get(selectorChild.name),
+                  )
+                ) {
+                  isSupportsNecessary = true;
                 }
+              }
+
+              if (!isSupportsNecessary) {
+                unnecessaryGuards.push({
+                  guardText,
+                  startIndex: nodeStart,
+                  endIndex: nodeEnd,
+                });
               }
             }
           },
@@ -651,47 +631,17 @@ const ruleFunction = (primary, secondaryOptions) => {
         });
 
         if (unnecessaryGuards.length > 0) {
-          const atRuleLength =
-            1 +
-            atRule.name.length +
-            (atRule.raws.afterName?.length || 1) +
-            atRule.params.length;
+          const atRuleParamOffset = atRuleParamIndex(atRule);
 
           unnecessaryGuards.forEach((guard) => {
-            let message;
-            let messageArgs;
-
-            switch (guard.type) {
-              case "property":
-                message = messages.unnecessarySupportsProperty;
-                messageArgs = [guard.name, baselineAvailability.availability];
-                break;
-              case "propertyValue":
-                message = messages.unnecessarySupportsPropertyValue;
-                messageArgs = [
-                  guard.property,
-                  guard.value,
-                  baselineAvailability.availability,
-                ];
-                break;
-              case "type":
-                message = messages.unnecessarySupportsType;
-                messageArgs = [guard.name, baselineAvailability.availability];
-                break;
-              case "selector":
-                message = messages.unnecessarySupportsSelector;
-                messageArgs = [guard.name, baselineAvailability.availability];
-                break;
-            }
-
             report({
               ruleName,
-              message,
-              messageArgs,
+              message: messages.unnecessarySupports,
+              messageArgs: [guard.guardText, baselineAvailability.availability],
               result,
               node: atRule,
-              index: 0,
-              endIndex: atRuleLength,
+              index: atRuleParamOffset + guard.startIndex,
+              endIndex: atRuleParamOffset + guard.endIndex,
             });
           });
         }

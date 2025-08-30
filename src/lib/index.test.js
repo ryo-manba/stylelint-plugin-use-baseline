@@ -285,9 +285,9 @@ testRule({
       `,
       warnings: [
         {
-          message: messages.unnecessarySupportsProperty("color", "widely"),
+          message: messages.unnecessarySupports("(color: red)", "widely"),
           line: 3,
-          column: 1,
+          column: 11,
           endLine: 3,
           endColumn: 23,
         },
@@ -311,9 +311,9 @@ testRule({
       `,
       warnings: [
         {
-          message: messages.unnecessarySupportsProperty("color", "widely"),
+          message: messages.unnecessarySupports("(color: red)", "widely"),
           line: 1,
-          column: 1,
+          column: 11,
           endLine: 1,
           endColumn: 23,
         },
@@ -604,42 +604,70 @@ testRule({
       description:
         "negated @supports guards are not checked for unnecessary guards",
     },
+    {
+      code: "@supports (transform: rotate(45deg) unknownFunc()) { a { color: red; } }",
+      description:
+        "Multiple functions where one is not baseline - should NOT warn about unnecessary @supports",
+    },
   ],
 
   reject: [
     {
       code: "@supports (color: red) { a { color: red; } }",
-      message: messages.unnecessarySupportsProperty("color", "widely"),
+      message: messages.unnecessarySupports("(color: red)", "widely"),
       line: 1,
-      column: 1,
+      column: 11,
       endLine: 1,
       endColumn: 23,
     },
     {
       code: "@supports (display: flex) { a { display: flex; } }",
-      message: messages.unnecessarySupportsPropertyValue(
-        "display",
-        "flex",
-        "widely",
-      ),
+      message: messages.unnecessarySupports("(display: flex)", "widely"),
       line: 1,
-      column: 1,
+      column: 11,
       endLine: 1,
       endColumn: 26,
     },
     {
       code: "@supports (width: calc(1px + 2px)) { a { width: calc(1px + 2px); } }",
-      message: messages.unnecessarySupportsType("calc", "widely"),
+      message: messages.unnecessarySupports(
+        "(width: calc(1px + 2px))",
+        "widely",
+      ),
       line: 1,
-      column: 1,
+      column: 11,
       endLine: 1,
       endColumn: 35,
     },
     {
-      code: "@supports selector(:hover) { a:hover { color: red; } }",
-      message: messages.unnecessarySupportsSelector("hover", "widely"),
+      code: "@supports (transform: rotate(45deg) scale(2)) { a { color: red; } }",
+      description: "Multiple functions that are all baseline",
+      message: messages.unnecessarySupports(
+        "(transform: rotate(45deg) scale(2))",
+        "widely",
+      ),
       line: 1,
-      column: 1,
+      column: 11,
+      endLine: 1,
+      endColumn: 46,
+    },
+    {
+      code: "@supports (background: linear-gradient(red, blue) url('image.png')) { a { color: red; } }",
+      description: "Multiple values with mixed types (function and url)",
+      message: messages.unnecessarySupports(
+        "(background: linear-gradient(red, blue) url('image.png'))",
+        "widely",
+      ),
+      line: 1,
+      column: 11,
+      endLine: 1,
+      endColumn: 68,
+    },
+    {
+      code: "@supports selector(:hover) { a:hover { color: red; } }",
+      message: messages.unnecessarySupports("selector(:hover)", "widely"),
+      line: 1,
+      column: 11,
       endLine: 1,
       endColumn: 27,
     },
@@ -651,16 +679,16 @@ testRule({
       `,
       warnings: [
         {
-          message: messages.unnecessarySupportsProperty("padding", "widely"),
+          message: messages.unnecessarySupports("(padding: 10px)", "widely"),
           line: 1,
-          column: 1,
+          column: 11,
           endLine: 1,
-          endColumn: 45,
+          endColumn: 26,
         },
         {
-          message: messages.unnecessarySupportsProperty("margin", "widely"),
+          message: messages.unnecessarySupports("(margin: 10px)", "widely"),
           line: 1,
-          column: 1,
+          column: 31,
           endLine: 1,
           endColumn: 45,
         },
@@ -684,9 +712,9 @@ testRule({
   reject: [
     {
       code: "@supports (backdrop-filter: auto) { a { backdrop-filter: auto; } }",
-      message: messages.unnecessarySupportsProperty("backdrop-filter", "newly"),
+      message: messages.unnecessarySupports("(backdrop-filter: auto)", "newly"),
       line: 1,
-      column: 1,
+      column: 11,
       endLine: 1,
       endColumn: 34,
     },
