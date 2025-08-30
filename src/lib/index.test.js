@@ -283,11 +283,22 @@ testRule({
           }
         }
       `,
-      message: messages.notBaselineSelector("has", "widely"),
-      line: 4,
-      column: 5,
-      endLine: 4,
-      endColumn: 9,
+      warnings: [
+        {
+          message: messages.unnecessarySupports("(color: red)", "widely"),
+          line: 3,
+          column: 11,
+          endLine: 3,
+          endColumn: 23,
+        },
+        {
+          message: messages.notBaselineSelector("has", "widely"),
+          line: 4,
+          column: 5,
+          endLine: 4,
+          endColumn: 9,
+        },
+      ],
     },
     {
       code: stripIndent`
@@ -298,11 +309,22 @@ testRule({
           }
         }
       `,
-      message: messages.notBaselineProperty("accent-color", "widely"),
-      line: 4,
-      column: 5,
-      endLine: 4,
-      endColumn: 17,
+      warnings: [
+        {
+          message: messages.unnecessarySupports("(color: red)", "widely"),
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 23,
+        },
+        {
+          message: messages.notBaselineProperty("accent-color", "widely"),
+          line: 4,
+          column: 5,
+          endLine: 4,
+          endColumn: 17,
+        },
+      ],
     },
   ],
 });
@@ -561,6 +583,140 @@ testRule({
       column: 12,
       endLine: 1,
       endColumn: 15,
+    },
+  ],
+});
+
+// Tests for unnecessary @supports guards
+testRule({
+  plugins: [plugin],
+  ruleName,
+  config: true,
+
+  accept: [
+    {
+      code: "@supports (accent-color: auto) { a { accent-color: auto; } }",
+      description:
+        "accent-color is not widely available, so @supports guard is necessary",
+    },
+    {
+      code: "@supports not (color: red) { a { color: red; } }",
+      description:
+        "negated @supports guards are not checked for unnecessary guards",
+    },
+    {
+      code: "@supports (transform: rotate(45deg) unknownFunc()) { a { color: red; } }",
+      description:
+        "Multiple functions where one is not baseline - should NOT warn about unnecessary @supports",
+    },
+  ],
+
+  reject: [
+    {
+      code: "@supports (color: red) { a { color: red; } }",
+      message: messages.unnecessarySupports("(color: red)", "widely"),
+      line: 1,
+      column: 11,
+      endLine: 1,
+      endColumn: 23,
+    },
+    {
+      code: "@supports (display: flex) { a { display: flex; } }",
+      message: messages.unnecessarySupports("(display: flex)", "widely"),
+      line: 1,
+      column: 11,
+      endLine: 1,
+      endColumn: 26,
+    },
+    {
+      code: "@supports (width: calc(1px + 2px)) { a { width: calc(1px + 2px); } }",
+      message: messages.unnecessarySupports(
+        "(width: calc(1px + 2px))",
+        "widely",
+      ),
+      line: 1,
+      column: 11,
+      endLine: 1,
+      endColumn: 35,
+    },
+    {
+      code: "@supports (transform: rotate(45deg) scale(2)) { a { color: red; } }",
+      description: "Multiple functions that are all baseline",
+      message: messages.unnecessarySupports(
+        "(transform: rotate(45deg) scale(2))",
+        "widely",
+      ),
+      line: 1,
+      column: 11,
+      endLine: 1,
+      endColumn: 46,
+    },
+    {
+      code: "@supports (background: linear-gradient(red, blue) url('image.png')) { a { color: red; } }",
+      description: "Multiple values with mixed types (function and url)",
+      message: messages.unnecessarySupports(
+        "(background: linear-gradient(red, blue) url('image.png'))",
+        "widely",
+      ),
+      line: 1,
+      column: 11,
+      endLine: 1,
+      endColumn: 68,
+    },
+    {
+      code: "@supports selector(:hover) { a:hover { color: red; } }",
+      message: messages.unnecessarySupports("selector(:hover)", "widely"),
+      line: 1,
+      column: 11,
+      endLine: 1,
+      endColumn: 27,
+    },
+    {
+      code: stripIndent`
+        @supports (padding: 10px) and (margin: 10px) {
+          a { padding: 10px; margin: 10px; }
+        }
+      `,
+      warnings: [
+        {
+          message: messages.unnecessarySupports("(padding: 10px)", "widely"),
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 26,
+        },
+        {
+          message: messages.unnecessarySupports("(margin: 10px)", "widely"),
+          line: 1,
+          column: 31,
+          endLine: 1,
+          endColumn: 45,
+        },
+      ],
+    },
+  ],
+});
+
+// Tests for unnecessary @supports guards with "newly" availability
+testRule({
+  plugins: [plugin],
+  ruleName,
+  config: [true, { available: "newly" }],
+
+  accept: [
+    {
+      code: "@supports (accent-color: auto) { a { accent-color: auto; } }",
+    },
+  ],
+
+  reject: [
+    {
+      code: "@supports (backdrop-filter: auto) { a { backdrop-filter: auto; } }",
+      message: messages.unnecessarySupports("(backdrop-filter: auto)", "newly"),
+      line: 1,
+      column: 11,
+      endLine: 1,
+      endColumn: 34,
     },
   ],
 });
