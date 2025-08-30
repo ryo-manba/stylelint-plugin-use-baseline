@@ -42,6 +42,14 @@ const messages = ruleMessages(ruleName, {
     `Media condition "${condition}" is not a ${availability} available baseline feature.`,
   notBaselineSelector: (selectorName, availability) =>
     `Selector "${selectorName}" is not a ${availability} available baseline feature.`,
+  unnecessarySupportsProperty: (property, availability) =>
+    `Property "${property}" in @supports is unnecessary as it meets the ${availability} availability requirement.`,
+  unnecessarySupportsPropertyValue: (property, value, availability) =>
+    `Value "${value}" of property "${property}" in @supports is unnecessary as it meets the ${availability} availability requirement.`,
+  unnecessarySupportsType: (type, availability) =>
+    `Type "${type}" in @supports is unnecessary as it meets the ${availability} availability requirement.`,
+  unnecessarySupportsSelector: (selectorName, availability) =>
+    `Selector "${selectorName}" in @supports is unnecessary as it meets the ${availability} availability requirement.`,
 });
 
 /**
@@ -479,6 +487,8 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       supportsRules.push(supportsRule);
 
+      const unnecessaryGuards = [];
+
       try {
         const ast = parse(atRule.params, {
           context: "atrulePrelude",
@@ -515,17 +525,96 @@ const ruleFunction = (primary, secondaryOptions) => {
               const property = declaration.property;
               const supportedProperty = supportsRule.addProperty(property);
 
+              // Check if the property is already baseline-available
+              let propertyIsBaseline = false;
+
+              if (properties.has(property)) {
+                const featureStatus = properties.get(property);
+
+                propertyIsBaseline =
+                  baselineAvailability.isSupported(featureStatus);
+              }
+
+              // Check for specific values or functions
+              let hasSpecificValueGuard = false;
+              let hasNonBaselineValue = false;
+
               declaration.value.children.forEach((child) => {
                 if (child.type === "Identifier") {
                   supportedProperty.addIdentifier(child.name);
+
+                  // Check if this value is specifically tracked in propertyValues
+                  if (propertyValues.has(property)) {
+                    const possiblePropertyValues = propertyValues.get(property);
+
+                    if (possiblePropertyValues.has(child.name)) {
+                      hasSpecificValueGuard = true;
+                      const featureStatus = possiblePropertyValues.get(
+                        child.name,
+                      );
+
+                      if (baselineAvailability.isSupported(featureStatus)) {
+                        // If property is baseline and value is baseline, it's unnecessary
+                        if (propertyIsBaseline) {
+                          unnecessaryGuards.push({
+                            type: "propertyValue",
+                            property,
+                            value: child.name,
+                          });
+                        }
+                      } else {
+                        hasNonBaselineValue = true;
+                      }
+                    }
+                  }
 
                   return;
                 }
 
                 if (child.type === "Function") {
                   supportedProperty.addFunction(child.name);
+
+                  // Check if the function type is already baseline-available
+                  if (types.has(child.name)) {
+                    hasSpecificValueGuard = true;
+                    const featureStatus = types.get(child.name);
+
+                    if (baselineAvailability.isSupported(featureStatus)) {
+                      // If property is baseline and function is baseline, it's unnecessary
+                      if (propertyIsBaseline) {
+                        unnecessaryGuards.push({
+                          type: "type",
+                          name: child.name,
+                        });
+                      }
+                    } else {
+                      hasNonBaselineValue = true;
+                    }
+                  }
                 }
               });
+
+              // If testing just the property and it's baseline, it's unnecessary
+              // OR if property is baseline and we're testing with a non-tracked value (like "red")
+              if (propertyIsBaseline) {
+                if (declaration.value.children.length === 0) {
+                  // Testing just the property: @supports (color)
+                  unnecessaryGuards.push({
+                    type: "property",
+                    name: property,
+                  });
+                } else if (!hasSpecificValueGuard) {
+                  // Testing with a value that's not specifically tracked: @supports (color: red)
+                  // If the property itself is baseline, any basic value would work
+                  unnecessaryGuards.push({
+                    type: "property",
+                    name: property,
+                  });
+                } else if (!hasNonBaselineValue && hasSpecificValueGuard) {
+                  // All specifically tracked values/functions are baseline
+                  // Already added to unnecessaryGuards above
+                }
+              }
             }
 
             if (
@@ -534,6 +623,18 @@ const ruleFunction = (primary, secondaryOptions) => {
             ) {
               for (const selectorChild of node.value.children) {
                 supportsRule.addSelector(selectorChild.name);
+
+                // Check if the selector is already baseline-available
+                if (selectors.has(selectorChild.name)) {
+                  const featureStatus = selectors.get(selectorChild.name);
+
+                  if (baselineAvailability.isSupported(featureStatus)) {
+                    unnecessaryGuards.push({
+                      type: "selector",
+                      name: selectorChild.name,
+                    });
+                  }
+                }
               }
             }
           },
@@ -548,6 +649,52 @@ const ruleFunction = (primary, secondaryOptions) => {
             }
           },
         });
+
+        if (unnecessaryGuards.length > 0) {
+          const atRuleLength =
+            1 +
+            atRule.name.length +
+            (atRule.raws.afterName?.length || 1) +
+            atRule.params.length;
+
+          unnecessaryGuards.forEach((guard) => {
+            let message;
+            let messageArgs;
+
+            switch (guard.type) {
+              case "property":
+                message = messages.unnecessarySupportsProperty;
+                messageArgs = [guard.name, baselineAvailability.availability];
+                break;
+              case "propertyValue":
+                message = messages.unnecessarySupportsPropertyValue;
+                messageArgs = [
+                  guard.property,
+                  guard.value,
+                  baselineAvailability.availability,
+                ];
+                break;
+              case "type":
+                message = messages.unnecessarySupportsType;
+                messageArgs = [guard.name, baselineAvailability.availability];
+                break;
+              case "selector":
+                message = messages.unnecessarySupportsSelector;
+                messageArgs = [guard.name, baselineAvailability.availability];
+                break;
+            }
+
+            report({
+              ruleName,
+              message,
+              messageArgs,
+              result,
+              node: atRule,
+              index: 0,
+              endIndex: atRuleLength,
+            });
+          });
+        }
       } catch {
         // invalid @supports conditions are ignored
       }
