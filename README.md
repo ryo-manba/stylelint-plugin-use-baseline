@@ -50,6 +50,7 @@ This rule reports the following cases:
 - CSS property values that aren't widely available or aren't enclosed in a `@supports` block (currently limited to identifiers only).
 - CSS functions that aren't widely available.
 - CSS pseudo-elements and pseudo-classes that aren't widely available.
+- Unnecessary `@supports` blocks when all checked features are already available at the configured baseline level.
 
 The data is sourced from [`web-features`](https://npmjs.com/package/web-features).
 
@@ -101,6 +102,24 @@ h1:has(+ h2) {
 /* device-posture is not widely available */
 @media (device-posture: folded) {
   a {
+    color: red;
+  }
+}
+```
+
+```css
+/* unnecessary @supports - display property and flex value are both widely available */
+@supports (display: flex) {
+  .container {
+    display: flex;
+  }
+}
+```
+
+```css
+/* unnecessary @supports - :hover selector is widely available */
+@supports selector(:hover) {
+  a:hover {
     color: red;
   }
 }
