@@ -42,6 +42,8 @@ const messages = ruleMessages(ruleName, {
     `Media condition "${condition}" is not a ${availability} available baseline feature.`,
   notBaselineSelector: (selectorName, availability) =>
     `Selector "${selectorName}" is not a ${availability} available baseline feature.`,
+  unnecessarySupports: (condition, availability) =>
+    `@supports ${condition} is unnecessary as the feature meets the ${availability} availability requirement.`,
 });
 
 /**
@@ -479,6 +481,8 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       supportsRules.push(supportsRule);
 
+      const redundantSupports = [];
+
       try {
         const ast = parse(atRule.params, {
           context: "atrulePrelude",
@@ -515,25 +519,102 @@ const ruleFunction = (primary, secondaryOptions) => {
               const property = declaration.property;
               const supportedProperty = supportsRule.addProperty(property);
 
+              // Check if the property is already baseline-available
+              let isPropertyBaselineCompliant = false;
+
+              if (properties.has(property)) {
+                const featureStatus = properties.get(property);
+
+                isPropertyBaselineCompliant =
+                  baselineAvailability.isSupported(featureStatus);
+              }
+
+              const nodeStart = node.loc?.start?.offset || 0;
+              const nodeEnd = node.loc?.end?.offset || 0;
+              const conditionText = atRule.params.substring(nodeStart, nodeEnd);
+
+              // If the property is baseline, the @supports is unnecessary
+              let isSupportsNecessary = !isPropertyBaselineCompliant;
+
+              // Store supported properties and values for this @supports rule
               declaration.value.children.forEach((child) => {
                 if (child.type === "Identifier") {
                   supportedProperty.addIdentifier(child.name);
 
-                  return;
-                }
+                  if (isSupportsNecessary) return;
 
-                if (child.type === "Function") {
+                  // Check if this value requires @supports
+                  if (propertyValues.has(property)) {
+                    const possiblePropertyValues = propertyValues.get(property);
+                    const value = child.name;
+
+                    // Check if value is not tracked or not baseline
+                    if (
+                      !possiblePropertyValues.has(value) ||
+                      !baselineAvailability.isSupported(
+                        possiblePropertyValues.get(value),
+                      )
+                    ) {
+                      isSupportsNecessary = true;
+                    }
+                  }
+                } else if (child.type === "Function") {
                   supportedProperty.addFunction(child.name);
+
+                  if (isSupportsNecessary) return;
+
+                  // Check if @supports is necessary for this function
+                  if (
+                    !types.has(child.name) ||
+                    !baselineAvailability.isSupported(types.get(child.name))
+                  ) {
+                    isSupportsNecessary = true;
+                  }
                 }
               });
+
+              // If all parts are baseline, the @supports is unnecessary
+              if (!isSupportsNecessary) {
+                redundantSupports.push({
+                  conditionText,
+                  startIndex: nodeStart,
+                  endIndex: nodeEnd,
+                });
+              }
             }
 
             if (
               node.type === "FeatureFunction" &&
               node.feature === "selector"
             ) {
+              const nodeStart = node.loc?.start?.offset || 0;
+              const nodeEnd = node.loc?.end?.offset || 0;
+              const conditionText = atRule.params.substring(nodeStart, nodeEnd);
+
+              let isSupportsNecessary = false;
+
               for (const selectorChild of node.value.children) {
                 supportsRule.addSelector(selectorChild.name);
+
+                if (isSupportsNecessary) continue;
+
+                // Check if selector is not tracked or not baseline
+                if (
+                  !selectors.has(selectorChild.name) ||
+                  !baselineAvailability.isSupported(
+                    selectors.get(selectorChild.name),
+                  )
+                ) {
+                  isSupportsNecessary = true;
+                }
+              }
+
+              if (!isSupportsNecessary) {
+                redundantSupports.push({
+                  conditionText,
+                  startIndex: nodeStart,
+                  endIndex: nodeEnd,
+                });
               }
             }
           },
@@ -548,6 +629,22 @@ const ruleFunction = (primary, secondaryOptions) => {
             }
           },
         });
+
+        if (redundantSupports.length > 0) {
+          const atRuleParamOffset = atRuleParamIndex(atRule);
+
+          redundantSupports.forEach((condition) => {
+            report({
+              ruleName,
+              message: messages.unnecessarySupports,
+              messageArgs: [condition.conditionText, baselineAvailability.availability],
+              result,
+              node: atRule,
+              index: atRuleParamOffset + condition.startIndex,
+              endIndex: atRuleParamOffset + condition.endIndex,
+            });
+          });
+        }
       } catch {
         // invalid @supports conditions are ignored
       }
