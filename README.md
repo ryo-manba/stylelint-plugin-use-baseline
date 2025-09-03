@@ -4,7 +4,7 @@
 
 Disallow CSS features not in [Baseline](https://web.dev/baseline).
 
-![Example output](https://github.com/user-attachments/assets/65700e09-1b8b-427c-b41b-7f0b4f8d5511)
+![Example output](https://github.com/user-attachments/assets/42906e27-aba1-473c-bf63-461620870662)
 
 ## Installation
 
