@@ -72,6 +72,6 @@
     "rollup": "^4.43.0",
     "semantic-release": "^24.2.5",
     "stylelint": "^16.20.0",
-    "web-features": "^2.47.0"
+    "web-features": "^3.0.0"
   }
 }
