@@ -1,3 +1,4 @@
+// This file is a copy of the `validateObjectWithArrayProps.test.js` file from Stylelint's `lib/utils/validateObjectWithArrayProps.test.mjs` file.
 import validateObjectWithArrayProps from "./validateObjectWithArrayProps.js";
 
 describe("validateObjectWithArrayProps", () => {
