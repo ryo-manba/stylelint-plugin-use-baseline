@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.0](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v0.9.3...v1.0.0) (2025-09-23)
+
+### ⚠ BREAKING CHANGES
+
+* Add property-value mapping format for ignoreProperties (#69)
+
+### Features
+
+* Add property-value mapping format for ignoreProperties ([#69](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/69)) ([f2e1ac8](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/f2e1ac86f7c6b00e8ad227124c58e1c7b6ea43c9))
+
 ## [0.9.3](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v0.9.2...v0.9.3) (2025-09-23)
 
 ### Bug Fixes
