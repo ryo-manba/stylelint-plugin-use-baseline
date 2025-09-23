@@ -13,8 +13,9 @@ import {
   types,
 } from "../data/baseline-data.js";
 import { isNumber, isRegExp, isString } from "./validateTypes.js";
+import { matchesStringOrRegExp, optionsMatches } from "./utils.js";
 import { namedColors } from "../data/colors.js";
-import { optionsMatches } from "./utils.js";
+import validateObjectWithArrayProps from "./validateObjectWithArrayProps.js";
 
 /** @typedef {import("css-tree").Identifier} Identifier */
 /** @typedef {import("css-tree").FunctionNodePlain} FunctionNodePlain */
@@ -407,6 +408,55 @@ class BaselineAvailability {
   }
 }
 
+/**
+ * Check if a property name should be ignored
+ * @param {Object} options - The secondary options
+ * @param {string} property - The property name
+ * @returns {boolean}
+ */
+function shouldIgnoreProperty(options, property) {
+  const ignoreProperties = options?.ignoreProperties;
+
+  if (!ignoreProperties) return false;
+
+  // Check if property matches any key in ignoreProperties
+  for (const [key] of Object.entries(ignoreProperties)) {
+    if (matchesStringOrRegExp(property, key)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Check if a property-value pair should be ignored
+ * @param {Object} options - The secondary options
+ * @param {string} property - The property name
+ * @param {string} value - The property value
+ * @returns {boolean}
+ */
+function shouldIgnorePropertyValue(options, property, value) {
+  const ignoreProperties = options?.ignoreProperties;
+
+  if (!ignoreProperties) return false;
+
+  for (const [key, values] of Object.entries(ignoreProperties)) {
+    if (matchesStringOrRegExp(property, key)) {
+      // Empty array means ignore property name only, don't ignore values
+      if (values.length === 0) return false;
+
+      for (const val of values) {
+        if (matchesStringOrRegExp(value, val)) {
+          return true;
+        }
+      }
+    }
+  }
+
+  return false;
+}
+
 const ruleFunction = (primary, secondaryOptions) => {
   return (root, result) => {
     const validOptions = validateOptions(
@@ -421,7 +471,7 @@ const ruleFunction = (primary, secondaryOptions) => {
         possible: {
           available: ["widely", "newly", isNumber],
           ignoreAtRules: [isString, isRegExp],
-          ignoreProperties: [isString, isRegExp],
+          ignoreProperties: validateObjectWithArrayProps(isString, isRegExp),
           ignoreSelectors: [isString, isRegExp],
           ignoreFunctions: [isString, isRegExp],
         },
@@ -637,7 +687,10 @@ const ruleFunction = (primary, secondaryOptions) => {
             report({
               ruleName,
               message: messages.unnecessarySupports,
-              messageArgs: [condition.conditionText, baselineAvailability.availability],
+              messageArgs: [
+                condition.conditionText,
+                baselineAvailability.availability,
+              ],
               result,
               node: atRule,
               index: atRuleParamOffset + condition.startIndex,
@@ -765,8 +818,7 @@ const ruleFunction = (primary, secondaryOptions) => {
     function checkProperty(decl, property) {
       if (supportsRules.hasProperty(property)) return;
 
-      if (optionsMatches(secondaryOptions, "ignoreProperties", property))
-        return;
+      if (shouldIgnoreProperty(secondaryOptions, property)) return;
 
       // If the property is not in the Baseline data, skip
       if (!properties.has(property)) return;
@@ -798,6 +850,8 @@ const ruleFunction = (primary, secondaryOptions) => {
      */
     function checkPropertyValueIdentifier(decl, property, value) {
       if (supportsRules.hasPropertyIdentifier(property, value)) return;
+
+      if (shouldIgnorePropertyValue(secondaryOptions, property, value)) return;
 
       // named colors are always valid
       if (namedColors.has(value)) return;

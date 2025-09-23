@@ -257,8 +257,18 @@ h1:has-slotted {
 ### `ignoreProperties`
 
 ```json
-{ "ignoreProperties": ["array", "of", "properties", "/regex/"] }
+{
+  "ignoreProperties": { "property-name": ["array", "of", "values", "/regex/"] }
+}
 ```
+
+Ignore the specified property and value pairs. Keys in the object indicate property names.
+
+- Empty array `[]`: Skip property baseline check only (values are still checked)
+- Array with values: Ignore only those specific values
+- Use `/^.+$/` to ignore all values
+
+You can specify a regex for a property name, such as `{ "/^animation-/": [] }`.
 
 Given:
 
@@ -266,7 +276,15 @@ Given:
 {
   "plugin/use-baseline": [
     true,
-    { "ignoreProperties": ["accent-color", "/^animation-/"] }
+    {
+      "ignoreProperties": {
+        "accent-color": [],
+        "user-select": ["none", "auto"],
+        "/^animation-/": [],
+        "clip-path": ["/^fill-/"],
+        "backdrop-filter": ["/^.+$/"]
+      }
+    }
   ]
 }
 ```
@@ -280,14 +298,26 @@ a {
 ```
 
 ```css
-div {
-  animation-composition: add;
+a {
+  user-select: none;
 }
 ```
 
 ```css
-div {
-  animation-range: 20%;
+a {
+  animation-timing-function: linear;
+}
+```
+
+```css
+a {
+  clip-path: fill-box;
+}
+```
+
+```css
+a {
+  backdrop-filter: blur(10px);
 }
 ```
 

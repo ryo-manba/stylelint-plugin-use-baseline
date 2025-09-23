@@ -1,4 +1,5 @@
 // This file is a copy of the `validateTypes.js` file from Stylelint's `lib/utils/validateTypes.mjs` file.
+import { isPlainObject as _isPlainObject } from "is-plain-object";
 
 /**
  * Checks if the value is a number or a Number object.
@@ -25,4 +26,13 @@ export function isRegExp(value) {
  */
 export function isString(value) {
   return typeof value === "string" || value instanceof String;
+}
+
+/**
+ * Checks if the value is a plain object.
+ * @param {unknown} value
+ * @returns {value is Record<string, unknown>}
+ */
+export function isPlainObject(value) {
+  return _isPlainObject(value);
 }

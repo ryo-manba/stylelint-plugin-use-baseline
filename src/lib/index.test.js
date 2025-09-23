@@ -472,34 +472,91 @@ testRule({
 testRule({
   plugins: [plugin],
   ruleName,
+  description: "ignoreProperties test",
   config: [
     true,
     {
-      ignoreProperties: ["accent-color", "/^animation-/"],
+      ignoreProperties: {
+        // Empty array: skip property baseline check only (values are still checked)
+        "accent-color": [],
+        "/^animation-/": [],
+
+        // Mix of string and regex values
+        "clip-path": ["stroke-box", "/^fill-/"],
+
+        // Regex for both key and values
+        "/^break-/": ["/^avoid/"],
+
+        // Ignore all values with regex
+        "backdrop-filter": ["/^.+$/"],
+      },
     },
   ],
 
   accept: [
+    // Empty array behavior - property check skipped
     {
       code: "a { accent-color: red; }",
     },
     {
-      code: "a { animation-composition: add; animation-range: 20%; }",
+      code: "a { animation-composition: add; animation-range: normal; }",
+    },
+
+    // Mixed string and regex values
+    {
+      code: "a { clip-path: stroke-box; }",
+    },
+    {
+      code: "a { clip-path: fill-box; }",
+      description: "Value matches regex /^fill-/",
+    },
+
+    // Regex for both key and values
+    {
+      code: "a { break-after: avoid; }",
+    },
+    {
+      code: "a { break-before: avoid-page; }",
+    },
+    {
+      code: "a { break-inside: avoid-column; }",
+    },
+
+    // All values ignored with /^.+$/
+    {
+      code: "a { backdrop-filter: blur(10px); }",
+    },
+    {
+      code: "a { backdrop-filter: none; }",
     },
   ],
 
   reject: [
     {
-      code: "a { clip-path: stroke-box; }",
+      code: "a { accent-color: auto; }",
+      description: "Empty array: 'auto' is non-baseline value for accent-color",
+      message: messages.notBaselinePropertyValue(
+        "accent-color",
+        "auto",
+        "widely",
+      ),
+      line: 1,
+      column: 19,
+      endLine: 1,
+      endColumn: 23,
+    },
+    {
+      code: "a { clip-path: view-box; }",
+      description: "Value 'view-box' doesn't match ignore patterns",
       message: messages.notBaselinePropertyValue(
         "clip-path",
-        "stroke-box",
+        "view-box",
         "widely",
       ),
       line: 1,
       column: 16,
       endLine: 1,
-      endColumn: 26,
+      endColumn: 24,
     },
   ],
 });
