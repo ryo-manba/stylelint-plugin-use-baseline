@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "css-tree": "^3.1.0",
+    "is-plain-object": "^5.0.0",
     "postcss": "^8.5.5",
     "postcss-value-parser": "^4.2.0"
   },
