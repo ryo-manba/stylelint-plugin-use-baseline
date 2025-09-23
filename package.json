@@ -35,8 +35,6 @@
     "format": "prettier --write .",
     "validate": "npm run lint && npm run test",
     "build:baseline": "node tools/generate-baseline.js",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm run lint && npm test",
     "release": "semantic-release"
   },
   "dependencies": {
