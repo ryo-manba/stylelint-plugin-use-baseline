@@ -24,20 +24,24 @@ jobs:
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: "lts/*"
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Update baseline packages
         run: |
-          npm install -D compute-baseline@latest mdn-data@latest web-features@latest
+          pnpm install -D compute-baseline@latest mdn-data@latest web-features@latest
 
       - name: Generate baseline data
-        run: npm run build:baseline
+        run: pnpm run build:baseline
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
