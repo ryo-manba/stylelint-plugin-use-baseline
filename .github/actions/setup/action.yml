@@ -20,6 +20,10 @@ runs:
         node-version: ${{ inputs.node-version }}
         package-manager-cache: false
 
+    - name: Update npm to latest (required for Trusted Publishing)
+      run: npm install -g npm@latest
+      shell: bash
+
     - name: Install dependencies
       run: pnpm install
       shell: bash

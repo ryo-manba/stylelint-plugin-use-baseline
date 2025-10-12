@@ -15,6 +15,7 @@ jobs:
       pull-requests: write
       actions: read
       checks: read
+      id-token: write
 
     steps:
       - name: Generate token
@@ -43,5 +44,4 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: pnpm run release
