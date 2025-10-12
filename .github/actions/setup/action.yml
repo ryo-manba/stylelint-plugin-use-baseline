@@ -1,0 +1,25 @@
+name: Setup Node.js and pnpm
+description: Setup Node.js with corepack-enabled pnpm, caching, and install dependencies
+
+inputs:
+  node-version:
+    description: "Node.js version to use"
+    required: false
+    default: "lts/*"
+
+runs:
+  using: composite
+  steps:
+    - name: Enable Corepack
+      run: corepack enable
+      shell: bash
+
+    - name: Setup Node.js
+      uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+      with:
+        node-version: ${{ inputs.node-version }}
+        package-manager-cache: false
+
+    - name: Install dependencies
+      run: pnpm install
+      shell: bash
