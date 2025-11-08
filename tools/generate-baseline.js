@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 import fs from "node:fs";
-import { getStatus as getBaselineStatus } from "compute-baseline";
+
 import mdnData from "mdn-data";
 import prettier from "prettier";
 import { features as webFeatures } from "web-features";
@@ -75,7 +75,7 @@ function flattenCompatFeatures([featureId, entry]) {
   }
 
   return Object.fromEntries(
-    entry.compat_features.map((feature) => [feature, featureId]),
+    entry.compat_features.map(feature => [feature, featureId]),
   );
 }
 
@@ -115,7 +115,20 @@ function extractCSSFeatures(features) {
   const selectors = {};
 
   for (const [key, featureId] of Object.entries(features)) {
-    const status = getBaselineStatus(featureId, key);
+    const feature = webFeatures[featureId];
+
+    // Skip if feature or status is not available
+    if (!feature?.status?.by_compat_key) {
+      continue;
+    }
+
+    const status = feature.status.by_compat_key[key];
+
+    // Skip if status is not available for this key
+    if (!status) {
+      continue;
+    }
+
     let match;
 
     // property names
