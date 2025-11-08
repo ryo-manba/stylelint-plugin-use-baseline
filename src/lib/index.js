@@ -6,11 +6,11 @@ import {
   BASELINE_HIGH,
   BASELINE_LOW,
   atRules,
+  functions,
   mediaConditions,
   properties,
   propertyValues,
   selectors,
-  types,
 } from "../data/baseline-data.js";
 import { isNumber, isRegExp, isString } from "./validateTypes.js";
 import { matchesStringOrRegExp, optionsMatches } from "./utils.js";
@@ -35,8 +35,8 @@ const messages = ruleMessages(ruleName, {
     `Property "${property}" is not a ${availability} available baseline feature.`,
   notBaselinePropertyValue: (property, value, availability) =>
     `Value "${value}" of property "${property}" is not a ${availability} available baseline feature.`,
-  notBaselineType: (type, availability) =>
-    `Type "${type}" is not a ${availability} available baseline feature.`,
+  notBaselineFunction: (func, availability) =>
+    `Function "${func}" is not a ${availability} available baseline feature.`,
   notBaselineAtRule: (atRule, availability) =>
     `At-rule "${atRule}" is not a ${availability} available baseline feature.`,
   notBaselineMediaCondition: (condition, availability) =>
@@ -615,8 +615,8 @@ const ruleFunction = (primary, secondaryOptions) => {
 
                   // Check if @supports is necessary for this function
                   if (
-                    !types.has(child.name) ||
-                    !baselineAvailability.isSupported(types.get(child.name))
+                    !functions.has(child.name) ||
+                    !baselineAvailability.isSupported(functions.get(child.name))
                   ) {
                     isSupportsNecessary = true;
                   }
@@ -886,14 +886,14 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       if (supportsRules.hasPropertyFunction(decl.prop, funcName)) return;
 
-      if (!types.has(funcName)) return;
+      if (!functions.has(funcName)) return;
 
-      const featureStatus = types.get(funcName);
+      const featureStatus = functions.get(funcName);
 
       if (!baselineAvailability.isSupported(featureStatus)) {
         report({
           ruleName,
-          message: messages.notBaselineType,
+          message: messages.notBaselineFunction,
           messageArgs: [funcName, baselineAvailability.availability],
           result,
           node: decl,
