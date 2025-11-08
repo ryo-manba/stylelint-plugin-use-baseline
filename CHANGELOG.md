@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.4](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.0.3...v1.0.4) (2025-11-08)
+
+### Bug Fixes
+
+* resolve update-baseline CI failure by using precomputed status ([#79](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/79)) ([2b0f157](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/2b0f1571a66796070c85bcd8451ff72c94c12a9d))
+
 ## [1.0.3](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.0.2...v1.0.3) (2025-10-19)
 
 ### Bug Fixes
