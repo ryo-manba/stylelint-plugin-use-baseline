@@ -137,7 +137,7 @@ testRule({
     },
     {
       code: "a { color: abs(20% - 10px); }",
-      message: messages.notBaselineType("abs", "widely"),
+      message: messages.notBaselineFunction("abs", "widely"),
       line: 1,
       column: 12,
       endLine: 1,
@@ -166,7 +166,7 @@ testRule({
     },
     {
       code: "a { color: color-mix(in hsl, hsl(200 50 80), coral 80%); }",
-      message: messages.notBaselineType("color-mix", "widely"),
+      message: messages.notBaselineFunction("color-mix", "widely"),
       line: 1,
       column: 12,
       endLine: 1,
@@ -259,7 +259,7 @@ testRule({
     },
     {
       code: "@supports (accent-color: auto) { a { accent-color: abs(20% - 10px); } }",
-      message: messages.notBaselineType("abs", "widely"),
+      message: messages.notBaselineFunction("abs", "widely"),
       line: 1,
       column: 52,
       endLine: 1,
@@ -635,7 +635,7 @@ testRule({
   reject: [
     {
       code: "a { width: abs(20% - 10px); }",
-      message: messages.notBaselineType("abs", "widely"),
+      message: messages.notBaselineFunction("abs", "widely"),
       line: 1,
       column: 12,
       endLine: 1,
