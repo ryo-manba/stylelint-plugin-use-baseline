@@ -165,12 +165,12 @@ testRule({
       endColumn: 17,
     },
     {
-      code: "a { color: color-mix(in hsl, hsl(200 50 80), coral 80%); }",
-      message: messages.notBaselineFunction("color-mix", "widely"),
+      code: "a { color: light-dark(black, white); }",
+      message: messages.notBaselineFunction("light-dark", "widely"),
       line: 1,
       column: 12,
       endLine: 1,
-      endColumn: 21,
+      endColumn: 22,
     },
     {
       code: "@media (inverted-colors: inverted) { a { color: red; } }",
