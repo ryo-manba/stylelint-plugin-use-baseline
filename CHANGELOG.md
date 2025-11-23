@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.2](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.1.1...v1.1.2) (2025-11-23)
+
+### Bug Fixes
+
+* update baseline data ([#86](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/86)) ([0ced348](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/0ced3481bb965338aa96345b388b7da2cac278bd))
+
 ## [1.1.1](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.1.0...v1.1.1) (2025-11-18)
 
 ### Bug Fixes
