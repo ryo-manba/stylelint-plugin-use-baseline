@@ -593,10 +593,14 @@ const ruleFunction = (primary, secondaryOptions) => {
 
                   if (isSupportsNecessary) return;
 
+                  const value = child.name;
+
+                  // named colors are always valid
+                  if (namedColors.has(value)) return;
+
                   // Check if this value requires @supports
                   if (propertyValues.has(property)) {
                     const possiblePropertyValues = propertyValues.get(property);
-                    const value = child.name;
 
                     // Check if value is not tracked or not baseline
                     if (
