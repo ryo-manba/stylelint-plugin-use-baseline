@@ -16,11 +16,13 @@ npm install stylelint-plugin-use-baseline --save-dev
 
 ## Usage
 
-1. Create or update your Stylelint configuration file, for example `.stylelintrc.js`.
+1. Create or update your Stylelint configuration file, for example `stylelint.config.js`.
 2. Add `"stylelint-plugin-use-baseline"` to the `plugins` array.
 3. Enable the rule by adding `"plugin/use-baseline"` to your `rules`.
 
-A minimal `.stylelintrc.js` might look like this:
+This is a good rule to use with "warning"-level severity, because its primary purpose is help you [narrow down the features that you'll need to use with more care](https://github.com/web-platform-dx/web-features/issues/2758#issuecomment-2712607492).
+
+A minimal `stylelint.config.js` might look like this:
 
 ```js
 /** @type {import("stylelint").Config} */
@@ -30,15 +32,14 @@ export default {
     "plugin/use-baseline": [
       true,
       {
-        // "widely" (default), "newly", or YYYY (e.g. 2023)
-        available: "widely",
+        severity: "warning",
       },
     ],
   },
 };
 ```
 
-Run Stylelint in your project (e.g., `npx stylelint "src/**/*.css"`).
+Run Stylelint in your project (e.g., `npx stylelint "**/*.css"`).
 
 ## Rule Details
 

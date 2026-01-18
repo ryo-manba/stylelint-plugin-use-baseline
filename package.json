@@ -1,6 +1,6 @@
 {
   "name": "stylelint-plugin-use-baseline",
-  "version": "1.1.4",
+  "version": "1.1.6",
   "description": "A Stylelint plugin that enforces CSS feature availability based on Baseline.",
   "keywords": [
     "baseline",
@@ -70,11 +70,11 @@
     "eslint-plugin-jest": "^29.0.0",
     "jest": "^30.0.2",
     "jest-preset-stylelint": "^8.0.0",
-    "mdn-data": "^2.25.0",
+    "mdn-data": "^2.26.0",
     "prettier": "^3.5.3",
     "rollup": "^4.43.0",
     "semantic-release": "^25.0.1",
     "stylelint": "^17.0.0",
-    "web-features": "^3.11.1"
+    "web-features": "^3.13.0"
   }
 }
