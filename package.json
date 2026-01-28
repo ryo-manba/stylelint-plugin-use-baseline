@@ -11,6 +11,7 @@
   ],
   "author": "ryo-manba",
   "license": "MIT",
+  "funding": "https://github.com/ryo-manba/stylelint-plugin-use-baseline?sponsor=1",
   "homepage": "https://github.com/ryo-manba/stylelint-plugin-use-baseline#readme",
   "repository": {
     "type": "git",
