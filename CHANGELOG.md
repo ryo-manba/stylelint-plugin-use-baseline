@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.6](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.2.5...v1.2.6) (2026-03-02)
+
+### Bug Fixes
+
+* ensure comma-separated selectors are correctly detected ([#108](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/108)) ([2507130](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/2507130c58ee2f61c80e710e2f7e3364a49715bb))
+
 ## [1.2.5](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.2.4...v1.2.5) (2026-03-02)
 
 ### Bug Fixes
