@@ -222,6 +222,25 @@ testRule({
       endColumn: 7,
     },
     {
+      code: "h1:has(wbr), h2:has(wbr) { margin: 0; }",
+      warnings: [
+        {
+          message: messages.notBaselineSelector("has", "widely"),
+          line: 1,
+          column: 3,
+          endLine: 1,
+          endColumn: 7,
+        },
+        {
+          message: messages.notBaselineSelector("has", "widely"),
+          line: 1,
+          column: 16,
+          endLine: 1,
+          endColumn: 20,
+        },
+      ],
+    },
+    {
       code: "details::details-content { color: red; }",
       message: messages.notBaselineSelector("details-content", "widely"),
       line: 1,
