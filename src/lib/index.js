@@ -964,7 +964,7 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       try {
         const ast = parse(selector, {
-          context: "selector",
+          context: "selectorList",
           positions: true,
         });
 
