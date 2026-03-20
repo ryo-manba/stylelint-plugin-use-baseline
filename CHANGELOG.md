@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.2.7...v1.3.0) (2026-03-20)
+
+
+### Features
+
+* add CSS unit baseline checking ([#112](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/112)) ([791ecf5](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/791ecf5cd400e5ef1d9eb9aa9f00906bf956abb3))
+
+
+### Bug Fixes
+
+* set include-component-in-tag to false for existing v* tag format ([#115](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/115)) ([e53d7b9](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/e53d7b96952236474e47b6552ed0eb9ea5cfe875))
+
 ## [1.2.7](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.2.6...v1.2.7) (2026-03-09)
 
 ### Bug Fixes
