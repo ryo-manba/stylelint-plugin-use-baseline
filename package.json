@@ -40,8 +40,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "validate": "npm run lint && npm run test",
-    "build:baseline": "node tools/generate-baseline.js",
-    "release": "semantic-release"
+    "build:baseline": "node tools/generate-baseline.js"
   },
   "dependencies": {
     "css-tree": "^3.1.0",
@@ -56,15 +55,8 @@
     "@rollup/plugin-commonjs": "^28.0.3",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/commit-analyzer": "^13.0.1",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^11.0.3",
-    "@semantic-release/npm": "^13.1.1",
-    "@semantic-release/release-notes-generator": "^14.0.3",
     "@stylelint/prettier-config": "^3.0.0",
     "common-tags": "^1.8.2",
-    "conventional-changelog-conventionalcommits": "^9.1.0",
     "eslint": "^9.29.0",
     "eslint-config-stylelint": "^25.0.0",
     "eslint-plugin-import": "^2.31.0",
@@ -74,7 +66,6 @@
     "mdn-data": "^2.27.1",
     "prettier": "^3.5.3",
     "rollup": "^4.43.0",
-    "semantic-release": "^25.0.1",
     "stylelint": "^17.0.0",
     "web-features": "^3.19.0"
   }
