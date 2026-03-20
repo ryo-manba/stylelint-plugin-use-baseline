@@ -30,6 +30,8 @@ testRule({
     { code: "@supports (accent-color: red) { a { accent-color: red; } }" },
     { code: "@supports (accent-color: auto) { a { accent-color: red; } }" },
     { code: "@supports (clip-path: fill-box) { a { clip-path: fill-box; } }" },
+    { code: "a { height: 100vh; }" },
+    { code: "a { height: 100svh; }" },
     {
       code: "@supports not (not (accent-color: auto)) { a { accent-color: auto; } }",
     },
@@ -407,6 +409,11 @@ testRule({
   ruleName,
   config: [true, { available: 2021 }],
 
+  accept: [
+    { code: "a { height: 100vh; }" },
+    { code: "@supports (height: 100svh) { a { height: 100svh; } }" },
+  ],
+
   reject: [
     {
       code: ".foo { backdrop-filter: blur(10px); }",
@@ -415,6 +422,22 @@ testRule({
       column: 8,
       endLine: 1,
       endColumn: 23,
+    },
+    {
+      code: "a { height: 100svh; }",
+      message: messages.notBaselineUnit("svh", 2021),
+      line: 1,
+      column: 16,
+      endLine: 1,
+      endColumn: 19,
+    },
+    {
+      code: "@supports (height: 100vh) { a { height: 100vh; } }",
+      message: messages.unnecessarySupports("(height: 100vh)", 2021),
+      line: 1,
+      column: 11,
+      endLine: 1,
+      endColumn: 26,
     },
   ],
 });
@@ -742,6 +765,14 @@ testRule({
     {
       code: "@supports selector(:hover) { a:hover { color: red; } }",
       message: messages.unnecessarySupports("selector(:hover)", "widely"),
+      line: 1,
+      column: 11,
+      endLine: 1,
+      endColumn: 27,
+    },
+    {
+      code: "@supports (height: 100svh) { a { height: 100svh; } }",
+      message: messages.unnecessarySupports("(height: 100svh)", "widely"),
       line: 1,
       column: 11,
       endLine: 1,
