@@ -1,47 +1,51 @@
-name: Release
+name: Release Please
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
-  release:
+  release-please:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-      actions: read
-      checks: read
-      id-token: write
-
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
-      - name: Generate token
-        id: generate_token
-        uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
+      - uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4
+        id: release
         with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
 
-      - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+  publish:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4
+
+      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
-          fetch-depth: 0
-          persist-credentials: false
-          token: ${{ steps.generate_token.outputs.token }}
+          node-version: '22'
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
 
-      - name: Setup Node.js and pnpm
-        uses: ./.github/actions/setup
-
-      - name: Run tests
-        run: pnpm run validate
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Build
         run: pnpm run build
 
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-        run: pnpm run release
+      - name: Publish to npm
+        run: npm publish --access public --provenance
