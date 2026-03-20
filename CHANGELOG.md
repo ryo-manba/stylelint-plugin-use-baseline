@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.3.0...v1.4.0) (2026-03-20)
+
+
+### Features
+
+* add `ignoreUnits` option ([#121](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/121)) ([b3b3992](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/b3b3992c3ddc8639f4455d8c7522ff7e2166676f))
+
 ## [1.3.0](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.2.7...v1.3.0) (2026-03-20)
 
 
