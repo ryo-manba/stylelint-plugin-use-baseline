@@ -1,5 +1,59 @@
 # Changelog
 
+## [2.0.0](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/stylelint-plugin-use-baseline-v1.2.7...stylelint-plugin-use-baseline-v2.0.0) (2026-03-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* Add property-value mapping format for ignoreProperties ([#69](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/69))
+
+### Features
+
+* add `ignoreSelectors`, `ignoreProperties` and `ignoreAtRules` options ([#22](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/22)) ([d1d95bd](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/d1d95bd4b2dcf4c63a6a72f52588eff8805153cd))
+* Add property-value mapping format for ignoreProperties ([#69](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/69)) ([f2e1ac8](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/f2e1ac86f7c6b00e8ad227124c58e1c7b6ea43c9))
+* add runtime validation for rule configuration ([#45](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/45)) ([eae819f](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/eae819f9fb00c51b5d53c3fb4e846096d07eab9e))
+* add support `ignoreFunctions: []` ([#48](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/48)) ([3945fa2](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/3945fa2d571bd5079f0c26b1faaf66fd842d5497))
+* correct message for functions ([#81](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/81)) ([be1b9d2](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/be1b9d2648e1d2be6e25177f02098cd65a9f46ba))
+* support Stylelint 17 ([#100](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/100)) ([f0d9ac4](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/f0d9ac4703687104254976eda6b3418e401b2082))
+* warn about unnecessary `[@supports](https://github.com/supports)` guards ([#60](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/60)) ([97369ca](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/97369ca783e563199d42a9dff9be3ea00982117d))
+
+
+### Bug Fixes
+
+* add missing ruleName parameter to `report()` calls ([#23](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/23)) ([33da544](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/33da5440fabfa06d629845e36f3bd8954cbb35ff))
+* ensure comma-separated selectors are correctly detected ([#108](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/108)) ([2507130](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/2507130c58ee2f61c80e710e2f7e3364a49715bb))
+* handle special characters in PR title validation ([ce69468](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/ce6946819cabfc09f57d569e9d12480542380e56))
+* release command ([40acf5b](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/40acf5b478675cf72ab8894db2b1249567476217))
+* release permissions ([#30](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/30)) ([694c240](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/694c2401d7e9e0e806205b45f8dd462e9ee4f12e))
+* resolve update-baseline CI failure by using precomputed status ([#79](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/79)) ([2b0f157](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/2b0f1571a66796070c85bcd8451ff72c94c12a9d))
+* ruleName and message ([9ce1f51](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/9ce1f510d8661a94f56fb4df3d89b4e5db8ce21a))
+* skip a node without walk function ([5787519](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/57875194065850fea43ffaf7be4cdd37c8b3e735))
+* update baseline data ([#101](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/101)) ([f3174fc](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/f3174fc08583e9ecc31282305a422d1154388e97))
+* update baseline data ([#102](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/102)) ([6a8307c](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/6a8307cffc1913763e6b3decfbf05a884dfd8f47))
+* update baseline data ([#103](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/103)) ([2cdc2ab](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/2cdc2ab9822fb3ad024aff63118443cd607cfd9e))
+* update baseline data ([#105](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/105)) ([5b700e8](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/5b700e8c3cde13ccd1d43e25ae9cbefefd12936b))
+* update baseline data ([#107](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/107)) ([5ce7ad1](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/5ce7ad1eee18832f7a9ee9bab79c905c91c9812f))
+* update baseline data ([#109](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/109)) ([dd105a6](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/dd105a6764a1cb04443214d76e3ce5fb30194c97))
+* update baseline data ([#34](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/34)) ([dfcecf8](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/dfcecf84ea29a6a5ac613ed7fd4857a53809ddc2))
+* update baseline data ([#38](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/38)) ([d4dfef3](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/d4dfef37cf7c1470f229d184a927c29f43693879))
+* update baseline data ([#51](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/51)) ([40aab5b](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/40aab5bbea212f327db2a5c195e84f875727236d))
+* update baseline data ([#53](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/53)) ([acd4bbb](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/acd4bbbd71e641b0809910a3a5a72f1f93a98e15))
+* update baseline data ([#58](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/58)) ([803d1a7](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/803d1a74ceb49e8ed0f7e932886c05898b786b6e))
+* update baseline data ([#61](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/61)) ([91318e1](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/91318e1cf25d07b9bda6f5542289a95cdaeb0ee8))
+* update baseline data ([#63](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/63)) ([49a5980](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/49a5980cb6abc3f5030e0ce02bf71deb500d62a2))
+* update baseline data ([#65](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/65)) ([93c19cb](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/93c19cbae31f232bf0e27995350a5183102198ff))
+* update baseline data ([#66](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/66)) ([9af7f3c](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/9af7f3c117b4726845f96ac6029c7167c60f6c16))
+* update baseline data ([#72](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/72)) ([52d456a](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/52d456abf2b817967de8029d6f5dbb96801ff51c))
+* update baseline data ([#73](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/73)) ([7e8aac9](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/7e8aac99e4d6c789ae474fc194474573b5b529e7))
+* update baseline data ([#78](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/78)) ([bfd60f4](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/bfd60f41b385344344023f5f199800b1c1798410))
+* update baseline data ([#80](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/80)) ([f5599bb](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/f5599bb8c1a201889bc461eff4b66be414370908))
+* update baseline data ([#84](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/84)) ([f1205cf](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/f1205cf6bf37abcf69e581d438cd53bcbd1a9473))
+* update baseline data ([#86](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/86)) ([0ced348](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/0ced3481bb965338aa96345b388b7da2cac278bd))
+* update baseline data ([#87](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/87)) ([1248233](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/1248233012ad14cbe53a6edfbfd1f3aa1588baa2))
+* update baseline data ([#91](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/91)) ([494b811](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/494b811bee172bb92d05d7f953049906350c5916))
+* update baseline data ([#94](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/94)) ([17cec59](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/17cec5976d4b5ecdb83f22ef9a18a2609a5bbceb))
+* update baseline data ([#97](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/97)) ([99f9d67](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/99f9d67a5c1d8d000c84860a8debf9738f122e4d))
+
 ## [1.2.7](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.2.6...v1.2.7) (2026-03-09)
 
 ### Bug Fixes
