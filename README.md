@@ -393,6 +393,34 @@ a {
 }
 ```
 
+### `ignoreUnits`
+
+```json
+{ "ignoreUnits": ["array", "of", "units", "/regex/"] }
+```
+
+Given:
+
+```json
+{
+  "plugin/use-baseline": [true, { "available": 2021, "ignoreUnits": ["svh", "/^dv/"] }]
+}
+```
+
+The following patterns are _not_ considered problems:
+
+```css
+a {
+  height: 100svh;
+}
+```
+
+```css
+a {
+  height: 100dvh;
+}
+```
+
 ## Prior art
 
 [eslint/css use-baseline](https://github.com/eslint/css/blob/main/docs/rules/use-baseline.md)
