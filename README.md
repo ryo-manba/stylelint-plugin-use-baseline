@@ -50,6 +50,7 @@ This rule reports the following cases:
 - Media conditions inside `@media` that aren't widely available.
 - CSS property values that aren't widely available or aren't enclosed in a `@supports` block (currently limited to identifiers only).
 - CSS functions that aren't widely available.
+- CSS units that aren't widely available (e.g., `svh`, `dvh`, `lvh`, `cqw`).
 - CSS pseudo-elements and pseudo-classes that aren't widely available.
 - Unnecessary `@supports` blocks when all checked features are already available at the configured baseline level.
 

@@ -11,6 +11,7 @@ import {
   properties,
   propertyValues,
   selectors,
+  units,
 } from "../data/baseline-data.js";
 import { isNumber, isRegExp, isString } from "./validateTypes.js";
 import { matchesStringOrRegExp, optionsMatches } from "./utils.js";
@@ -41,6 +42,8 @@ const messages = ruleMessages(ruleName, {
     `At-rule "${atRule}" is not a ${availability} available baseline feature.`,
   notBaselineMediaCondition: (condition, availability) =>
     `Media condition "${condition}" is not a ${availability} available baseline feature.`,
+  notBaselineUnit: (unit, availability) =>
+    `Unit "${unit}" is not a ${availability} available baseline feature.`,
   notBaselineSelector: (selectorName, availability) =>
     `Selector "${selectorName}" is not a ${availability} available baseline feature.`,
   unnecessarySupports: (condition, availability) =>
@@ -66,6 +69,12 @@ class SupportedProperty {
    * @type {Set<string>}
    */
   #identifiers = new Set();
+
+  /**
+   * Supported units.
+   * @type {Set<string>}
+   */
+  #units = new Set();
 
   /**
    * Supported function types.
@@ -105,6 +114,24 @@ class SupportedProperty {
    */
   hasIdentifiers() {
     return this.#identifiers.size > 0;
+  }
+
+  /**
+   * Adds a unit to the list of supported units.
+   * @param {string} unit The unit to add.
+   * @returns {void}
+   */
+  addUnit(unit) {
+    this.#units.add(unit);
+  }
+
+  /**
+   * Determines if a unit is supported.
+   * @param {string} unit The unit to check.
+   * @returns {boolean} `true` if the unit is supported, `false` if not.
+   */
+  hasUnit(unit) {
+    return this.#units.has(unit);
   }
 
   /**
@@ -248,6 +275,22 @@ class SupportsRule {
   }
 
   /**
+   * Determines if the rule supports a unit.
+   * @param {string} property The name of the property.
+   * @param {string} unit The unit to check.
+   * @returns {boolean} `true` if the unit is supported, `false` if not.
+   */
+  hasUnit(property, unit) {
+    const supportedProperty = this.#properties.get(property);
+
+    if (!supportedProperty) {
+      return false;
+    }
+
+    return supportedProperty.hasUnit(unit);
+  }
+
+  /**
    * Adds a selector to the rule.
    * @param {string} selector The name of the selector.
    * @returns {void}
@@ -348,6 +391,16 @@ class SupportsRules {
    */
   hasPropertyFunctions(property) {
     return this.#rules.some((rule) => rule.hasFunctions(property));
+  }
+
+  /**
+   * Determines if any rule supports a unit.
+   * @param {string} property The name of the property.
+   * @param {string} unit The unit to check.
+   * @returns {boolean} `true` if any rule supports the unit, `false` if not.
+   */
+  hasPropertyUnit(property, unit) {
+    return this.#rules.some((rule) => rule.hasUnit(property, unit));
   }
 
   /**
@@ -612,6 +665,18 @@ const ruleFunction = (primary, secondaryOptions) => {
                       isSupportsNecessary = true;
                     }
                   }
+                } else if (child.type === "Dimension") {
+                  supportedProperty.addUnit(child.unit);
+
+                  if (isSupportsNecessary) return;
+
+                  // Check if the unit requires @supports
+                  if (
+                    units.has(child.unit) &&
+                    !baselineAvailability.isSupported(units.get(child.unit))
+                  ) {
+                    isSupportsNecessary = true;
+                  }
                 } else if (child.type === "Function") {
                   supportedProperty.addFunction(child.name);
 
@@ -806,7 +871,13 @@ const ruleFunction = (primary, secondaryOptions) => {
 
       parsed.walk((node) => {
         if (node.type === "word") {
-          checkPropertyValueIdentifier(decl, prop, node.value);
+          const dimension = valueParser.unit(node.value);
+
+          if (dimension && dimension.unit) {
+            checkPropertyValueUnit(decl, dimension.unit);
+          } else {
+            checkPropertyValueIdentifier(decl, prop, node.value);
+          }
         } else if (node.type === "function") {
           checkPropertyValueFunction(decl, node.value);
         }
@@ -876,6 +947,30 @@ const ruleFunction = (primary, secondaryOptions) => {
           result,
           node: decl,
           word: value,
+        });
+      }
+    }
+
+    /**
+     * Checks a CSS unit against baseline compatibility data.
+     * @param {Declaration} decl
+     * @param {string} unit
+     */
+    function checkPropertyValueUnit(decl, unit) {
+      if (supportsRules.hasPropertyUnit(decl.prop, unit)) return;
+
+      if (!units.has(unit)) return;
+
+      const featureStatus = units.get(unit);
+
+      if (!baselineAvailability.isSupported(featureStatus)) {
+        report({
+          ruleName,
+          message: messages.notBaselineUnit,
+          messageArgs: [unit, baselineAvailability.availability],
+          result,
+          node: decl,
+          word: unit,
         });
       }
     }
