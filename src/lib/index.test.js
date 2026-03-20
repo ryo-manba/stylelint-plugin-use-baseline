@@ -827,3 +827,42 @@ testRule({
     },
   ],
 });
+
+// Tests for ignoreUnits option
+testRule({
+  plugins: [plugin],
+  ruleName,
+  config: [
+    true,
+    {
+      available: 2021,
+      ignoreUnits: ["svh", "/^dv/"],
+    },
+  ],
+
+  accept: [
+    {
+      code: "a { height: 100svh; }",
+      description: "svh is ignored by exact match",
+    },
+    {
+      code: "a { height: 100dvh; }",
+      description: "dvh is ignored by regex /^dv/",
+    },
+    {
+      code: "a { width: 100dvw; }",
+      description: "dvw is ignored by regex /^dv/",
+    },
+  ],
+
+  reject: [
+    {
+      code: "a { width: 10cqw; }",
+      message: messages.notBaselineUnit("cqw", 2021),
+      line: 1,
+      column: 14,
+      endLine: 1,
+      endColumn: 17,
+    },
+  ],
+});

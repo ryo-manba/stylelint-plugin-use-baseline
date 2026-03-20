@@ -527,6 +527,7 @@ const ruleFunction = (primary, secondaryOptions) => {
           ignoreProperties: validateObjectWithArrayProps(isString, isRegExp),
           ignoreSelectors: [isString, isRegExp],
           ignoreFunctions: [isString, isRegExp],
+          ignoreUnits: [isString, isRegExp],
         },
         optional: true,
       },
@@ -957,6 +958,8 @@ const ruleFunction = (primary, secondaryOptions) => {
      * @param {string} unit
      */
     function checkPropertyValueUnit(decl, unit) {
+      if (optionsMatches(secondaryOptions, "ignoreUnits", unit)) return;
+
       if (supportsRules.hasPropertyUnit(decl.prop, unit)) return;
 
       if (!units.has(unit)) return;
