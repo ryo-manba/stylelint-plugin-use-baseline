@@ -418,6 +418,16 @@ testRule({
         "units inside @supports should be exempt regardless of property",
     },
     {
+      code: "@supports (width: abs(20% - 100px)) { a { --w: abs(20% - 100px); } }",
+      description:
+        "functions inside @supports should be exempt regardless of property",
+    },
+    {
+      code: "@supports (width: abs(20% - 100px)) { a { height: abs(20% - 100px); } }",
+      description:
+        "functions inside @supports should be exempt for any property",
+    },
+    {
       code: "@supports (height: 100svh) { a { margin: 50svh; } }",
       description:
         "units inside @supports should be exempt for any property",
