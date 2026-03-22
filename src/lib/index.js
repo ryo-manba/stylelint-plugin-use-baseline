@@ -275,27 +275,11 @@ class SupportsRule {
   }
 
   /**
-   * Determines if the rule supports a unit.
-   * @param {string} property The name of the property.
-   * @param {string} unit The unit to check.
-   * @returns {boolean} `true` if the unit is supported, `false` if not.
-   */
-  hasUnit(property, unit) {
-    const supportedProperty = this.#properties.get(property);
-
-    if (!supportedProperty) {
-      return false;
-    }
-
-    return supportedProperty.hasUnit(unit);
-  }
-
-  /**
    * Determines if any property in the rule supports a unit.
    * @param {string} unit The unit to check.
    * @returns {boolean} `true` if any property supports the unit, `false` if not.
    */
-  hasAnyUnit(unit) {
+  hasUnit(unit) {
     for (const supportedProperty of this.#properties.values()) {
       if (supportedProperty.hasUnit(unit)) {
         return true;
@@ -410,21 +394,11 @@ class SupportsRules {
 
   /**
    * Determines if any rule supports a unit.
-   * @param {string} property The name of the property.
-   * @param {string} unit The unit to check.
-   * @returns {boolean} `true` if any rule supports the unit, `false` if not.
-   */
-  hasPropertyUnit(property, unit) {
-    return this.#rules.some((rule) => rule.hasUnit(property, unit));
-  }
-
-  /**
-   * Determines if any rule supports a unit, regardless of property.
    * @param {string} unit The unit to check.
    * @returns {boolean} `true` if any rule supports the unit, `false` if not.
    */
   hasUnit(unit) {
-    return this.#rules.some((rule) => rule.hasAnyUnit(unit));
+    return this.#rules.some((rule) => rule.hasUnit(unit));
   }
 
   /**
