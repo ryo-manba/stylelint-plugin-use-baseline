@@ -412,6 +412,16 @@ testRule({
   accept: [
     { code: "a { height: 100vh; }" },
     { code: "@supports (height: 100svh) { a { height: 100svh; } }" },
+    {
+      code: "@supports (height: 100svh) { a { --t-svh: 100svh; } }",
+      description:
+        "units inside @supports should be exempt regardless of property",
+    },
+    {
+      code: "@supports (height: 100svh) { a { margin: 50svh; } }",
+      description:
+        "units inside @supports should be exempt for any property",
+    },
   ],
 
   reject: [

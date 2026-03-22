@@ -291,6 +291,36 @@ class SupportsRule {
   }
 
   /**
+   * Determines if any property in the rule supports a unit.
+   * @param {string} unit The unit to check.
+   * @returns {boolean} `true` if any property supports the unit, `false` if not.
+   */
+  hasAnyUnit(unit) {
+    for (const supportedProperty of this.#properties.values()) {
+      if (supportedProperty.hasUnit(unit)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * Determines if any property in the rule supports a function.
+   * @param {string} func The function to check.
+   * @returns {boolean} `true` if any property supports the function, `false` if not.
+   */
+  hasAnyFunction(func) {
+    for (const supportedProperty of this.#properties.values()) {
+      if (supportedProperty.hasFunction(func)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
    * Adds a selector to the rule.
    * @param {string} selector The name of the selector.
    * @returns {void}
@@ -401,6 +431,24 @@ class SupportsRules {
    */
   hasPropertyUnit(property, unit) {
     return this.#rules.some((rule) => rule.hasUnit(property, unit));
+  }
+
+  /**
+   * Determines if any rule supports a unit, regardless of property.
+   * @param {string} unit The unit to check.
+   * @returns {boolean} `true` if any rule supports the unit, `false` if not.
+   */
+  hasUnit(unit) {
+    return this.#rules.some((rule) => rule.hasAnyUnit(unit));
+  }
+
+  /**
+   * Determines if any rule supports a function, regardless of property.
+   * @param {string} func The function to check.
+   * @returns {boolean} `true` if any rule supports the function, `false` if not.
+   */
+  hasFunction(func) {
+    return this.#rules.some((rule) => rule.hasAnyFunction(func));
   }
 
   /**
@@ -960,7 +1008,7 @@ const ruleFunction = (primary, secondaryOptions) => {
     function checkPropertyValueUnit(decl, unit) {
       if (optionsMatches(secondaryOptions, "ignoreUnits", unit)) return;
 
-      if (supportsRules.hasPropertyUnit(decl.prop, unit)) return;
+      if (supportsRules.hasUnit(unit)) return;
 
       if (!units.has(unit)) return;
 
@@ -986,7 +1034,7 @@ const ruleFunction = (primary, secondaryOptions) => {
     function checkPropertyValueFunction(decl, funcName) {
       if (optionsMatches(secondaryOptions, "ignoreFunctions", funcName)) return;
 
-      if (supportsRules.hasPropertyFunction(decl.prop, funcName)) return;
+      if (supportsRules.hasFunction(funcName)) return;
 
       if (!functions.has(funcName)) return;
 
