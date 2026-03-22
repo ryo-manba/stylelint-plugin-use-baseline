@@ -306,21 +306,6 @@ class SupportsRule {
   }
 
   /**
-   * Determines if any property in the rule supports a function.
-   * @param {string} func The function to check.
-   * @returns {boolean} `true` if any property supports the function, `false` if not.
-   */
-  hasAnyFunction(func) {
-    for (const supportedProperty of this.#properties.values()) {
-      if (supportedProperty.hasFunction(func)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  /**
    * Adds a selector to the rule.
    * @param {string} selector The name of the selector.
    * @returns {void}
@@ -440,15 +425,6 @@ class SupportsRules {
    */
   hasUnit(unit) {
     return this.#rules.some((rule) => rule.hasAnyUnit(unit));
-  }
-
-  /**
-   * Determines if any rule supports a function, regardless of property.
-   * @param {string} func The function to check.
-   * @returns {boolean} `true` if any rule supports the function, `false` if not.
-   */
-  hasFunction(func) {
-    return this.#rules.some((rule) => rule.hasAnyFunction(func));
   }
 
   /**
@@ -1034,7 +1010,7 @@ const ruleFunction = (primary, secondaryOptions) => {
     function checkPropertyValueFunction(decl, funcName) {
       if (optionsMatches(secondaryOptions, "ignoreFunctions", funcName)) return;
 
-      if (supportsRules.hasFunction(funcName)) return;
+      if (supportsRules.hasPropertyFunction(decl.prop, funcName)) return;
 
       if (!functions.has(funcName)) return;
 
