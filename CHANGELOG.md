@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.1](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.4.0...v1.4.1) (2026-03-22)
+
+
+### Bug Fixes
+
+* exempt functions inside [@supports](https://github.com/supports) regardless of property ([#128](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/128)) ([ab8a33a](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/ab8a33a14dc9d3ebd835256d0e66b9bb240bfa5c))
+* exempt units and functions inside [@supports](https://github.com/supports) regardless of property ([#127](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/127)) ([6aa7900](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/6aa790077d99b3b742fed65ac751fc6a7c684346))
+* update baseline data ([#124](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/124)) ([5a4472a](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/5a4472a9a197aca844b5ad51bb9088dc86e699e2))
+
 ## [1.4.0](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.3.0...v1.4.0) (2026-03-20)
 
 
