@@ -71,12 +71,6 @@ class SupportedProperty {
   #identifiers = new Set();
 
   /**
-   * Supported function types.
-   * @type {Set<string>}
-   */
-  #functions = new Set();
-
-  /**
    * Creates a new instance.
    * @param {string} name The name of the property.
    */
@@ -110,31 +104,6 @@ class SupportedProperty {
     return this.#identifiers.size > 0;
   }
 
-  /**
-   * Adds a function to the list of supported functions.
-   * @param {string} func The function to add.
-   * @returns {void}
-   */
-  addFunction(func) {
-    this.#functions.add(func);
-  }
-
-  /**
-   * Determines if a function is supported.
-   * @param {string} func The function to check.
-   * @returns {boolean} `true` if the function is supported, `false` if not.
-   */
-  hasFunction(func) {
-    return this.#functions.has(func);
-  }
-
-  /**
-   * Determines if any functions are supported.
-   * @returns {boolean} `true` if any functions are supported, `false` if not.
-   */
-  hasFunctions() {
-    return this.#functions.size > 0;
-  }
 }
 
 /**
@@ -154,6 +123,14 @@ class SupportsRule {
    * @type {Set<string>}
    */
   #units = new Set();
+
+  /**
+   * The functions supported by this rule.
+   * Functions are property-independent in CSS (defined at the type level),
+   * so they are stored directly on the rule rather than per-property.
+   * @type {Set<string>}
+   */
+  #functions = new Set();
 
   /**
    * The selectors supported by this rule.
@@ -228,34 +205,21 @@ class SupportsRule {
   }
 
   /**
-   * Determines if the rule supports a function.
-   * @param {string} property The name of the property.
-   * @param {string} func The function to check.
-   * @returns {boolean} `true` if the function is supported, `false` if not.
+   * Adds a function to the rule.
+   * @param {string} func The function to add.
+   * @returns {void}
    */
-  hasFunction(property, func) {
-    const supportedProperty = this.#properties.get(property);
-
-    if (!supportedProperty) {
-      return false;
-    }
-
-    return supportedProperty.hasFunction(func);
+  addFunction(func) {
+    this.#functions.add(func);
   }
 
   /**
-   * Determines if the rule supports any functions.
-   * @param {string} property The name of the property.
-   * @returns {boolean} `true` if any functions are supported, `false` if not.
+   * Determines if the rule supports a function.
+   * @param {string} func The function to check.
+   * @returns {boolean} `true` if the function is supported, `false` if not.
    */
-  hasFunctions(property) {
-    const supportedProperty = this.#properties.get(property);
-
-    if (!supportedProperty) {
-      return false;
-    }
-
-    return supportedProperty.hasFunctions();
+  hasFunction(func) {
+    return this.#functions.has(func);
   }
 
   /**
@@ -362,21 +326,11 @@ class SupportsRules {
 
   /**
    * Determines if any rule supports a function.
-   * @param {string} property The name of the property.
    * @param {string} func The function to check.
    * @returns {boolean} `true` if any rule supports the function, `false` if not.
    */
-  hasPropertyFunction(property, func) {
-    return this.#rules.some((rule) => rule.hasFunction(property, func));
-  }
-
-  /**
-   * Determines if any rule supports any functions.
-   * @param {string} property The name of the property.
-   * @returns {boolean} `true` if any rule supports the functions, `false` if not.
-   */
-  hasPropertyFunctions(property) {
-    return this.#rules.some((rule) => rule.hasFunctions(property));
+  hasFunction(func) {
+    return this.#rules.some((rule) => rule.hasFunction(func));
   }
 
   /**
@@ -664,7 +618,7 @@ const ruleFunction = (primary, secondaryOptions) => {
                     isSupportsNecessary = true;
                   }
                 } else if (child.type === "Function") {
-                  supportedProperty.addFunction(child.name);
+                  supportsRule.addFunction(child.name);
 
                   if (isSupportsNecessary) return;
 
@@ -971,7 +925,7 @@ const ruleFunction = (primary, secondaryOptions) => {
     function checkPropertyValueFunction(decl, funcName) {
       if (optionsMatches(secondaryOptions, "ignoreFunctions", funcName)) return;
 
-      if (supportsRules.hasPropertyFunction(decl.prop, funcName)) return;
+      if (supportsRules.hasFunction(funcName)) return;
 
       if (!functions.has(funcName)) return;
 
