@@ -71,12 +71,6 @@ class SupportedProperty {
   #identifiers = new Set();
 
   /**
-   * Supported units.
-   * @type {Set<string>}
-   */
-  #units = new Set();
-
-  /**
    * Supported function types.
    * @type {Set<string>}
    */
@@ -117,24 +111,6 @@ class SupportedProperty {
   }
 
   /**
-   * Adds a unit to the list of supported units.
-   * @param {string} unit The unit to add.
-   * @returns {void}
-   */
-  addUnit(unit) {
-    this.#units.add(unit);
-  }
-
-  /**
-   * Determines if a unit is supported.
-   * @param {string} unit The unit to check.
-   * @returns {boolean} `true` if the unit is supported, `false` if not.
-   */
-  hasUnit(unit) {
-    return this.#units.has(unit);
-  }
-
-  /**
    * Adds a function to the list of supported functions.
    * @param {string} func The function to add.
    * @returns {void}
@@ -170,6 +146,14 @@ class SupportsRule {
    * @type {Map<string, SupportedProperty>}
    */
   #properties = new Map();
+
+  /**
+   * The units supported by this rule.
+   * Units are property-independent in CSS (defined at the type level),
+   * so they are stored directly on the rule rather than per-property.
+   * @type {Set<string>}
+   */
+  #units = new Set();
 
   /**
    * The selectors supported by this rule.
@@ -275,19 +259,21 @@ class SupportsRule {
   }
 
   /**
+   * Adds a unit to the rule.
+   * @param {string} unit The unit to add.
+   * @returns {void}
+   */
+  addUnit(unit) {
+    this.#units.add(unit);
+  }
+
+  /**
    * Determines if the rule supports a unit.
-   * @param {string} property The name of the property.
    * @param {string} unit The unit to check.
    * @returns {boolean} `true` if the unit is supported, `false` if not.
    */
-  hasUnit(property, unit) {
-    const supportedProperty = this.#properties.get(property);
-
-    if (!supportedProperty) {
-      return false;
-    }
-
-    return supportedProperty.hasUnit(unit);
+  hasUnit(unit) {
+    return this.#units.has(unit);
   }
 
   /**
@@ -395,12 +381,11 @@ class SupportsRules {
 
   /**
    * Determines if any rule supports a unit.
-   * @param {string} property The name of the property.
    * @param {string} unit The unit to check.
    * @returns {boolean} `true` if any rule supports the unit, `false` if not.
    */
-  hasPropertyUnit(property, unit) {
-    return this.#rules.some((rule) => rule.hasUnit(property, unit));
+  hasUnit(unit) {
+    return this.#rules.some((rule) => rule.hasUnit(unit));
   }
 
   /**
@@ -667,7 +652,7 @@ const ruleFunction = (primary, secondaryOptions) => {
                     }
                   }
                 } else if (child.type === "Dimension") {
-                  supportedProperty.addUnit(child.unit);
+                  supportsRule.addUnit(child.unit);
 
                   if (isSupportsNecessary) return;
 
@@ -960,7 +945,7 @@ const ruleFunction = (primary, secondaryOptions) => {
     function checkPropertyValueUnit(decl, unit) {
       if (optionsMatches(secondaryOptions, "ignoreUnits", unit)) return;
 
-      if (supportsRules.hasPropertyUnit(decl.prop, unit)) return;
+      if (supportsRules.hasUnit(unit)) return;
 
       if (!units.has(unit)) return;
 
