@@ -67,6 +67,6 @@
     "prettier": "^3.5.3",
     "rollup": "^4.43.0",
     "stylelint": "^17.0.0",
-    "web-features": "^3.21.0"
+    "web-features": "^3.22.0"
   }
 }
