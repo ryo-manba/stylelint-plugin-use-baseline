@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.4.2](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.4.1...v1.4.2) (2026-04-26)
+
+
+### Bug Fixes
+
+* **ci:** drop npm install -g npm@latest to avoid Node 22.22.2 regression ([#135](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/135)) ([c01116c](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/c01116c7aa841a10d49ec60f94acecc9adaa1642))
+* update baseline data ([#130](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/130)) ([6f9d128](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/6f9d1286243d4a2d5326e77f97fbd2a5583033e5))
+* update baseline data ([#134](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/134)) ([cc5fb97](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/cc5fb977e8711aeac49b2e87e9add85ac8458b00))
+* update baseline data ([#136](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/136)) ([d46117b](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/d46117b6ec12d67edf725bf9319bdd6847ef12ac))
+
 ## [1.4.1](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.4.0...v1.4.1) (2026-03-22)
 
 
