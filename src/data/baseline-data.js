@@ -335,11 +335,11 @@ export const properties = new Map([
   ["overflow-y", "10:2015"],
   ["overflow-wrap", "10:2018"],
   ["overlay", "0:"],
-  ["overscroll-behavior", "10:2022"],
-  ["overscroll-behavior-block", "10:2022"],
-  ["overscroll-behavior-inline", "10:2022"],
-  ["overscroll-behavior-x", "10:2022"],
-  ["overscroll-behavior-y", "10:2022"],
+  ["overscroll-behavior", "0:"],
+  ["overscroll-behavior-block", "0:"],
+  ["overscroll-behavior-inline", "0:"],
+  ["overscroll-behavior-x", "0:"],
+  ["overscroll-behavior-y", "0:"],
   ["padding", "10:2015"],
   ["padding-bottom", "10:2015"],
   ["padding-left", "10:2015"],
@@ -856,7 +856,13 @@ export const propertyValues = new Map([
       ["sticky", "10:2019"],
     ]),
   ],
-  ["accent-color", new Map([["auto", "0:"]])],
+  [
+    "accent-color",
+    new Map([
+      ["auto", "0:"],
+      ["transparent", "0:"],
+    ]),
+  ],
   [
     "alignment-baseline",
     new Map([
@@ -1371,6 +1377,7 @@ export const propertyValues = new Map([
       ["background-clip", "10:2015"],
       ["background-origin", "10:2015"],
       ["background-size", "10:2015"],
+      ["currentColor", "10:2015"],
     ]),
   ],
   [
@@ -1391,7 +1398,13 @@ export const propertyValues = new Map([
       ["text", "0:"],
     ]),
   ],
-  ["background-color", new Map([["transparent", "10:2015"]])],
+  [
+    "background-color",
+    new Map([
+      ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
+    ]),
+  ],
   [
     "background-image",
     new Map([
@@ -1483,7 +1496,13 @@ export const propertyValues = new Map([
   ["border-top-left-radius", new Map([["percentages", "10:2015"]])],
   ["border-top-right-radius", new Map([["percentages", "10:2015"]])],
   ["border-shape", new Map([["none", "0:"]])],
-  ["border-bottom-color", new Map([["transparent", "10:2015"]])],
+  [
+    "border-bottom-color",
+    new Map([
+      ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
+    ]),
+  ],
   [
     "border-bottom-style",
     new Map([
@@ -1524,10 +1543,23 @@ export const propertyValues = new Map([
       ["thick", "10:2015"],
       ["thin", "10:2015"],
       ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
     ]),
   ],
-  ["border-color", new Map([["transparent", "10:2015"]])],
-  ["border-left-color", new Map([["transparent", "10:2015"]])],
+  [
+    "border-color",
+    new Map([
+      ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
+    ]),
+  ],
+  [
+    "border-left-color",
+    new Map([
+      ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
+    ]),
+  ],
   [
     "border-left-style",
     new Map([
@@ -1568,9 +1600,16 @@ export const propertyValues = new Map([
       ["thick", "10:2015"],
       ["thin", "10:2015"],
       ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
     ]),
   ],
-  ["border-right-color", new Map([["transparent", "10:2015"]])],
+  [
+    "border-right-color",
+    new Map([
+      ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
+    ]),
+  ],
   [
     "border-right-style",
     new Map([
@@ -1628,7 +1667,13 @@ export const propertyValues = new Map([
       ["solid", "10:2015"],
     ]),
   ],
-  ["border-top-color", new Map([["transparent", "10:2015"]])],
+  [
+    "border-top-color",
+    new Map([
+      ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
+    ]),
+  ],
   [
     "border-top-style",
     new Map([
@@ -1669,6 +1714,7 @@ export const propertyValues = new Map([
       ["thick", "10:2015"],
       ["thin", "10:2015"],
       ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
     ]),
   ],
   [
@@ -1696,6 +1742,7 @@ export const propertyValues = new Map([
       ["thick", "10:2015"],
       ["thin", "10:2015"],
       ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
     ]),
   ],
   [
@@ -1738,7 +1785,13 @@ export const propertyValues = new Map([
       ["view-box", "5:2023"],
     ]),
   ],
-  ["color", new Map([["transparent", "10:2015"]])],
+  [
+    "color",
+    new Map([
+      ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
+    ]),
+  ],
   [
     "color-scheme",
     new Map([
@@ -1883,6 +1936,13 @@ export const propertyValues = new Map([
       ["auto", "10:2020"],
       ["pixelated", "10:2021"],
       ["smooth", "0:"],
+    ]),
+  ],
+  [
+    "outline-color",
+    new Map([
+      ["currentColor", "10:2015"],
+      ["transparent", "10:2015"],
     ]),
   ],
   [
@@ -2038,12 +2098,8 @@ export const propertyValues = new Map([
     "font-family",
     new Map([
       ["cursive", "10:2015"],
-      ["fangsong", "10:2015"],
       ["fantasy", "10:2015"],
-      ["kai", "10:2015"],
-      ["khmer-mul", "10:2015"],
       ["monospace", "10:2015"],
-      ["nastaliq", "10:2015"],
       ["sans-serif", "10:2015"],
       ["serif", "10:2015"],
       ["math", "5:2026"],
@@ -2682,7 +2738,6 @@ export const propertyValues = new Map([
       ["transparent", "10:2023"],
     ]),
   ],
-  ["outline-color", new Map([["transparent", "10:2015"]])],
   [
     "outline-style",
     new Map([
@@ -2769,41 +2824,41 @@ export const propertyValues = new Map([
   [
     "overscroll-behavior-block",
     new Map([
-      ["auto", "10:2022"],
-      ["contain", "10:2022"],
-      ["none", "10:2022"],
+      ["auto", "0:"],
+      ["contain", "0:"],
+      ["none", "0:"],
     ]),
   ],
   [
     "overscroll-behavior-inline",
     new Map([
-      ["auto", "10:2022"],
-      ["contain", "10:2022"],
-      ["none", "10:2022"],
+      ["auto", "0:"],
+      ["contain", "0:"],
+      ["none", "0:"],
     ]),
   ],
   [
     "overscroll-behavior-x",
     new Map([
-      ["auto", "10:2022"],
-      ["contain", "10:2022"],
-      ["none", "10:2022"],
+      ["auto", "0:"],
+      ["contain", "0:"],
+      ["none", "0:"],
     ]),
   ],
   [
     "overscroll-behavior-y",
     new Map([
-      ["auto", "10:2022"],
-      ["contain", "10:2022"],
-      ["none", "10:2022"],
+      ["auto", "0:"],
+      ["contain", "0:"],
+      ["none", "0:"],
     ]),
   ],
   [
     "overscroll-behavior",
     new Map([
-      ["auto", "10:2022"],
-      ["contain", "10:2022"],
-      ["none", "10:2022"],
+      ["auto", "0:"],
+      ["contain", "0:"],
+      ["none", "0:"],
     ]),
   ],
   [
@@ -3047,6 +3102,7 @@ export const propertyValues = new Map([
   ["marker-start", new Map([["none", "10:2017"]])],
   ["marker", new Map([["none", "10:2017"]])],
   ["shape-rendering", new Map([["auto", "10:2020"]])],
+  ["stop-color", new Map([["transparent", "10:2017"]])],
   ["stroke-dasharray", new Map([["none", "10:2017"]])],
   [
     "stroke-linecap",
