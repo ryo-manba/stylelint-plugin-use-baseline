@@ -29,7 +29,7 @@ testRule({
     { code: "@supports (accent-color: auto) { a { accent-color: auto; } }" },
     { code: "@supports (accent-color: red) { a { accent-color: red; } }" },
     { code: "@supports (accent-color: auto) { a { accent-color: red; } }" },
-    { code: "@supports (clip-path: fill-box) { a { clip-path: fill-box; } }" },
+    { code: "@supports (offset-path: fill-box) { a { offset-path: fill-box; } }" },
     { code: "a { height: 100vh; }" },
     { code: "a { height: 100svh; }" },
     {
@@ -126,16 +126,16 @@ testRule({
       ],
     },
     {
-      code: "a { clip-path: stroke-box; }",
+      code: "a { offset-path: stroke-box; }",
       message: messages.notBaselinePropertyValue(
-        "clip-path",
+        "offset-path",
         "stroke-box",
         "widely",
       ),
       line: 1,
-      column: 16,
+      column: 18,
       endLine: 1,
-      endColumn: 26,
+      endColumn: 28,
     },
     {
       code: "a { color: abs(20% - 10px); }",
@@ -267,16 +267,16 @@ testRule({
       endColumn: 22,
     },
     {
-      code: "@supports (clip-path: fill-box) { a { clip-path: stroke-box; } }",
+      code: "@supports (offset-path: fill-box) { a { offset-path: stroke-box; } }",
       message: messages.notBaselinePropertyValue(
-        "clip-path",
+        "offset-path",
         "stroke-box",
         "widely",
       ),
       line: 1,
-      column: 50,
+      column: 54,
       endLine: 1,
-      endColumn: 60,
+      endColumn: 64,
     },
     {
       code: "@supports (accent-color: auto) { a { accent-color: abs(20% - 10px); } }",
@@ -467,7 +467,7 @@ testRule({
   ruleName,
   config: [true, { available: 2022 }],
 
-  accept: [{ code: ".foo { overscroll-behavior: contain; }" }],
+  accept: [{ code: ".foo { text-align-last: center; }" }],
 
   reject: [
     {
@@ -544,7 +544,7 @@ testRule({
         "/^animation-/": [],
 
         // Mix of string and regex values
-        "clip-path": ["stroke-box", "/^fill-/"],
+        "offset-path": ["stroke-box", "/^fill-/"],
 
         // Regex for both key and values
         "/^break-/": ["/^avoid/"],
@@ -566,10 +566,10 @@ testRule({
 
     // Mixed string and regex values
     {
-      code: "a { clip-path: stroke-box; }",
+      code: "a { offset-path: stroke-box; }",
     },
     {
-      code: "a { clip-path: fill-box; }",
+      code: "a { offset-path: fill-box; }",
       description: "Value matches regex /^fill-/",
     },
 
@@ -608,17 +608,17 @@ testRule({
       endColumn: 23,
     },
     {
-      code: "a { clip-path: view-box; }",
+      code: "a { offset-path: view-box; }",
       description: "Value 'view-box' doesn't match ignore patterns",
       message: messages.notBaselinePropertyValue(
-        "clip-path",
+        "offset-path",
         "view-box",
         "widely",
       ),
       line: 1,
-      column: 16,
+      column: 18,
       endLine: 1,
-      endColumn: 24,
+      endColumn: 26,
     },
   ],
 });

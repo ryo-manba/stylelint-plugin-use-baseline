@@ -335,11 +335,11 @@ export const properties = new Map([
   ["overflow-y", "10:2015"],
   ["overflow-wrap", "10:2018"],
   ["overlay", "0:"],
-  ["overscroll-behavior", "10:2022"],
-  ["overscroll-behavior-block", "10:2022"],
-  ["overscroll-behavior-inline", "10:2022"],
-  ["overscroll-behavior-x", "10:2022"],
-  ["overscroll-behavior-y", "10:2022"],
+  ["overscroll-behavior", "0:"],
+  ["overscroll-behavior-block", "0:"],
+  ["overscroll-behavior-inline", "0:"],
+  ["overscroll-behavior-x", "0:"],
+  ["overscroll-behavior-y", "0:"],
   ["padding", "10:2015"],
   ["padding-bottom", "10:2015"],
   ["padding-left", "10:2015"],
@@ -508,6 +508,7 @@ export const properties = new Map([
   ["vertical-align", "10:2015"],
   ["view-transition-class", "5:2025"],
   ["view-transition-name", "5:2025"],
+  ["view-transition-scope", "0:"],
   ["visibility", "10:2015"],
   ["white-space", "10:2015"],
   ["white-space-collapse", "5:2024"],
@@ -834,8 +835,8 @@ export const selectors = new Map([
   ["active", "10:2015"],
   ["focus", "10:2015"],
   ["hover", "10:2015"],
-  ["user-invalid", "5:2023"],
-  ["user-valid", "5:2023"],
+  ["user-invalid", "10:2023"],
+  ["user-valid", "10:2023"],
   ["view-transition", "5:2025"],
   ["view-transition-group", "5:2025"],
   ["view-transition-image-pair", "5:2025"],
@@ -856,7 +857,14 @@ export const propertyValues = new Map([
       ["sticky", "10:2019"],
     ]),
   ],
-  ["accent-color", new Map([["auto", "0:"]])],
+  [
+    "accent-color",
+    new Map([
+      ["auto", "0:"],
+      ["currentColor", "0:"],
+      ["transparent", "0:"],
+    ]),
+  ],
   [
     "alignment-baseline",
     new Map([
@@ -1163,7 +1171,7 @@ export const propertyValues = new Map([
       ["self-x-start", "5:2026"],
       ["self-y-end", "5:2026"],
       ["self-y-start", "5:2026"],
-      ["span-all", "0:"],
+      ["span-all", "5:2026"],
       ["span-block-end", "5:2026"],
       ["span-block-start", "5:2026"],
       ["span-bottom", "5:2026"],
@@ -1371,6 +1379,7 @@ export const propertyValues = new Map([
       ["background-clip", "10:2015"],
       ["background-origin", "10:2015"],
       ["background-size", "10:2015"],
+      ["currentColor", "10:2015"],
     ]),
   ],
   [
@@ -1391,7 +1400,13 @@ export const propertyValues = new Map([
       ["text", "0:"],
     ]),
   ],
-  ["background-color", new Map([["transparent", "10:2015"]])],
+  [
+    "background-color",
+    new Map([
+      ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
+    ]),
+  ],
   [
     "background-image",
     new Map([
@@ -1483,7 +1498,13 @@ export const propertyValues = new Map([
   ["border-top-left-radius", new Map([["percentages", "10:2015"]])],
   ["border-top-right-radius", new Map([["percentages", "10:2015"]])],
   ["border-shape", new Map([["none", "0:"]])],
-  ["border-bottom-color", new Map([["transparent", "10:2015"]])],
+  [
+    "border-bottom-color",
+    new Map([
+      ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
+    ]),
+  ],
   [
     "border-bottom-style",
     new Map([
@@ -1524,10 +1545,23 @@ export const propertyValues = new Map([
       ["thick", "10:2015"],
       ["thin", "10:2015"],
       ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
     ]),
   ],
-  ["border-color", new Map([["transparent", "10:2015"]])],
-  ["border-left-color", new Map([["transparent", "10:2015"]])],
+  [
+    "border-color",
+    new Map([
+      ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
+    ]),
+  ],
+  [
+    "border-left-color",
+    new Map([
+      ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
+    ]),
+  ],
   [
     "border-left-style",
     new Map([
@@ -1568,9 +1602,16 @@ export const propertyValues = new Map([
       ["thick", "10:2015"],
       ["thin", "10:2015"],
       ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
     ]),
   ],
-  ["border-right-color", new Map([["transparent", "10:2015"]])],
+  [
+    "border-right-color",
+    new Map([
+      ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
+    ]),
+  ],
   [
     "border-right-style",
     new Map([
@@ -1611,6 +1652,7 @@ export const propertyValues = new Map([
       ["thick", "10:2015"],
       ["thin", "10:2015"],
       ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
     ]),
   ],
   [
@@ -1628,7 +1670,13 @@ export const propertyValues = new Map([
       ["solid", "10:2015"],
     ]),
   ],
-  ["border-top-color", new Map([["transparent", "10:2015"]])],
+  [
+    "border-top-color",
+    new Map([
+      ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
+    ]),
+  ],
   [
     "border-top-style",
     new Map([
@@ -1669,6 +1717,7 @@ export const propertyValues = new Map([
       ["thick", "10:2015"],
       ["thin", "10:2015"],
       ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
     ]),
   ],
   [
@@ -1696,6 +1745,7 @@ export const propertyValues = new Map([
       ["thick", "10:2015"],
       ["thin", "10:2015"],
       ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
     ]),
   ],
   [
@@ -1720,6 +1770,13 @@ export const propertyValues = new Map([
     ]),
   ],
   [
+    "caret-color",
+    new Map([
+      ["currentColor", "10:2020"],
+      ["transparent", "10:2020"],
+    ]),
+  ],
+  [
     "caret-shape",
     new Map([
       ["auto", "0:"],
@@ -1733,12 +1790,18 @@ export const propertyValues = new Map([
     "clip-path",
     new Map([
       ["path", "10:2021"],
-      ["fill-box", "5:2023"],
-      ["stroke-box", "5:2023"],
-      ["view-box", "5:2023"],
+      ["fill-box", "10:2023"],
+      ["stroke-box", "10:2023"],
+      ["view-box", "10:2023"],
     ]),
   ],
-  ["color", new Map([["transparent", "10:2015"]])],
+  [
+    "color",
+    new Map([
+      ["transparent", "10:2015"],
+      ["currentColor", "10:2015"],
+    ]),
+  ],
   [
     "color-scheme",
     new Map([
@@ -1879,10 +1942,17 @@ export const propertyValues = new Map([
   [
     "image-rendering",
     new Map([
-      ["crisp-edges", "0:"],
+      ["crisp-edges", "5:2026"],
       ["auto", "10:2020"],
       ["pixelated", "10:2021"],
       ["smooth", "0:"],
+    ]),
+  ],
+  [
+    "outline-color",
+    new Map([
+      ["currentColor", "10:2015"],
+      ["transparent", "10:2015"],
     ]),
   ],
   [
@@ -2038,12 +2108,8 @@ export const propertyValues = new Map([
     "font-family",
     new Map([
       ["cursive", "10:2015"],
-      ["fangsong", "10:2015"],
       ["fantasy", "10:2015"],
-      ["kai", "10:2015"],
-      ["khmer-mul", "10:2015"],
       ["monospace", "10:2015"],
-      ["nastaliq", "10:2015"],
       ["sans-serif", "10:2015"],
       ["serif", "10:2015"],
       ["math", "5:2026"],
@@ -2483,6 +2549,306 @@ export const propertyValues = new Map([
       ["symbols", "0:"],
     ]),
   ],
+  [
+    "border-block-color",
+    new Map([
+      ["currentColor", "10:2021"],
+      ["transparent", "10:2021"],
+    ]),
+  ],
+  [
+    "border-block-end-color",
+    new Map([
+      ["currentColor", "10:2020"],
+      ["transparent", "10:2020"],
+    ]),
+  ],
+  [
+    "border-block-end-style",
+    new Map([
+      ["dashed", "10:2020"],
+      ["dotted", "10:2020"],
+      ["double", "10:2020"],
+      ["groove", "10:2020"],
+      ["hidden", "10:2020"],
+      ["inset", "10:2020"],
+      ["none", "10:2020"],
+      ["outset", "10:2020"],
+      ["ridge", "10:2020"],
+      ["solid", "10:2020"],
+    ]),
+  ],
+  [
+    "border-block-end-width",
+    new Map([
+      ["medium", "10:2020"],
+      ["thick", "10:2020"],
+      ["thin", "10:2020"],
+    ]),
+  ],
+  [
+    "border-block-end",
+    new Map([
+      ["currentColor", "10:2020"],
+      ["dashed", "10:2020"],
+      ["dotted", "10:2020"],
+      ["double", "10:2020"],
+      ["groove", "10:2020"],
+      ["hidden", "10:2020"],
+      ["inset", "10:2020"],
+      ["medium", "10:2020"],
+      ["none", "10:2020"],
+      ["outset", "10:2020"],
+      ["ridge", "10:2020"],
+      ["solid", "10:2020"],
+      ["thick", "10:2020"],
+      ["thin", "10:2020"],
+      ["transparent", "10:2020"],
+    ]),
+  ],
+  [
+    "border-block-start-color",
+    new Map([
+      ["currentColor", "10:2020"],
+      ["transparent", "10:2020"],
+    ]),
+  ],
+  [
+    "border-block-start-style",
+    new Map([
+      ["dashed", "10:2020"],
+      ["dotted", "10:2020"],
+      ["double", "10:2020"],
+      ["groove", "10:2020"],
+      ["hidden", "10:2020"],
+      ["inset", "10:2020"],
+      ["none", "10:2020"],
+      ["outset", "10:2020"],
+      ["ridge", "10:2020"],
+      ["solid", "10:2020"],
+    ]),
+  ],
+  [
+    "border-block-start-width",
+    new Map([
+      ["medium", "10:2020"],
+      ["thick", "10:2020"],
+      ["thin", "10:2020"],
+    ]),
+  ],
+  [
+    "border-block-start",
+    new Map([
+      ["currentColor", "10:2020"],
+      ["dashed", "10:2020"],
+      ["dotted", "10:2020"],
+      ["double", "10:2020"],
+      ["groove", "10:2020"],
+      ["hidden", "10:2020"],
+      ["inset", "10:2020"],
+      ["medium", "10:2020"],
+      ["none", "10:2020"],
+      ["outset", "10:2020"],
+      ["ridge", "10:2020"],
+      ["solid", "10:2020"],
+      ["thick", "10:2020"],
+      ["thin", "10:2020"],
+      ["transparent", "10:2020"],
+    ]),
+  ],
+  [
+    "border-block-style",
+    new Map([
+      ["dashed", "10:2021"],
+      ["dotted", "10:2021"],
+      ["double", "10:2021"],
+      ["groove", "10:2021"],
+      ["hidden", "10:2021"],
+      ["inset", "10:2021"],
+      ["none", "10:2021"],
+      ["outset", "10:2021"],
+      ["ridge", "10:2021"],
+      ["solid", "10:2021"],
+    ]),
+  ],
+  [
+    "border-block-width",
+    new Map([
+      ["medium", "10:2021"],
+      ["thick", "10:2021"],
+      ["thin", "10:2021"],
+    ]),
+  ],
+  [
+    "border-block",
+    new Map([
+      ["currentColor", "10:2021"],
+      ["dashed", "10:2021"],
+      ["dotted", "10:2021"],
+      ["double", "10:2021"],
+      ["groove", "10:2021"],
+      ["hidden", "10:2021"],
+      ["inset", "10:2021"],
+      ["medium", "10:2021"],
+      ["none", "10:2021"],
+      ["outset", "10:2021"],
+      ["ridge", "10:2021"],
+      ["solid", "10:2021"],
+      ["thick", "10:2021"],
+      ["thin", "10:2021"],
+      ["transparent", "10:2021"],
+    ]),
+  ],
+  [
+    "border-inline-color",
+    new Map([
+      ["currentColor", "10:2021"],
+      ["transparent", "10:2021"],
+    ]),
+  ],
+  [
+    "border-inline-end-color",
+    new Map([
+      ["currentColor", "10:2020"],
+      ["transparent", "10:2020"],
+    ]),
+  ],
+  [
+    "border-inline-end-style",
+    new Map([
+      ["dashed", "10:2020"],
+      ["dotted", "10:2020"],
+      ["double", "10:2020"],
+      ["groove", "10:2020"],
+      ["hidden", "10:2020"],
+      ["inset", "10:2020"],
+      ["none", "10:2020"],
+      ["outset", "10:2020"],
+      ["ridge", "10:2020"],
+      ["solid", "10:2020"],
+    ]),
+  ],
+  [
+    "border-inline-end-width",
+    new Map([
+      ["medium", "10:2020"],
+      ["thick", "10:2020"],
+      ["thin", "10:2020"],
+    ]),
+  ],
+  [
+    "border-inline-end",
+    new Map([
+      ["currentColor", "10:2020"],
+      ["dashed", "10:2020"],
+      ["dotted", "10:2020"],
+      ["double", "10:2020"],
+      ["groove", "10:2020"],
+      ["hidden", "10:2020"],
+      ["inset", "10:2020"],
+      ["medium", "10:2020"],
+      ["none", "10:2020"],
+      ["outset", "10:2020"],
+      ["ridge", "10:2020"],
+      ["solid", "10:2020"],
+      ["thick", "10:2020"],
+      ["thin", "10:2020"],
+      ["transparent", "10:2020"],
+    ]),
+  ],
+  [
+    "border-inline-start-color",
+    new Map([
+      ["currentColor", "10:2020"],
+      ["transparent", "10:2020"],
+    ]),
+  ],
+  [
+    "border-inline-start-style",
+    new Map([
+      ["dashed", "10:2020"],
+      ["dotted", "10:2020"],
+      ["double", "10:2020"],
+      ["groove", "10:2020"],
+      ["hidden", "10:2020"],
+      ["inset", "10:2020"],
+      ["none", "10:2020"],
+      ["outset", "10:2020"],
+      ["ridge", "10:2020"],
+      ["solid", "10:2020"],
+    ]),
+  ],
+  [
+    "border-inline-start-width",
+    new Map([
+      ["medium", "10:2020"],
+      ["thick", "10:2020"],
+      ["thin", "10:2020"],
+    ]),
+  ],
+  [
+    "border-inline-start",
+    new Map([
+      ["currentColor", "10:2020"],
+      ["dashed", "10:2020"],
+      ["dotted", "10:2020"],
+      ["double", "10:2020"],
+      ["groove", "10:2020"],
+      ["hidden", "10:2020"],
+      ["inset", "10:2020"],
+      ["medium", "10:2020"],
+      ["none", "10:2020"],
+      ["outset", "10:2020"],
+      ["ridge", "10:2020"],
+      ["solid", "10:2020"],
+      ["thick", "10:2020"],
+      ["thin", "10:2020"],
+      ["transparent", "10:2020"],
+    ]),
+  ],
+  [
+    "border-inline-style",
+    new Map([
+      ["dashed", "10:2021"],
+      ["dotted", "10:2021"],
+      ["double", "10:2021"],
+      ["groove", "10:2021"],
+      ["hidden", "10:2021"],
+      ["inset", "10:2021"],
+      ["none", "10:2021"],
+      ["outset", "10:2021"],
+      ["ridge", "10:2021"],
+      ["solid", "10:2021"],
+    ]),
+  ],
+  [
+    "border-inline-width",
+    new Map([
+      ["medium", "10:2021"],
+      ["thick", "10:2021"],
+      ["thin", "10:2021"],
+    ]),
+  ],
+  [
+    "border-inline",
+    new Map([
+      ["currentColor", "10:2021"],
+      ["dashed", "10:2021"],
+      ["dotted", "10:2021"],
+      ["double", "10:2021"],
+      ["groove", "10:2021"],
+      ["hidden", "10:2021"],
+      ["inset", "10:2021"],
+      ["medium", "10:2021"],
+      ["none", "10:2021"],
+      ["outset", "10:2021"],
+      ["ridge", "10:2021"],
+      ["solid", "10:2021"],
+      ["thick", "10:2021"],
+      ["thin", "10:2021"],
+      ["transparent", "10:2021"],
+    ]),
+  ],
   ["overflow-block", new Map([["overlay", "0:"]])],
   ["overflow-inline", new Map([["overlay", "0:"]])],
   [
@@ -2608,7 +2974,13 @@ export const propertyValues = new Map([
   ],
   ["column-count", new Map([["auto", "10:2017"]])],
   ["column-gap", new Map([["normal", "10:2015"]])],
-  ["column-rule-color", new Map([["transparent", "10:2017"]])],
+  [
+    "column-rule-color",
+    new Map([
+      ["currentColor", "10:2017"],
+      ["transparent", "10:2017"],
+    ]),
+  ],
   [
     "column-rule-style",
     new Map([
@@ -2635,6 +3007,7 @@ export const propertyValues = new Map([
   [
     "column-rule",
     new Map([
+      ["currentColor", "10:2017"],
       ["dashed", "10:2017"],
       ["dotted", "10:2017"],
       ["double", "10:2017"],
@@ -2667,6 +3040,7 @@ export const propertyValues = new Map([
   [
     "outline",
     new Map([
+      ["currentColor", "10:2023"],
       ["dashed", "10:2023"],
       ["dotted", "10:2023"],
       ["double", "10:2023"],
@@ -2682,7 +3056,6 @@ export const propertyValues = new Map([
       ["transparent", "10:2023"],
     ]),
   ],
-  ["outline-color", new Map([["transparent", "10:2015"]])],
   [
     "outline-style",
     new Map([
@@ -2769,41 +3142,41 @@ export const propertyValues = new Map([
   [
     "overscroll-behavior-block",
     new Map([
-      ["auto", "10:2022"],
-      ["contain", "10:2022"],
-      ["none", "10:2022"],
+      ["auto", "0:"],
+      ["contain", "0:"],
+      ["none", "0:"],
     ]),
   ],
   [
     "overscroll-behavior-inline",
     new Map([
-      ["auto", "10:2022"],
-      ["contain", "10:2022"],
-      ["none", "10:2022"],
+      ["auto", "0:"],
+      ["contain", "0:"],
+      ["none", "0:"],
     ]),
   ],
   [
     "overscroll-behavior-x",
     new Map([
-      ["auto", "10:2022"],
-      ["contain", "10:2022"],
-      ["none", "10:2022"],
+      ["auto", "0:"],
+      ["contain", "0:"],
+      ["none", "0:"],
     ]),
   ],
   [
     "overscroll-behavior-y",
     new Map([
-      ["auto", "10:2022"],
-      ["contain", "10:2022"],
-      ["none", "10:2022"],
+      ["auto", "0:"],
+      ["contain", "0:"],
+      ["none", "0:"],
     ]),
   ],
   [
     "overscroll-behavior",
     new Map([
-      ["auto", "10:2022"],
-      ["contain", "10:2022"],
-      ["none", "10:2022"],
+      ["auto", "0:"],
+      ["contain", "0:"],
+      ["none", "0:"],
     ]),
   ],
   [
@@ -3047,6 +3420,20 @@ export const propertyValues = new Map([
   ["marker-start", new Map([["none", "10:2017"]])],
   ["marker", new Map([["none", "10:2017"]])],
   ["shape-rendering", new Map([["auto", "10:2020"]])],
+  [
+    "stop-color",
+    new Map([
+      ["currentColor", "10:2017"],
+      ["transparent", "10:2017"],
+    ]),
+  ],
+  [
+    "stroke-color",
+    new Map([
+      ["currentColor", "0:"],
+      ["transparent", "0:"],
+    ]),
+  ],
   ["stroke-dasharray", new Map([["none", "10:2017"]])],
   [
     "stroke-linecap",
@@ -3178,6 +3565,13 @@ export const propertyValues = new Map([
     ]),
   ],
   [
+    "text-decoration-color",
+    new Map([
+      ["currentColor", "10:2020"],
+      ["transparent", "10:2020"],
+    ]),
+  ],
+  [
     "text-decoration-line",
     new Map([
       ["line-through", "10:2020"],
@@ -3199,11 +3593,25 @@ export const propertyValues = new Map([
     ]),
   ],
   [
+    "text-decoration",
+    new Map([
+      ["currentColor", "5:2025"],
+      ["transparent", "5:2025"],
+    ]),
+  ],
+  [
     "text-decoration-skip-ink",
     new Map([
       ["auto", "10:2022"],
       ["none", "10:2022"],
-      ["all", "0:"],
+      ["all", "5:2026"],
+    ]),
+  ],
+  [
+    "text-emphasis-color",
+    new Map([
+      ["currentColor", "10:2022"],
+      ["transparent", "10:2022"],
     ]),
   ],
   [
@@ -3226,6 +3634,13 @@ export const propertyValues = new Map([
       ["none", "10:2022"],
       ["sesame", "10:2022"],
       ["triangle", "10:2022"],
+    ]),
+  ],
+  [
+    "text-emphasis",
+    new Map([
+      ["currentColor", "10:2022"],
+      ["transparent", "10:2022"],
     ]),
   ],
   [
@@ -3427,6 +3842,13 @@ export const propertyValues = new Map([
     new Map([
       ["match-element", "5:2025"],
       ["none", "5:2025"],
+    ]),
+  ],
+  [
+    "view-transition-scope",
+    new Map([
+      ["all", "0:"],
+      ["none", "0:"],
     ]),
   ],
   [
