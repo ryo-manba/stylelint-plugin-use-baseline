@@ -1,0 +1,5 @@
+allowBuilds:
+  unrs-resolver: true
+minimumReleaseAge: 1440 # 1 day in minutes
+trustPolicy: no-downgrade
+trustPolicyIgnoreAfter: 10080 # 1 week in minutes
