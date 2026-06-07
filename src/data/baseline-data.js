@@ -3689,7 +3689,11 @@ export const propertyValues = new Map([
     "text-decoration",
     new Map([
       ["currentColor", "5:2025"],
+      ["line-through", "10:2015"],
+      ["none", "10:2015"],
+      ["overline", "10:2015"],
       ["transparent", "5:2025"],
+      ["underline", "10:2015"],
     ]),
   ],
   [
