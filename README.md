@@ -1,8 +1,6 @@
 # stylelint-plugin-use-baseline
 
-[![npm version][npm-version-img]][npm] [![npm downloads last month][npm-downloads-img]][npm] <a href="https://flatt.tech/oss/gmo/trampoline" target="_blank"><img src="https://flatt.tech/assets/images/badges/gmo-oss.svg" height="20px"/></a>
-
-
+[![npm version][npm-version-img]][npm] [![npm downloads last month][npm-downloads-img]][npm]
 
 Disallow CSS features not in [Baseline](https://web.dev/baseline).
 
@@ -405,7 +403,10 @@ Given:
 
 ```json
 {
-  "plugin/use-baseline": [true, { "available": 2021, "ignoreUnits": ["svh", "/^dv/"] }]
+  "plugin/use-baseline": [
+    true,
+    { "available": 2021, "ignoreUnits": ["svh", "/^dv/"] }
+  ]
 }
 ```
 
