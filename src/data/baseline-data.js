@@ -127,7 +127,7 @@ export const properties = new Map([
   ["display", "10:2015"],
   ["dominant-baseline", "10:2020"],
   ["dynamic-range-limit", "0:"],
-  ["field-sizing", "0:"],
+  ["field-sizing", "5:2026"],
   ["filter", "10:2016"],
   ["align-content", "10:2015"],
   ["align-items", "10:2015"],
@@ -511,6 +511,7 @@ export const properties = new Map([
   ["text-emphasis-color", "10:2022"],
   ["text-emphasis-position", "10:2022"],
   ["text-emphasis-style", "10:2022"],
+  ["text-fit", "0:"],
   ["text-indent", "10:2015"],
   ["text-justify", "0:"],
   ["text-orientation", "10:2020"],
@@ -791,7 +792,7 @@ export const selectors = new Map([
   ["required", "10:2015"],
   ["valid", "10:2015"],
   ["fullscreen", "0:"],
-  ["has", "5:2023"],
+  ["has", "10:2023"],
   ["has-slotted", "0:"],
   ["heading", "0:"],
   ["headingfunction", "0:"],
@@ -1380,8 +1381,8 @@ export const propertyValues = new Map([
     "position-visibility",
     new Map([
       ["always", "5:2026"],
-      ["anchors-valid", "0:"],
-      ["anchors-visible", "5:2026"],
+      ["anchor-valid", "0:"],
+      ["anchor-visible", "0:"],
       ["no-overflow", "5:2026"],
     ]),
   ],
@@ -2158,8 +2159,8 @@ export const propertyValues = new Map([
   [
     "field-sizing",
     new Map([
-      ["content", "0:"],
-      ["fixed", "0:"],
+      ["content", "5:2026"],
+      ["fixed", "5:2026"],
     ]),
   ],
   [
@@ -3957,6 +3958,14 @@ export const propertyValues = new Map([
     new Map([
       ["currentColor", "10:2022"],
       ["transparent", "10:2022"],
+    ]),
+  ],
+  [
+    "text-fit",
+    new Map([
+      ["grow", "0:"],
+      ["none", "0:"],
+      ["shrink", "0:"],
     ]),
   ],
   [
