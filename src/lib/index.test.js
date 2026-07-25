@@ -70,8 +70,8 @@ testRule({
     },
     {
       code: stripIndent`
-        @supports selector(:has()) {
-          h1:has(+ h2) { color: red; }
+        @supports selector(:open) {
+          details:open { color: red; }
         }
       `,
     },
@@ -216,29 +216,29 @@ testRule({
       endColumn: 34,
     },
     {
-      code: "h1:has(+ h2) { margin: 0; }",
-      message: messages.notBaselineSelector("has", "widely"),
+      code: "details:open { margin: 0; }",
+      message: messages.notBaselineSelector("open", "widely"),
       line: 1,
-      column: 3,
+      column: 8,
       endLine: 1,
-      endColumn: 7,
+      endColumn: 13,
     },
     {
-      code: "h1:has(wbr), h2:has(wbr) { margin: 0; }",
+      code: "details:open, dialog:open { margin: 0; }",
       warnings: [
         {
-          message: messages.notBaselineSelector("has", "widely"),
+          message: messages.notBaselineSelector("open", "widely"),
           line: 1,
-          column: 3,
+          column: 8,
           endLine: 1,
-          endColumn: 7,
+          endColumn: 13,
         },
         {
-          message: messages.notBaselineSelector("has", "widely"),
+          message: messages.notBaselineSelector("open", "widely"),
           line: 1,
-          column: 16,
+          column: 21,
           endLine: 1,
-          endColumn: 20,
+          endColumn: 26,
         },
       ],
     },
@@ -296,10 +296,10 @@ testRule({
     },
     {
       code: stripIndent`
-        @supports selector(:has()) {}
+        @supports selector(:open) {}
 
         @supports (color: red) {
-          h1:has(+ h2) {
+          details:open {
             color: red;
           }
         }
@@ -313,11 +313,11 @@ testRule({
           endColumn: 23,
         },
         {
-          message: messages.notBaselineSelector("has", "widely"),
+          message: messages.notBaselineSelector("open", "widely"),
           line: 4,
-          column: 5,
+          column: 10,
           endLine: 4,
-          endColumn: 9,
+          endColumn: 15,
         },
       ],
     },
@@ -499,7 +499,7 @@ testRule({
   config: [
     true,
     {
-      ignoreSelectors: ["nesting", "/^has/"],
+      ignoreSelectors: ["nesting", "open", "/^has/"],
     },
   ],
 
@@ -512,7 +512,7 @@ testRule({
       }`,
     },
     {
-      code: "h1:has(+ h2) { margin: 0; }",
+      code: "details:open { margin: 0; }",
     },
     {
       code: "h1:has-slotted { color: red; }",
