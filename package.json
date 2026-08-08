@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues"
   },
-  "packageManager": "pnpm@11.15.0+sha512.266f8957a30d2be6e9468e5e66bcdedd35a794175f71b067ba8504d686cce1d0c0f429b33c323c3c569ad4891e667574a49ff71d1b89a22cc66f13c65818c578",
+  "packageManager": "pnpm@11.19.0+sha512.7881f3ed590d472c4a955e2b88b2121791116066dcc88cbca3849ec9b60f1bbaa6d2ccb221fa91da4e1c65bef2bcbe379365aea7ac539c7bf86dedc3a1b22dce",
   "publishConfig": {
     "provenance": true,
     "access": "public"
