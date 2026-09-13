@@ -63,10 +63,10 @@
     "eslint-plugin-jest": "^29.0.0",
     "jest": "^30.0.2",
     "jest-preset-stylelint": "^8.0.0",
-    "mdn-data": "^2.31.0",
+    "mdn-data": "^2.33.0",
     "prettier": "^3.5.3",
     "rollup": "^4.43.0",
     "stylelint": "^17.0.0",
-    "web-features": "^3.34.3"
+    "web-features": "^3.35.1"
   }
 }
