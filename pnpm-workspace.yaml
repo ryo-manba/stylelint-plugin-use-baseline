@@ -1,5 +1,10 @@
 allowBuilds:
   unrs-resolver: true
+  # Transitive dev dependency of jest-haste-map (Linux only).
+  # It ships prebuilt binaries via its optional platform packages,
+  # so its install script can be skipped. pnpm 11 turns an unlisted
+  # ignored build script into an error (ERR_PNPM_IGNORED_BUILDS).
+  "@parcel/watcher": false
 minimumReleaseAge: 1440 # 1 day in minutes
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 10080 # 1 week in minutes
