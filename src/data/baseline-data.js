@@ -15,7 +15,7 @@ export const properties = new Map([
   ["all", "10:2020"],
   ["anchor-name", "5:2026"],
   ["anchor-scope", "5:2026"],
-  ["position-anchor", "0:"],
+  ["position-anchor", "5:2026"],
   ["position-area", "5:2026"],
   ["position-try", "5:2026"],
   ["position-try-fallbacks", "5:2026"],
@@ -175,6 +175,7 @@ export const properties = new Map([
   ["font-weight", "10:2015"],
   ["font-width", "0:"],
   ["forced-color-adjust", "0:"],
+  ["frame-sizing", "0:"],
   ["column-rule-break", "0:"],
   ["column-rule-inset", "0:"],
   ["column-rule-inset-cap", "0:"],
@@ -232,6 +233,7 @@ export const properties = new Map([
   ["grid-template-rows", "10:2017"],
   ["justify-self", "10:2017"],
   ["row-gap", "10:2017"],
+  ["flow-tolerance", "0:"],
   ["hanging-punctuation", "0:"],
   ["hyphenate-character", "10:2023"],
   ["hyphenate-limit-chars", "0:"],
@@ -252,6 +254,7 @@ export const properties = new Map([
   ["line-break", "10:2020"],
   ["line-clamp", "0:"],
   ["line-height", "10:2015"],
+  ["link-parameters", "0:"],
   ["list-style", "10:2015"],
   ["list-style-image", "10:2015"],
   ["list-style-position", "10:2015"],
@@ -366,7 +369,7 @@ export const properties = new Map([
   ["outline-offset", "10:2017"],
   ["outline-style", "10:2015"],
   ["outline-width", "10:2015"],
-  ["overflow-anchor", "0:"],
+  ["overflow-anchor", "5:2026"],
   ["overflow-clip-margin", "0:"],
   ["overflow", "10:2015"],
   ["overflow-x", "10:2015"],
@@ -466,8 +469,8 @@ export const properties = new Map([
   ["marker-mid", "10:2017"],
   ["marker-start", "10:2017"],
   ["r", "10:2020"],
-  ["rx", "5:2024"],
-  ["ry", "5:2024"],
+  ["rx", "10:2024"],
+  ["ry", "10:2024"],
   ["shape-rendering", "10:2020"],
   ["stop-color", "10:2017"],
   ["stop-opacity", "10:2017"],
@@ -526,7 +529,7 @@ export const properties = new Map([
   ["text-transform", "10:2015"],
   ["text-underline-offset", "10:2020"],
   ["text-underline-position", "10:2020"],
-  ["text-wrap", "5:2024"],
+  ["text-wrap", "10:2024"],
   ["text-wrap-mode", "5:2024"],
   ["text-wrap-style", "5:2024"],
   ["touch-action", "10:2019"],
@@ -556,6 +559,7 @@ export const properties = new Map([
   ["height", "10:2015"],
   ["width", "10:2015"],
   ["will-change", "10:2020"],
+  ["window-drag", "0:"],
   ["word-break", "10:2015"],
   ["word-spacing", "10:2015"],
   ["writing-mode", "10:2017"],
@@ -629,6 +633,7 @@ export const mediaConditions = new Map([
 export const functions = new Map([
   ["abs", "5:2025"],
   ["sign", "5:2025"],
+  ["alpha", "5:2026"],
   ["anchor", "5:2026"],
   ["anchor-size", "5:2026"],
   ["color", "10:2023"],
@@ -1183,9 +1188,9 @@ export const propertyValues = new Map([
   [
     "position-anchor",
     new Map([
-      ["auto", "0:"],
-      ["none", "0:"],
-      ["normal", "0:"],
+      ["auto", "5:2026"],
+      ["none", "5:2026"],
+      ["normal", "5:2026"],
     ]),
   ],
   [
@@ -2126,6 +2131,8 @@ export const propertyValues = new Map([
       ["inline-flex", "10:2015"],
       ["grid", "10:2017"],
       ["inline-grid", "10:2017"],
+      ["grid-lanes", "0:"],
+      ["inline-grid-lanes", "0:"],
       ["math", "0:"],
     ]),
   ],
@@ -2206,6 +2213,7 @@ export const propertyValues = new Map([
       ["nowrap", "10:2015"],
       ["wrap", "10:2015"],
       ["wrap-reverse", "10:2015"],
+      ["balance", "0:"],
     ]),
   ],
   ["flex", new Map([["none", "10:2015"]])],
@@ -2493,6 +2501,16 @@ export const propertyValues = new Map([
     ]),
   ],
   [
+    "frame-sizing",
+    new Map([
+      ["auto", "0:"],
+      ["content-block-size", "0:"],
+      ["content-height", "0:"],
+      ["content-inline-size", "0:"],
+      ["content-width", "0:"],
+    ]),
+  ],
+  [
     "column-rule-break",
     new Map([
       ["intersection", "0:"],
@@ -2714,6 +2732,13 @@ export const propertyValues = new Map([
   ["grid-template", new Map([["none", "10:2020"]])],
   ["row-gap", new Map([["normal", "10:2017"]])],
   [
+    "flow-tolerance",
+    new Map([
+      ["infinite", "0:"],
+      ["normal", "0:"],
+    ]),
+  ],
+  [
     "hanging-punctuation",
     new Map([
       ["allow-end", "0:"],
@@ -2782,6 +2807,7 @@ export const propertyValues = new Map([
   ],
   ["line-clamp", new Map([["none", "0:"]])],
   ["line-height", new Map([["normal", "10:2015"]])],
+  ["link-parameters", new Map([["none", "0:"]])],
   ["list-style-image", new Map([["none", "10:2015"]])],
   [
     "list-style-position",
@@ -3395,8 +3421,8 @@ export const propertyValues = new Map([
   [
     "overflow-anchor",
     new Map([
-      ["auto", "0:"],
-      ["none", "0:"],
+      ["auto", "5:2026"],
+      ["none", "5:2026"],
     ]),
   ],
   [
@@ -3855,8 +3881,6 @@ export const propertyValues = new Map([
       ["insert", "0:"],
       ["no-autospace", "5:2025"],
       ["normal", "5:2025"],
-      ["punctuation", "0:"],
-      ["replace", "0:"],
     ]),
   ],
   ["text-box-edge", new Map([["auto", "5:2026"]])],
@@ -3902,7 +3926,7 @@ export const propertyValues = new Map([
     new Map([
       ["auto", "10:2021"],
       ["from-font", "10:2021"],
-      ["percentage", "5:2024"],
+      ["percentage", "10:2024"],
     ]),
   ],
   [
@@ -4211,6 +4235,13 @@ export const propertyValues = new Map([
       ["auto", "10:2020"],
       ["contents", "10:2020"],
       ["scroll-position", "10:2020"],
+    ]),
+  ],
+  [
+    "window-drag",
+    new Map([
+      ["move", "0:"],
+      ["none", "0:"],
     ]),
   ],
   [
