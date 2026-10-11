@@ -408,6 +408,7 @@ export const properties = new Map([
   ["ruby-align", "5:2024"],
   ["ruby-overhang", "0:"],
   ["ruby-position", "5:2024"],
+  ["scroll-axis-lock", "0:"],
   ["scroll-behavior", "10:2022"],
   ["animation-range", "0:"],
   ["animation-range-end", "0:"],
@@ -510,6 +511,7 @@ export const properties = new Map([
   ["text-decoration-style", "10:2020"],
   ["text-decoration-thickness", "10:2021"],
   ["text-decoration-skip-ink", "10:2022"],
+  ["text-decoration-skip-spaces", "0:"],
   ["text-emphasis", "10:2022"],
   ["text-emphasis-color", "10:2022"],
   ["text-emphasis-position", "10:2022"],
@@ -922,14 +924,30 @@ export const propertyValues = new Map([
       ["text-before-edge", "0:"],
     ]),
   ],
-  ["align-items", new Map([["anchor-center", "5:2026"]])],
+  [
+    "align-items",
+    new Map([
+      ["anchor-center", "5:2026"],
+      ["baseline", "10:2020"],
+      ["center", "10:2015"],
+      ["end", "10:2020"],
+      ["safe", "5:2024"],
+      ["start", "10:2020"],
+      ["unsafe", "5:2024"],
+    ]),
+  ],
   [
     "align-self",
     new Map([
       ["anchor-center", "5:2026"],
       ["auto", "10:2020"],
+      ["baseline", "10:2020"],
+      ["end", "10:2022"],
       ["normal", "10:2020"],
+      ["safe", "5:2024"],
+      ["start", "10:2022"],
       ["stretch", "10:2020"],
+      ["unsafe", "5:2024"],
     ]),
   ],
   ["anchor-name", new Map([["none", "5:2026"]])],
@@ -1635,6 +1653,7 @@ export const propertyValues = new Map([
       ["stretch", "10:2016"],
     ]),
   ],
+  ["border-image-source", new Map([["none", "10:2015"]])],
   ["border-image-width", new Map([["auto", "10:2015"]])],
   [
     "border-image",
@@ -2205,7 +2224,19 @@ export const propertyValues = new Map([
       ["sepia", "10:2016"],
     ]),
   ],
-  ["align-content", new Map([["normal", "10:2015"]])],
+  [
+    "align-content",
+    new Map([
+      ["baseline", "10:2020"],
+      ["end", "10:2022"],
+      ["normal", "10:2015"],
+      ["safe", "5:2024"],
+      ["space-evenly", "10:2020"],
+      ["start", "10:2022"],
+      ["stretch", "10:2020"],
+      ["unsafe", "5:2024"],
+    ]),
+  ],
   [
     "flex-basis",
     new Map([
@@ -3391,6 +3422,7 @@ export const propertyValues = new Map([
     ]),
   ],
   ["column-width", new Map([["auto", "10:2016"]])],
+  ["columns", new Map([["auto", "10:2017"]])],
   [
     "object-fit",
     new Map([
@@ -3635,6 +3667,13 @@ export const propertyValues = new Map([
     ]),
   ],
   [
+    "scroll-axis-lock",
+    new Map([
+      ["auto", "0:"],
+      ["none", "0:"],
+    ]),
+  ],
+  [
     "scroll-behavior",
     new Map([
       ["auto", "10:2022"],
@@ -3783,6 +3822,7 @@ export const propertyValues = new Map([
     new Map([
       ["auto", "10:2020"],
       ["linearGradient", "0:"],
+      ["linearRGB", "10:2020"],
       ["sRGB", "10:2020"],
     ]),
   ],
@@ -3986,6 +4026,15 @@ export const propertyValues = new Map([
       ["auto", "10:2022"],
       ["none", "10:2022"],
       ["all", "5:2026"],
+    ]),
+  ],
+  [
+    "text-decoration-skip-spaces",
+    new Map([
+      ["all", "0:"],
+      ["end", "0:"],
+      ["none", "0:"],
+      ["start", "0:"],
     ]),
   ],
   [
