@@ -148,7 +148,7 @@ export const properties = new Map([
   ["clear", "10:2015"],
   ["float", "10:2015"],
   ["font-family", "10:2015"],
-  ["font-feature-settings", "10:2017"],
+  ["font-feature-settings", "10:2016"],
   ["font-kerning", "10:2020"],
   ["font-language-override", "0:"],
   ["font-optical-sizing", "10:2020"],
@@ -233,7 +233,7 @@ export const properties = new Map([
   ["grid-template-rows", "10:2017"],
   ["justify-self", "10:2017"],
   ["row-gap", "10:2017"],
-  ["flow-tolerance", "0:"],
+  ["fit-tolerance", "0:"],
   ["hanging-punctuation", "0:"],
   ["hyphenate-character", "10:2023"],
   ["hyphenate-limit-chars", "0:"],
@@ -408,6 +408,7 @@ export const properties = new Map([
   ["ruby-align", "5:2024"],
   ["ruby-overhang", "0:"],
   ["ruby-position", "5:2024"],
+  ["scroll-axis-lock", "0:"],
   ["scroll-behavior", "10:2022"],
   ["animation-range", "0:"],
   ["animation-range-end", "0:"],
@@ -449,6 +450,17 @@ export const properties = new Map([
   ["scroll-snap-stop", "10:2022"],
   ["scroll-snap-type", "10:2022"],
   ["scroll-target-group", "0:"],
+  ["animation-trigger", "0:"],
+  ["timeline-trigger", "0:"],
+  ["timeline-trigger-activation-range", "0:"],
+  ["timeline-trigger-activation-range-end", "0:"],
+  ["timeline-trigger-activation-range-start", "0:"],
+  ["timeline-trigger-active-range", "0:"],
+  ["timeline-trigger-active-range-end", "0:"],
+  ["timeline-trigger-active-range-start", "0:"],
+  ["timeline-trigger-name", "0:"],
+  ["timeline-trigger-source", "0:"],
+  ["trigger-scope", "0:"],
   ["scrollbar-color", "5:2025"],
   ["scrollbar-gutter", "5:2024"],
   ["scrollbar-width", "5:2024"],
@@ -510,6 +522,7 @@ export const properties = new Map([
   ["text-decoration-style", "10:2020"],
   ["text-decoration-thickness", "10:2021"],
   ["text-decoration-skip-ink", "10:2022"],
+  ["text-decoration-skip-spaces", "0:"],
   ["text-emphasis", "10:2022"],
   ["text-emphasis-color", "10:2022"],
   ["text-emphasis-position", "10:2022"],
@@ -540,7 +553,7 @@ export const properties = new Map([
   ["perspective", "10:2015"],
   ["perspective-origin", "10:2015"],
   ["transform-style", "10:2015"],
-  ["transition-behavior", "5:2024"],
+  ["transition-behavior", "0:"],
   ["transition", "10:2015"],
   ["transition-delay", "10:2015"],
   ["transition-duration", "10:2015"],
@@ -922,14 +935,37 @@ export const propertyValues = new Map([
       ["text-before-edge", "0:"],
     ]),
   ],
-  ["align-items", new Map([["anchor-center", "5:2026"]])],
+  [
+    "align-items",
+    new Map([
+      ["anchor-center", "5:2026"],
+      ["baseline", "10:2020"],
+      ["center", "10:2015"],
+      ["end", "10:2020"],
+      ["normal", "10:2020"],
+      ["safe", "5:2024"],
+      ["self-end", "10:2022"],
+      ["self-start", "10:2022"],
+      ["start", "10:2020"],
+      ["stretch", "10:2020"],
+      ["unsafe", "5:2024"],
+    ]),
+  ],
   [
     "align-self",
     new Map([
       ["anchor-center", "5:2026"],
       ["auto", "10:2020"],
+      ["baseline", "10:2020"],
+      ["center", "10:2015"],
+      ["end", "10:2022"],
       ["normal", "10:2020"],
+      ["safe", "5:2024"],
+      ["self-end", "10:2022"],
+      ["self-start", "10:2022"],
+      ["start", "10:2022"],
       ["stretch", "10:2020"],
+      ["unsafe", "5:2024"],
     ]),
   ],
   ["anchor-name", new Map([["none", "5:2026"]])],
@@ -1478,7 +1514,9 @@ export const propertyValues = new Map([
       ["linear", "10:2015"],
       ["none", "10:2015"],
       ["normal", "10:2015"],
+      ["paused", "10:2020"],
       ["reverse", "10:2015"],
+      ["running", "10:2020"],
       ["step-end", "10:2015"],
       ["step-start", "10:2015"],
     ]),
@@ -1635,6 +1673,7 @@ export const propertyValues = new Map([
       ["stretch", "10:2016"],
     ]),
   ],
+  ["border-image-source", new Map([["none", "10:2015"]])],
   ["border-image-width", new Map([["auto", "10:2015"]])],
   [
     "border-image",
@@ -2205,7 +2244,22 @@ export const propertyValues = new Map([
       ["sepia", "10:2016"],
     ]),
   ],
-  ["align-content", new Map([["normal", "10:2015"]])],
+  [
+    "align-content",
+    new Map([
+      ["baseline", "10:2020"],
+      ["center", "10:2015"],
+      ["end", "10:2022"],
+      ["normal", "10:2015"],
+      ["safe", "5:2024"],
+      ["space-around", "10:2020"],
+      ["space-between", "10:2020"],
+      ["space-evenly", "10:2020"],
+      ["start", "10:2022"],
+      ["stretch", "10:2020"],
+      ["unsafe", "5:2024"],
+    ]),
+  ],
   [
     "flex-basis",
     new Map([
@@ -2280,7 +2334,7 @@ export const propertyValues = new Map([
       ["ui-serif", "0:"],
     ]),
   ],
-  ["font-feature-settings", new Map([["normal", "10:2017"]])],
+  ["font-feature-settings", new Map([["normal", "10:2016"]])],
   [
     "font-kerning",
     new Map([
@@ -2408,6 +2462,31 @@ export const propertyValues = new Map([
       ["normal", "10:2015"],
       ["sub", "10:2023"],
       ["super", "10:2023"],
+      ["full-width", "10:2020"],
+      ["jis04", "10:2020"],
+      ["jis78", "10:2020"],
+      ["jis83", "10:2020"],
+      ["jis90", "10:2020"],
+      ["proportional-width", "10:2020"],
+      ["ruby", "10:2020"],
+      ["simplified", "10:2020"],
+      ["traditional", "10:2020"],
+      ["common-ligatures", "10:2020"],
+      ["contextual", "10:2020"],
+      ["discretionary-ligatures", "10:2020"],
+      ["historical-ligatures", "10:2020"],
+      ["no-common-ligatures", "10:2020"],
+      ["no-contextual", "10:2020"],
+      ["no-discretionary-ligatures", "10:2020"],
+      ["no-historical-ligatures", "10:2020"],
+      ["diagonal-fractions", "10:2020"],
+      ["lining-nums", "10:2020"],
+      ["oldstyle-nums", "10:2020"],
+      ["ordinal", "10:2020"],
+      ["proportional-nums", "10:2020"],
+      ["slashed-zero", "10:2020"],
+      ["stacked-fractions", "10:2020"],
+      ["tabular-nums", "10:2020"],
     ]),
   ],
   [
@@ -2759,7 +2838,7 @@ export const propertyValues = new Map([
   ["grid-template", new Map([["none", "10:2020"]])],
   ["row-gap", new Map([["normal", "10:2017"]])],
   [
-    "flow-tolerance",
+    "fit-tolerance",
     new Map([
       ["infinite", "0:"],
       ["normal", "0:"],
@@ -3230,6 +3309,27 @@ export const propertyValues = new Map([
     ]),
   ],
   [
+    "mask-border-repeat",
+    new Map([
+      ["repeat", "0:"],
+      ["round", "0:"],
+      ["space", "0:"],
+      ["stretch", "0:"],
+    ]),
+  ],
+  ["mask-border-source", new Map([["none", "0:"]])],
+  ["mask-border-width", new Map([["auto", "0:"]])],
+  [
+    "mask-border",
+    new Map([
+      ["none", "0:"],
+      ["repeat", "0:"],
+      ["round", "0:"],
+      ["space", "0:"],
+      ["stretch", "0:"],
+    ]),
+  ],
+  [
     "mask-type",
     new Map([
       ["alpha", "10:2020"],
@@ -3240,9 +3340,16 @@ export const propertyValues = new Map([
     "mask-clip",
     new Map([
       ["border", "0:"],
+      ["border-box", "0:"],
       ["content", "0:"],
+      ["content-box", "0:"],
+      ["fill-box", "0:"],
+      ["no-clip", "0:"],
       ["padding", "0:"],
+      ["padding-box", "0:"],
+      ["stroke-box", "0:"],
       ["text", "0:"],
+      ["view-box", "0:"],
     ]),
   ],
   [
@@ -3266,10 +3373,72 @@ export const propertyValues = new Map([
     "mask-origin",
     new Map([
       ["border", "0:"],
+      ["border-box", "0:"],
       ["content", "0:"],
+      ["content-box", "0:"],
       ["fill-box", "0:"],
       ["padding", "0:"],
+      ["padding-box", "0:"],
       ["stroke-box", "0:"],
+      ["view-box", "0:"],
+    ]),
+  ],
+  [
+    "mask-position",
+    new Map([
+      ["bottom", "10:2023"],
+      ["center", "10:2023"],
+      ["left", "10:2023"],
+      ["right", "10:2023"],
+      ["top", "10:2023"],
+    ]),
+  ],
+  [
+    "mask-repeat",
+    new Map([
+      ["no-repeat", "10:2023"],
+      ["repeat", "10:2023"],
+      ["repeat-x", "10:2023"],
+      ["repeat-y", "10:2023"],
+      ["round", "10:2023"],
+      ["space", "10:2023"],
+    ]),
+  ],
+  [
+    "mask-size",
+    new Map([
+      ["auto", "10:2023"],
+      ["contain", "10:2023"],
+      ["cover", "10:2023"],
+    ]),
+  ],
+  [
+    "mask",
+    new Map([
+      ["add", "10:2023"],
+      ["alpha", "10:2023"],
+      ["border-box", "0:"],
+      ["bottom", "10:2023"],
+      ["center", "10:2023"],
+      ["content-box", "0:"],
+      ["exclude", "10:2023"],
+      ["fill-box", "0:"],
+      ["intersect", "10:2023"],
+      ["left", "10:2023"],
+      ["luminance", "0:"],
+      ["match-source", "10:2023"],
+      ["no-clip", "0:"],
+      ["no-repeat", "10:2023"],
+      ["padding-box", "0:"],
+      ["repeat", "10:2023"],
+      ["repeat-x", "10:2023"],
+      ["repeat-y", "10:2023"],
+      ["right", "10:2023"],
+      ["round", "10:2023"],
+      ["space", "10:2023"],
+      ["stroke-box", "0:"],
+      ["subtract", "10:2023"],
+      ["top", "10:2023"],
       ["view-box", "0:"],
     ]),
   ],
@@ -3391,6 +3560,7 @@ export const propertyValues = new Map([
     ]),
   ],
   ["column-width", new Map([["auto", "10:2016"]])],
+  ["columns", new Map([["auto", "10:2017"]])],
   [
     "object-fit",
     new Map([
@@ -3635,6 +3805,13 @@ export const propertyValues = new Map([
     ]),
   ],
   [
+    "scroll-axis-lock",
+    new Map([
+      ["auto", "0:"],
+      ["none", "0:"],
+    ]),
+  ],
+  [
     "scroll-behavior",
     new Map([
       ["auto", "10:2022"],
@@ -3732,6 +3909,54 @@ export const propertyValues = new Map([
       ["none", "0:"],
     ]),
   ],
+  ["animation-trigger", new Map([["none", "0:"]])],
+  ["timeline-trigger-activation-range-end", new Map([["normal", "0:"]])],
+  ["timeline-trigger-activation-range-start", new Map([["normal", "0:"]])],
+  ["timeline-trigger-activation-range", new Map([["normal", "0:"]])],
+  [
+    "timeline-trigger-active-range-end",
+    new Map([
+      ["auto", "0:"],
+      ["normal", "0:"],
+    ]),
+  ],
+  [
+    "timeline-trigger-active-range-start",
+    new Map([
+      ["auto", "0:"],
+      ["normal", "0:"],
+    ]),
+  ],
+  [
+    "timeline-trigger-active-range",
+    new Map([
+      ["auto", "0:"],
+      ["normal", "0:"],
+    ]),
+  ],
+  ["timeline-trigger-name", new Map([["none", "0:"]])],
+  [
+    "timeline-trigger-source",
+    new Map([
+      ["auto", "0:"],
+      ["none", "0:"],
+    ]),
+  ],
+  [
+    "timeline-trigger",
+    new Map([
+      ["auto", "0:"],
+      ["none", "0:"],
+      ["normal", "0:"],
+    ]),
+  ],
+  [
+    "trigger-scope",
+    new Map([
+      ["all", "0:"],
+      ["none", "0:"],
+    ]),
+  ],
   ["scrollbar-color", new Map([["auto", "5:2025"]])],
   [
     "scrollbar-gutter",
@@ -3783,6 +4008,7 @@ export const propertyValues = new Map([
     new Map([
       ["auto", "10:2020"],
       ["linearGradient", "0:"],
+      ["linearRGB", "10:2020"],
       ["sRGB", "10:2020"],
     ]),
   ],
@@ -3844,6 +4070,13 @@ export const propertyValues = new Map([
     new Map([
       ["auto", "10:2020"],
       ["geometricPrecision", "10:2020"],
+    ]),
+  ],
+  [
+    "vector-effect",
+    new Map([
+      ["non-scaling-stroke", "10:2020"],
+      ["none", "10:2020"],
     ]),
   ],
   [
@@ -3986,6 +4219,15 @@ export const propertyValues = new Map([
       ["auto", "10:2022"],
       ["none", "10:2022"],
       ["all", "5:2026"],
+    ]),
+  ],
+  [
+    "text-decoration-skip-spaces",
+    new Map([
+      ["all", "0:"],
+      ["end", "0:"],
+      ["none", "0:"],
+      ["start", "0:"],
     ]),
   ],
   [
@@ -4159,6 +4401,13 @@ export const propertyValues = new Map([
     ]),
   ],
   [
+    "backface-visibility",
+    new Map([
+      ["hidden", "10:2022"],
+      ["visible", "10:2022"],
+    ]),
+  ],
+  [
     "perspective-origin",
     new Map([
       ["bottom", "10:2015"],
@@ -4169,6 +4418,13 @@ export const propertyValues = new Map([
     ]),
   ],
   ["perspective", new Map([["none", "10:2015"]])],
+  [
+    "transform-style",
+    new Map([
+      ["flat", "10:2015"],
+      ["preserve-3d", "10:2015"],
+    ]),
+  ],
   [
     "transition",
     new Map([
