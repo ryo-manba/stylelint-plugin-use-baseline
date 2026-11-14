@@ -76,6 +76,19 @@ testRule({
       `,
     },
     {
+      code: stripIndent`
+        @supports at-rule(@property) {
+          @property --x {
+            syntax: "<color>";
+            inherits: true;
+            initial-value: red;
+          }
+        }
+      `,
+      description:
+        "See: https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/153",
+    },
+    {
       code: "div { cursor: pointer; }",
       description: "See: https://github.com/eslint/css/pull/52",
     },

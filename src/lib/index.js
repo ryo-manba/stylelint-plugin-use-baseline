@@ -139,6 +139,12 @@ class SupportsRule {
   #selectors = new Set();
 
   /**
+   * The at-rules supported by this rule.
+   * @type {Set<string>}
+   */
+  #atRules = new Set();
+
+  /**
    * Adds a property to the rule.
    * @param {string} property The name of the property.
    * @returns {SupportedProperty} The supported property object.
@@ -257,6 +263,24 @@ class SupportsRule {
   hasSelector(selector) {
     return this.#selectors.has(selector);
   }
+
+  /**
+   * Adds an at-rule to the rule.
+   * @param {string} atRule The name of the at-rule.
+   * @returns {void}
+   */
+  addAtRule(atRule) {
+    this.#atRules.add(atRule);
+  }
+
+  /**
+   * Determines if the rule supports an at-rule.
+   * @param {string} atRule The name of the at-rule.
+   * @returns {boolean} `true` if the at-rule is supported, `false` if not.
+   */
+  hasAtRule(atRule) {
+    return this.#atRules.has(atRule);
+  }
 }
 
 /**
@@ -349,6 +373,15 @@ class SupportsRules {
    */
   hasSelector(selector) {
     return this.#rules.some((rule) => rule.hasSelector(selector));
+  }
+
+  /**
+   * Determines if any rule supports an at-rule.
+   * @param {string} atRule The name of the at-rule.
+   * @returns {boolean} `true` if any rule supports the at-rule, `false` if not.
+   */
+  hasAtRule(atRule) {
+    return this.#rules.some((rule) => rule.hasAtRule(atRule));
   }
 }
 
@@ -676,6 +709,58 @@ const ruleFunction = (primary, secondaryOptions) => {
                 });
               }
             }
+
+            if (
+              (node.type === "FeatureFunction" && node.feature === "at-rule") ||
+              (node.type === "GeneralEnclosed" && node.function === "at-rule")
+            ) {
+              const nodeStart = node.loc?.start?.offset || 0;
+              const nodeEnd = node.loc?.end?.offset || 0;
+              const conditionText = atRule.params.substring(nodeStart, nodeEnd);
+
+              let isSupportsNecessary = false;
+              const children =
+                node.type === "FeatureFunction"
+                  ? node.value?.children
+                  : node.children;
+
+              if (children) {
+                for (const child of children) {
+                  let name;
+
+                  if (child.type === "Raw" && typeof child.value === "string") {
+                    name = child.value.trim();
+                  } else if (typeof child.name === "string") {
+                    name = child.name;
+                  }
+
+                  if (!name) continue;
+
+                  if (name.startsWith("@")) {
+                    name = name.slice(1);
+                  }
+
+                  supportsRule.addAtRule(name);
+
+                  if (isSupportsNecessary) continue;
+
+                  if (
+                    !atRules.has(name) ||
+                    !baselineAvailability.isSupported(atRules.get(name))
+                  ) {
+                    isSupportsNecessary = true;
+                  }
+                }
+              }
+
+              if (!isSupportsNecessary) {
+                redundantSupports.push({
+                  conditionText,
+                  startIndex: nodeStart,
+                  endIndex: nodeEnd,
+                });
+              }
+            }
           },
           leave() {
             if (negation) {
@@ -774,6 +859,8 @@ const ruleFunction = (primary, secondaryOptions) => {
       }
 
       if (optionsMatches(secondaryOptions, "ignoreAtRules", name)) return;
+
+      if (supportsRules.hasAtRule(name)) return;
 
       if (!atRules.has(name)) return;
 
