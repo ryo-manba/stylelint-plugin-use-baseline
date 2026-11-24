@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.4.9...v1.5.0) (2026-11-24)
+
+
+### Features
+
+* support Stylelint 18 ([#189](https://github.com/ryo-manba/stylelint-plugin-use-baseline/issues/189)) ([c1c2fdf](https://github.com/ryo-manba/stylelint-plugin-use-baseline/commit/c1c2fdfe60478fc696dac827caaf8920b0215f6f))
+
 ## [1.4.9](https://github.com/ryo-manba/stylelint-plugin-use-baseline/compare/v1.4.8...v1.4.9) (2026-11-24)
 
 
