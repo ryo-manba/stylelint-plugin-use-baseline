@@ -144,7 +144,8 @@ function extractCSSFeatures(features) {
   const cssAtRulePattern = /^css\.at-rules\.(?<atRule>[a-zA-Z$\d-]+)$/u;
   const cssMediaConditionPattern =
     /^css\.at-rules\.media\.(?<condition>[a-zA-Z$\d-]+)$/u;
-  const cssTypePattern = /^css\.types\.(?:.*?\.)?(?<type>[a-zA-Z\d-]+)$/u;
+  const cssTypePattern =
+    /^css\.types\.(?<namespace>.*?\.)?(?<type>[a-zA-Z\d-]+)$/u;
   const cssUnitPattern = /^css\.types\.length\.(?<unit>[\w-]+)$/u;
   const cssSelectorPattern = /^css\.selectors\.(?<selector>[a-zA-Z$\d-]+)$/u;
 
@@ -153,6 +154,7 @@ function extractCSSFeatures(features) {
   const atRules = {};
   const mediaConditions = {};
   const functions = {};
+  const directFunctions = new Set();
   const units = {};
   const selectors = {};
 
@@ -240,10 +242,18 @@ function extractCSSFeatures(features) {
 
     // functions
     if ((match = cssTypePattern.exec(key)) !== null) {
-      const type = match.groups.type;
+      const { namespace, type } = match.groups;
 
       if (!(`${type}()` in mdnData.css.functions)) {
         continue;
+      }
+
+      // Nested keys can share a name with a function, such as polygon.round.
+      // Prefer the direct compatibility entry regardless of iteration order.
+      if (namespace) {
+        if (directFunctions.has(type)) continue;
+      } else {
+        directFunctions.add(type);
       }
 
       functions[type] = mapFeatureStatus(status);
