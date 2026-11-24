@@ -669,7 +669,7 @@ export const functions = new Map([
   ["color-mix", "10:2023"],
   ["conic-gradient", "10:2020"],
   ["repeating-conic-gradient", "10:2020"],
-  ["round", "0:"],
+  ["round", "10:2024"],
   ["counter", "10:2015"],
   ["counters", "10:2015"],
   ["cross-fade", "0:"],

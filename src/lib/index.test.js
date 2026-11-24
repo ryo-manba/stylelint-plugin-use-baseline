@@ -32,6 +32,8 @@ testRule({
     { code: "@supports (offset-path: fill-box) { a { offset-path: fill-box; } }" },
     { code: "a { height: 100vh; }" },
     { code: "a { height: 100svh; }" },
+    { code: "a { color: light-dark(black, white); }" },
+    { code: "a { width: round(10px, 1px); }" },
     {
       code: "@supports not (not (accent-color: auto)) { a { accent-color: auto; } }",
     },
@@ -165,14 +167,6 @@ testRule({
       column: 1,
       endLine: 1,
       endColumn: 17,
-    },
-    {
-      code: "a { color: light-dark(black, white); }",
-      message: messages.notBaselineFunction("light-dark", "widely"),
-      line: 1,
-      column: 12,
-      endLine: 1,
-      endColumn: 22,
     },
     {
       code: "@media (inverted-colors: inverted) { a { color: red; } }",
