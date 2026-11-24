@@ -49,7 +49,7 @@
     "postcss-value-parser": "^4.2.0"
   },
   "peerDependencies": {
-    "stylelint": "^16.0.2 || ^17.0.0"
+    "stylelint": "^16.0.2 || ^17.0.0 || ^18.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^29.0.0",
@@ -66,7 +66,7 @@
     "mdn-data": "^2.38.1",
     "prettier": "^3.5.3",
     "rollup": "^4.43.0",
-    "stylelint": "^17.0.0",
+    "stylelint": "^18.0.0",
     "web-features": "^3.47.0"
   }
 }
